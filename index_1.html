@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>База знаний — Отдел продаж</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a18;min-height:100vh}
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid #e5e5e2;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100}
+.sidebar-logo{padding:20px 16px 12px;border-bottom:1px solid #e5e5e2}
+.sidebar-logo .logo-title{font-size:14px;font-weight:600;color:#1a1a18;line-height:1.3}
+.sidebar-logo .logo-sub{font-size:11px;color:#888;margin-top:2px}
+.sidebar-section{padding:12px 10px 4px}
+.sidebar-section-label{font-size:10px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:0.6px;padding:0 8px;margin-bottom:4px}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;border:none;background:transparent;cursor:pointer;font-size:13px;color:#555;text-align:left;width:100%;transition:all 0.12s;line-height:1.3}
+.nav-btn:hover{background:#f0f0ee;color:#1a1a18}
+.nav-btn.active{background:#eef3ff;color:#2d5be3;font-weight:500}
+.nav-btn svg{flex-shrink:0;opacity:0.7}
+.nav-btn.active svg{opacity:1}
+.nav-sep{height:1px;background:#f0f0ee;margin:6px 12px}
+.coming-soon{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:13px;color:#bbb;cursor:default}
+.badge-soon{font-size:10px;background:#f0f0ee;color:#aaa;padding:1px 6px;border-radius:99px;margin-left:auto}
+
+/* MAIN */
+.main{margin-left:240px;flex:1;padding:32px 36px;max-width:900px}
+.page-header{margin-bottom:28px}
+.page-header h1{font-size:22px;font-weight:600;color:#1a1a18}
+.page-header p{font-size:14px;color:#888;margin-top:4px}
+
+/* SECTIONS */
+.section{display:none}.section.active{display:block}
+
+/* CARDS */
+.card{background:#fff;border:1px solid #e5e5e2;border-radius:12px;padding:18px 20px;margin-bottom:12px}
+.card-sm{background:#fff;border:1px solid #e5e5e2;border-radius:10px;padding:14px 16px;margin-bottom:10px}
+
+/* RULES */
+.rule-item{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #f0f0ee}
+.rule-item:last-child{border-bottom:none}
+.rule-num{width:24px;height:24px;border-radius:50%;background:#eef3ff;color:#2d5be3;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rule-text{font-size:14px;line-height:1.6;color:#1a1a18}
+.rule-text strong{font-weight:600;color:#1a1a18}
+
+/* TEMPLATES */
+.type-card{border:1px solid #e5e5e2;border-radius:12px;padding:16px 18px;margin-bottom:12px}
+.type-card.hot{border-color:#fca5a5;background:#fff5f5}
+.type-card.warm{border-color:#fcd34d;background:#fffbeb}
+.type-card.price{border-color:#c4b5fd;background:#faf5ff}
+.type-card.cold{background:#fafaf9}
+.type-header{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:11px;font-weight:600}
+.badge-hot{background:#fee2e2;color:#b91c1c}
+.badge-warm{background:#fef3c7;color:#92400e}
+.badge-price{background:#ede9fe;color:#5b21b6}
+.badge-nt{background:#f0f0ee;color:#666}
+.badge-blue{background:#eef3ff;color:#2d5be3}
+.type-hint{font-size:11px;color:#999}
+
+/* TEMPLATE BOX */
+.tpl{background:#f0f5ff;border:1px solid #c7d9ff;border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.65;color:#1a1a18;position:relative;margin:8px 0;padding-right:90px}
+.tpl-alt{background:#f8f8f6;border:1px solid #e5e5e2}
+.copy-btn{position:absolute;top:8px;right:8px;border:1px solid #d0d0cc;background:#fff;color:#555;border-radius:6px;padding:3px 10px;font-size:11px;cursor:pointer;white-space:nowrap;transition:all 0.12s}
+.copy-btn:hover{background:#f0f0ee;border-color:#aaa}
+.copy-btn.copied{color:#16a34a;border-color:#86efac;background:#f0fdf4}
+.tpl-label{font-size:11px;color:#888;margin:10px 0 4px;font-weight:500}
+
+/* VARIANTS GRID */
+.variants{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0}
+@media(max-width:640px){.variants{grid-template-columns:1fr}}
+
+/* STAGES */
+.stage-row{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #f0f0ee}
+.stage-row:last-child{border-bottom:none}
+.stage-pill{padding:3px 11px;border-radius:99px;font-size:12px;font-weight:500;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.s-new{background:#dcfce7;color:#166534}
+.s-q{background:#fef3c7;color:#92400e}
+.s-call{background:#dbeafe;color:#1e40af}
+.s-warm{background:#ede9fe;color:#5b21b6}
+.s-meet{background:#d1fae5;color:#065f46}
+.s-lost{background:#fee2e2;color:#991b1b}
+.s-job{background:#f0f0ee;color:#666}
+.stage-info{}
+.stage-desc{font-size:13px;color:#333;line-height:1.5}
+.stage-action{font-size:12px;color:#888;margin-top:3px}
+
+/* SCRIPT STEPS */
+.script-step{border-left:3px solid #2d5be3;padding:12px 16px;margin-bottom:12px;background:#fff;border-radius:0 10px 10px 0;border-top:1px solid #e5e5e2;border-right:1px solid #e5e5e2;border-bottom:1px solid #e5e5e2}
+.step-label{font-size:10px;font-weight:700;color:#2d5be3;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:3px}
+.step-title{font-size:14px;font-weight:600;margin-bottom:8px;color:#1a1a18}
+
+/* FAQ */
+.faq-row{padding:11px 0;border-bottom:1px solid #f0f0ee}
+.faq-row:last-child{border-bottom:none}
+.faq-q{font-size:13px;font-weight:600;color:#1a1a18;margin-bottom:5px}
+
+/* CHECKLIST */
+.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #f0f0ee}
+.checklist-item:last-child{border-bottom:none}
+.checklist-item input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;cursor:pointer;accent-color:#2d5be3}
+.checklist-item label{font-size:14px;line-height:1.5;cursor:pointer;color:#1a1a18}
+.checklist-item.done label{text-decoration:line-through;color:#aaa}
+.progress-bar{height:5px;background:#e5e5e2;border-radius:3px;margin-bottom:20px;overflow:hidden}
+.progress-fill{height:100%;background:#2d5be3;border-radius:3px;transition:width 0.3s}
+
+/* TASK FIELDS */
+.task-field{margin-bottom:12px}
+.task-label{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.task-val{font-size:13px;padding:9px 12px;background:#f8f8f6;border:1px solid #e5e5e2;border-radius:8px;line-height:1.6;color:#1a1a18}
+
+/* PRIORITY GRID */
+.priority-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
+@media(max-width:640px){.priority-grid{grid-template-columns:1fr}}
+.priority-card{border-radius:10px;padding:14px 16px}
+.priority-card.p-hot{border:1px solid #fca5a5;background:#fff5f5}
+.priority-card.p-warm{border:1px solid #fcd34d;background:#fffbeb}
+.priority-card.p-cold{border:1px solid #e5e5e2;background:#fafaf9}
+.priority-card .p-label{font-size:12px;font-weight:600;margin-bottom:4px}
+.priority-card.p-hot .p-label{color:#b91c1c}
+.priority-card.p-warm .p-label{color:#92400e}
+.priority-card.p-cold .p-label{color:#666}
+.priority-card p{font-size:13px;color:#333;line-height:1.5}
+
+h2{font-size:18px;font-weight:600;margin-bottom:16px;color:#1a1a18}
+h3{font-size:14px;font-weight:600;margin:20px 0 10px;color:#1a1a18}
+
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform 0.2s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:16px}
+  .mobile-header{display:flex!important}
+}
+.mobile-header{display:none;align-items:center;gap:12px;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e5e2;position:sticky;top:0;z-index:99}
+.mobile-menu-btn{border:none;background:none;cursor:pointer;padding:4px;color:#333}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:99}
+.overlay.open{display:block}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeMobile()"></div>
+
+<!-- Mobile header -->
+<div class="mobile-header">
+  <button class="mobile-menu-btn" onclick="toggleMobile()">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <span style="font-size:14px;font-weight:600">База знаний — Продажи</span>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-title">База знаний</div>
+    <div class="logo-sub">Отдел продаж</div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Квалификатор</div>
+    <button class="nav-btn active" onclick="show('roles')" id="btn-roles">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Роли и стадии
+    </button>
+    <button class="nav-btn" onclick="show('rules')" id="btn-rules">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Правила работы
+    </button>
+    <button class="nav-btn" onclick="show('templates')" id="btn-templates">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Шаблоны ответов
+    </button>
+    <button class="nav-btn" onclick="show('script')" id="btn-script">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.41 2 2 0 0 1 3.57 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Скрипт звонка
+    </button>
+    <button class="nav-btn" onclick="show('faq')" id="btn-faq">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Возражения и FAQ
+    </button>
+    <button class="nav-btn" onclick="show('transfer')" id="btn-transfer">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Передача менеджеру
+    </button>
+    <button class="nav-btn" onclick="show('checklist')" id="btn-checklist">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg>
+      Чек-лист смены
+    </button>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Скоро</div>
+    <div class="coming-soon">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      Менеджер
+      <span class="badge-soon">скоро</span>
+    </div>
+    <div class="coming-soon">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Аналитика
+      <span class="badge-soon">скоро</span>
+    </div>
+    <div class="coming-soon">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      Специалист
+      <span class="badge-soon">скоро</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- РОЛИ И СТАДИИ -->
+<div class="section active" id="sec-roles">
+  <div class="page-header">
+    <h1>Роли и движение клиента</h1>
+    <p>Кто за что отвечает и как клиент двигается по воронке</p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:#2d5be3;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Квалификатор — это вы</div>
+    <p style="font-size:14px;color:#333;line-height:1.65">Отвечает на входящие с Авито, ведёт переписку, квалифицирует (наш / не наш), собирает данные (что продаёт, площадка, ссылка, телефон/канал), дозванивается. <strong>Не проводит аудит и не закрывает сделку.</strong></p>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Менеджер — Алексей</div>
+    <p style="font-size:14px;color:#333;line-height:1.65">Проводит аудит магазина, видеовстречу, презентацию, отрабатывает возражения по цене и условиям, закрывает сделку.</p>
+  </div>
+
+  <h2>Стадии в Битрикс24</h2>
+  <div class="card" style="padding:0 20px">
+    <div class="stage-row">
+      <span class="stage-pill s-new">Новые</span>
+      <div class="stage-info"><div class="stage-desc">Новые заявки с Авито</div><div class="stage-action">→ Отвечаем в первую очередь. После первого ответа переносим в «Созвониться»</div></div>
+    </div>
+    <div class="stage-row">
+      <span class="stage-pill s-q">Вопросы</span>
+      <div class="stage-info"><div class="stage-desc">Клиент задал сложный вопрос</div><div class="stage-action">→ Уточняем ответ у менеджера, возвращаемся к клиенту</div></div>
+    </div>
+    <div class="stage-row">
+      <span class="stage-pill s-call">Созвониться</span>
+      <div class="stage-info"><div class="stage-desc">Переписка ведётся, ещё не звонили</div><div class="stage-action">→ Звоним. Не переводим отсюда, пока не ответил в переписке или на звонок</div></div>
+    </div>
+    <div class="stage-row">
+      <span class="stage-pill s-warm">Раскачиваю</span>
+      <div class="stage-info"><div class="stage-desc">Интерес есть, данных нет</div><div class="stage-action">→ Продолжаем переписку, подталкиваем к ссылке и контакту</div></div>
+    </div>
+    <div class="stage-row">
+      <span class="stage-pill s-meet">Договориться на встречу</span>
+      <div class="stage-info"><div class="stage-desc">Данные есть, осталось забронировать время</div><div class="stage-action">→ Согласовываем слот с графиком менеджера</div></div>
+    </div>
+    <div class="stage-row">
+      <span class="stage-pill s-lost">Отвалился</span>
+      <div class="stage-info"><div class="stage-desc">Перестал отвечать / отказался</div><div class="stage-action">→ Финальное сообщение, закрываем сделку</div></div>
+    </div>
+    <div class="stage-row">
+      <span class="stage-pill s-job">Ищу работу</span>
+      <div class="stage-info"><div class="stage-desc">Ищет работу / сотрудничество</div><div class="stage-action">→ Стандартный отказ, переносим сюда</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ПРАВИЛА -->
+<div class="section" id="sec-rules">
+  <div class="page-header"><h1>Главные правила работы</h1><p>7 правил, которые нужно знать наизусть</p></div>
+  <div class="card" style="padding:0 20px">
+    <div class="rule-item"><div class="rule-num">1</div><div class="rule-text"><strong>Никого не бросаем без ответа.</strong> Каждый клиент получает ответ, даже если вопрос «не наш». Авито роняет объявление за медленные ответы.</div></div>
+    <div class="rule-item"><div class="rule-num">2</div><div class="rule-text"><strong>Проверяем, от какого лица пишем.</strong> Есть аккаунты от мужских и женских имён. Сверяем профиль в Битрикс, согласуем окончания: «посмотрел / посмотрела». После отправки не редактируется — перечитываем до отправки.</div></div>
+    <div class="rule-item"><div class="rule-num">3</div><div class="rule-text"><strong>Завершаем сообщение вопросом.</strong> Всегда ставим вопрос в конце, чтобы клиент не замолкал. Инициативу ведём мы.</div></div>
+    <div class="rule-item"><div class="rule-num">4</div><div class="rule-text"><strong>Уважаем канал клиента.</strong> Просит в WhatsApp / Telegram / MAX — работаем там.</div></div>
+    <div class="rule-item"><div class="rule-num">5</div><div class="rule-text"><strong>Не вываливаем всю презентацию в первом касании.</strong> Полный список услуг — на звонке/встрече или по прямому запросу «расскажите подробнее».</div></div>
+    <div class="rule-item"><div class="rule-num">6</div><div class="rule-text"><strong>О цене — даём вилку/якорь,</strong> затем уводим в бесплатный аудит для точной цифры.</div></div>
+    <div class="rule-item"><div class="rule-num">7</div><div class="rule-text"><strong>Никаких гарантий и точных прогнозов в переписке.</strong> Сложные вопросы и цифры — «это покажет специалист на встрече».</div></div>
+  </div>
+</div>
+
+<!-- ШАБЛОНЫ -->
+<div class="section" id="sec-templates">
+  <div class="page-header"><h1>Шаблоны первого ответа</h1><p>Определите тип клиента → скопируйте шаблон → адаптируйте имя и площадку</p></div>
+
+  <div class="type-card cold">
+    <div class="type-header"><span class="badge badge-nt">Не наша ЦА</span><span class="type-hint">ищет работу / сотрудничество / предлагает услуги</span></div>
+    <div class="tpl tpl-alt">Спасибо, не интересует 🙂<button class="copy-btn" onclick="cp(this,'Спасибо, не интересует 🙂')">Копировать</button></div>
+    <p style="font-size:12px;color:#888;margin-top:6px">→ Перевести в колонку «Ищу работу», закрыть сделку</p>
+  </div>
+
+  <div class="type-card warm">
+    <div class="type-header"><span class="badge badge-warm">Тёплый</span><span class="type-hint">уже продаёт, спрашивает про ведение или цену</span></div>
+    <div class="tpl">Здравствуйте, [имя]! Да, это к нам — ведём магазины на маркетплейсах под ключ. Чтобы предметно сориентировать по условиям, я бесплатно посмотрю ваш магазин и сделаю разбор. Подскажите: что продаёте и на какой площадке (WB / Ozon)? Или скиньте ссылку на магазин или товар. После аналитики созвонимся и обсудим дальнейшее сотрудничество?<button class="copy-btn" onclick="cp(this,'Здравствуйте, [имя]! Да, это к нам — ведём магазины на маркетплейсах под ключ. Чтобы предметно сориентировать по условиям, я бесплатно посмотрю ваш магазин и сделаю разбор. Подскажите: что продаёте и на какой площадке (WB / Ozon)? Или скиньте ссылку на магазин или товар. После аналитики созвонимся и обсудим дальнейшее сотрудничество?')">Копировать</button></div>
+    <div class="tpl-label">Короткие варианты:</div>
+    <div class="variants">
+      <div class="tpl tpl-alt" style="font-size:12px;padding-right:70px">Добрый день. Скиньте ссылку на магазин — сделаю бесплатный аудит и точно сориентирую по стоимости. Что продаёте и на какой площадке?<button class="copy-btn" onclick="cp(this,'Добрый день. Скиньте ссылку на магазин — сделаю бесплатный аудит и точно сориентирую по стоимости. Что продаёте и на какой площадке?')">↗</button></div>
+      <div class="tpl tpl-alt" style="font-size:12px;padding-right:70px">Добрый день. Скиньте ссылку на магазин — сделаю бесплатный аудит, и мы созвонимся, обсудим детальнее. На какой площадке работаете?<button class="copy-btn" onclick="cp(this,'Добрый день. Скиньте ссылку на магазин — сделаю бесплатный аудит, и мы созвонимся, обсудим детальнее. На какой площадке работаете?')">↗</button></div>
+    </div>
+  </div>
+
+  <div class="type-card hot">
+    <div class="type-header"><span class="badge badge-hot">🔴 Горячий — ПРИОРИТЕТ</span><span class="type-hint">дал номер / просит позвонить прямо сейчас</span></div>
+    <div class="tpl" style="background:#fff0f0;border-color:#fca5a5">Добрый день! Принял, давайте созвонимся и обсудим детальнее? Когда будет удобно?<button class="copy-btn" onclick="cp(this,'Добрый день! Принял, давайте созвонимся и обсудим детальнее? Когда будет удобно?')">Копировать</button></div>
+    <p style="font-size:12px;color:#b91c1c;font-weight:600;margin-top:8px">⚡ Сразу создать задачу менеджеру, пометить «горячий», звонок в ближайший час!</p>
+  </div>
+
+  <div class="type-card price">
+    <div class="type-header"><span class="badge badge-price">Вопрос цены</span><span class="type-hint">«сколько стоит?» / «дайте прайс»</span></div>
+    <div class="tpl-label">Вариант А — без якоря (текущий подход):</div>
+    <div class="tpl" style="background:#f5f3ff;border-color:#c4b5fd">Стоимость рассчитываем индивидуально — зависит от объёма работ и состояния магазина. Скиньте ссылку на магазин: сделаю бесплатный аудит и назову точную цену за ведение под ключ. От вас потребуется ссылка на ваш магазин или товар.<button class="copy-btn" onclick="cp(this,'Стоимость рассчитываем индивидуально — зависит от объёма работ и состояния магазина. Скиньте ссылку на магазин: сделаю бесплатный аудит и назову точную цену за ведение под ключ. От вас потребуется ссылка на ваш магазин или товар.')">Копировать</button></div>
+    <div class="tpl-label">Вариант Б — с якорём (рекомендуется, отсекает нецелевых):</div>
+    <div class="tpl" style="background:#f5f3ff;border-color:#c4b5fd">Полное ведение под ключ — от 35 т.р. в месяц. Точную цифру назову после бесплатного разбора магазина, потому что цена подбирается индивидуально. Скиньте ссылку — посмотрю и сориентирую точно. На какой площадке работаете?<button class="copy-btn" onclick="cp(this,'Полное ведение под ключ — от 35 т.р. в месяц. Точную цифру назову после бесплатного разбора магазина, потому что цена подбирается индивидуально. Скиньте ссылку — посмотрю и сориентирую точно. На какой площадке работаете?')">Копировать</button></div>
+  </div>
+
+  <h3>Другие частые ситуации</h3>
+  <div class="card" style="padding:0 20px">
+    <div class="faq-row"><div class="faq-q">«Здравствуйте» (без конкретики)</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Добрый день! Вас интересует ведение магазина под ключ?<button class="copy-btn" onclick="cp(this,'Добрый день! Вас интересует ведение магазина под ключ?')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">«Вы из [города]?»</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Здравствуйте! Мы из Нижнего Новгорода, работаем удалённо по всей России. Вас интересует ведение под ключ?<button class="copy-btn" onclick="cp(this,'Здравствуйте! Мы из Нижнего Новгорода, работаем удалённо по всей России. Вас интересует ведение под ключ?')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">«Вы сами или с командой?»</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Работаю вместе со своей командой, ведём маркетплейсы полностью под ключ. Вас интересует ведение или отдельная услуга?<button class="copy-btn" onclick="cp(this,'Работаю вместе со своей командой, ведём маркетплейсы полностью под ключ. Вас интересует ведение или отдельная услуга?')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Клиент прислал ссылку / готов к звонку</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Отлично, взял в работу! Подготовлю разбор вашего магазина и свяжусь. Когда будет удобно созвониться на 20–30 минут и куда могу прислать ссылочку для созвона?<button class="copy-btn" onclick="cp(this,'Отлично, взял в работу! Подготовлю разбор вашего магазина и свяжусь. Когда будет удобно созвониться на 20–30 минут и куда могу прислать ссылочку для созвона?')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Не отвечает / ушёл в тишину</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Здравствуйте! Пытался с вами связаться, но не удалось дозвониться. Если сотрудничество ещё актуально — напишите прямо здесь или перезвоните +79159593740<button class="copy-btn" onclick="cp(this,'Здравствуйте! Пытался с вами связаться, но не удалось дозвониться. Если сотрудничество ещё актуально — напишите прямо здесь или перезвоните +79159593740')">Копировать</button></div><p style="font-size:12px;color:#888;margin-top:4px">Не отвечает 2–3 дня → «Отвалился»</p></div>
+  </div>
+</div>
+
+<!-- СКРИПТ ЗВОНКА -->
+<div class="section" id="sec-script">
+  <div class="page-header"><h1>Скрипт первого звонка</h1><p>Задача: контакт → ссылка на магазин → договориться на созвон со специалистом</p></div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 0 — до набора</div>
+    <div class="step-title">Подготовка</div>
+    <p style="font-size:13px;color:#555;line-height:1.6">• Открыть карточку лида: имя, запрос с Авито, дата последнего сообщения<br>• Открыть календарь специалиста — чтобы сразу предложить слот</p>
+  </div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 1</div>
+    <div class="step-title">Приветствие и «удобно говорить?»</div>
+    <div class="tpl">Добрый день, [имя]! Меня зовут [имя], я ассистент Алексея — вы писали на Авито по поводу ведения маркетплейсов. Подскажите, удобно на минутку?<button class="copy-btn" onclick="cp(this,'Добрый день, [имя]! Меня зовут [имя], я ассистент Алексея — вы писали на Авито по поводу ведения маркетплейсов. Подскажите, удобно на минутку?')">Копировать</button></div>
+    <div class="tpl tpl-alt">Если неудобно: Понимаю! Когда вам перезвонить? Сегодня позже или завтра? (записать слот!)<button class="copy-btn" onclick="cp(this,'Понимаю! Когда вам перезвонить? Сегодня позже или завтра?')">Копировать</button></div>
+  </div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 2</div>
+    <div class="step-title">Контекст и ценность (10 секунд)</div>
+    <div class="variants">
+      <div><div class="tpl-label">Универсальный:</div><div class="tpl" style="font-size:13px;padding-right:80px">Вы интересовались ведением маркетплейсов. Мы полностью берём на себя все процессы: карточки, поставки, рекламу, аналитику, финансовую отчётность и стратегию.<button class="copy-btn" onclick="cp(this,'Вы интересовались ведением маркетплейсов. Мы полностью берём на себя все процессы: карточки, поставки, рекламу, аналитику, финансовую отчётность и стратегию.')">↗</button></div></div>
+      <div><div class="tpl-label">Если писал «нужна реклама»:</div><div class="tpl" style="font-size:13px;padding-right:80px">Вы писали о продвижении. Оно зависит от совокупности факторов, поэтому мы ведём магазины комплексно: карточки, поставки, реклама, SEO, аналитика, финансы, стратегия.<button class="copy-btn" onclick="cp(this,'Вы писали о продвижении. Оно зависит от совокупности факторов, поэтому мы ведём магазины комплексно: карточки, поставки, реклама, SEO, аналитика, финансы, стратегия.')">↗</button></div></div>
+    </div>
+  </div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 3</div>
+    <div class="step-title">Почему звонит ассистент, а не специалист</div>
+    <div class="tpl">Алексей сейчас отошёл — чтобы не затягивать, попросил меня связаться и всё уточнить. Я всё запишу, он проведёт аудит и вы с ним всё обсудите.<button class="copy-btn" onclick="cp(this,'Алексей сейчас отошёл — чтобы не затягивать, попросил меня связаться и всё уточнить. Я всё запишу, он проведёт аудит и вы с ним всё обсудите.')">Копировать</button></div>
+  </div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 4</div>
+    <div class="step-title">Главная цель — ссылка и контакт</div>
+    <div class="tpl">Чтобы специалист погрузился в ваш магазин и подготовил план работ, нужна ссылка на магазин. Где удобнее списаться — в MAX или Telegram? По какому номеру могу написать?<button class="copy-btn" onclick="cp(this,'Чтобы специалист погрузился в ваш магазин и подготовил план работ, нужна ссылка на магазин. Где удобнее списаться — в MAX или Telegram? По какому номеру могу написать?')">Копировать</button></div>
+  </div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 5</div>
+    <div class="step-title">Следующий шаг и фиксация</div>
+    <div class="tpl">Алексей сделает аудит, после чего свяжется — покажет аналитику и расскажет, чем мы занимаемся. Когда удобнее созвониться 20–30 минут: сегодня, завтра? Созваниваемся обычно в Яндекс Телемост, заранее скину ссылочку (скачивать ничего не надо).<button class="copy-btn" onclick="cp(this,'Алексей сделает аудит, после чего свяжется — покажет аналитику и расскажет, чем мы занимаемся. Когда удобнее созвониться 20–30 минут: сегодня, завтра? Созваниваемся обычно в Яндекс Телемост, заранее скину ссылочку (скачивать ничего не надо).')">Копировать</button></div>
+    <div class="tpl tpl-alt">Если не готов фиксировать время: Хорошо. Тогда спишемся и там договоримся, когда будет удобно.<button class="copy-btn" onclick="cp(this,'Хорошо. Тогда спишемся и там договоримся, когда будет удобно.')">Копировать</button></div>
+  </div>
+
+  <div class="script-step">
+    <div class="step-label">Этап 6</div>
+    <div class="step-title">Завершение</div>
+    <div class="tpl">[имя], договорились! Сейчас напишу вам. Если есть нюансы, на которые стоит обратить внимание — скажите, я сразу передам специалисту. Хорошего дня!<button class="copy-btn" onclick="cp(this,'[имя], договорились! Сейчас напишу вам. Если есть нюансы, на которые стоит обратить внимание — скажите, я сразу передам специалисту. Хорошего дня!')">Копировать</button></div>
+  </div>
+
+  <h3>Возражения на звонке</h3>
+  <div class="card" style="padding:0 20px">
+    <div class="faq-row"><div class="faq-q">«Цена? Сколько стоит?»</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Зависит от объёма и задач. Сначала смотрим магазин, потом согласовываем формат и цену. Пришлите ссылку — подготовим расчёт.<button class="copy-btn" onclick="cp(this,'Зависит от объёма и задач. Сначала смотрим магазин, потом согласовываем формат и цену. Пришлите ссылку — подготовим расчёт.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">«Пишите мне на Авито»</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Конечно. К сожалению, уведомления на Avito не всегда приходят. Может, свяжемся в MAX или Telegram? По какому номеру могу вас найти?<button class="copy-btn" onclick="cp(this,'Конечно. К сожалению, уведомления на Avito не всегда приходят. Может, свяжемся в MAX или Telegram? По какому номеру могу вас найти?')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">«Не хочу давать телефон»</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Хорошо. Тогда прямо сейчас напишу вам на Avito.<button class="copy-btn" onclick="cp(this,'Хорошо. Тогда прямо сейчас напишу вам на Avito.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">«Кто вы вообще?»</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Я ассистент специалиста по маркетплейсам. Наша команда полностью ведёт магазины на маркетплейсах под ключ. Общались с вами на Avito.<button class="copy-btn" onclick="cp(this,'Я ассистент специалиста по маркетплейсам. Наша команда полностью ведёт магазины на маркетплейсах под ключ. Общались с вами на Avito.')">Копировать</button></div></div>
+  </div>
+
+  <h3>Сообщения в мессенджер после звонка</h3>
+  <div class="tpl">[имя], это [имя], мы только что созванивались. Как обсудили — пришлите, пожалуйста, ссылку на магазин.<button class="copy-btn" onclick="cp(this,'[имя], это [имя], мы только что созванивались. Как обсудили — пришлите, пожалуйста, ссылку на магазин.')">Копировать</button></div>
+  <div class="tpl tpl-alt">После того как прислал ссылку: Спасибо! Взяли в работу.<button class="copy-btn" onclick="cp(this,'Спасибо! Взяли в работу.')">Копировать</button></div>
+</div>
+
+<!-- FAQ -->
+<div class="section" id="sec-faq">
+  <div class="page-header"><h1>Банк возражений и FAQ</h1><p>Цифры, гарантии, условия — уводим на встречу со специалистом</p></div>
+  <div class="card" style="padding:0 20px">
+    <div class="faq-row"><div class="faq-q">Сколько стоит?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Зависит от ассортимента и задач. Формат: фикс + % от результата. Сначала смотрим магазин, условия обсуждаем на встрече. Нужна ссылка.<button class="copy-btn" onclick="cp(this,'Зависит от ассортимента и задач. Формат: фикс + % от результата. Сначала смотрим магазин, условия обсуждаем на встрече. Нужна ссылка.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Какие гарантии?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Лучше обсудить со специалистом — он покажет примеры и реальные кабинеты.<button class="copy-btn" onclick="cp(this,'Лучше обсудить со специалистом — он покажет примеры и реальные кабинеты.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">С кем работали?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">С производителями и дистрибьюторами в самых разных категориях. Специалист подробно расскажет и покажет на встрече.<button class="copy-btn" onclick="cp(this,'С производителями и дистрибьюторами в самых разных категориях. Специалист подробно расскажет и покажет на встрече.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Сколько занимает старт?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Индивидуально. Если полностью с нуля — от недели до трёх. Точные сроки специалист назовёт после разбора.<button class="copy-btn" onclick="cp(this,'Индивидуально. Если полностью с нуля — от недели до трёх. Точные сроки специалист назовёт после разбора.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Вы ведёте только рекламу?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Нет, полный цикл: контент карточек, SEO, поставки, реклама, аналитика, цены — закрываем все задачи.<button class="copy-btn" onclick="cp(this,'Нет, полный цикл: контент карточек, SEO, поставки, реклама, аналитика, цены — закрываем все задачи.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Минимальный рекламный бюджет?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Зависит от категории и целей. Обсудим на встрече.<button class="copy-btn" onclick="cp(this,'Зависит от категории и целей. Обсудим на встрече.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Работаете по договору?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Да, работаем только по договору. Оплата через расчётный счёт.<button class="copy-btn" onclick="cp(this,'Да, работаем только по договору. Оплата через расчётный счёт.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Можно начать с одной позиции?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Да, конечно.<button class="copy-btn" onclick="cp(this,'Да, конечно.')">Копировать</button></div></div>
+    <div class="faq-row"><div class="faq-q">Почему звоните вы, а не специалист?</div><div class="tpl tpl-alt" style="font-size:13px;padding-right:90px">Чтобы не затягивать. Я собираю вводные, специалист проводит аналитику.<button class="copy-btn" onclick="cp(this,'Чтобы не затягивать. Я собираю вводные, специалист проводит аналитику.')">Копировать</button></div></div>
+  </div>
+</div>
+
+<!-- ПЕРЕДАЧА МЕНЕДЖЕРУ -->
+<div class="section" id="sec-transfer">
+  <div class="page-header"><h1>Передача клиента менеджеру</h1><p>Клиент дал телефон + ссылку или просит срочно позвонить → создаём задачу в Битрикс24</p></div>
+
+  <div class="priority-grid">
+    <div class="priority-card p-hot"><div class="p-label">🔴 Горячий</div><p>Задача немедленно. Звонок в ближайший час.</p></div>
+    <div class="priority-card p-warm"><div class="p-label">🟡 Тёплый</div><p>Задача менеджеру в течение дня.</p></div>
+    <div class="priority-card p-cold"><div class="p-label">⚪ Холодный</div><p>Напомнить 1 раз, затем «Отвалился».</p></div>
+  </div>
+
+  <h3>Пошагово в Битрикс24</h3>
+  <div class="card" style="padding:0 20px">
+    <div class="checklist-item" id="t1"><input type="checkbox" id="tc1" onchange="td('t1')"><label for="tc1">1. Нажать на три горизонтальные линии (левый верхний угол CRM)</label></div>
+    <div class="checklist-item" id="t2"><input type="checkbox" id="tc2" onchange="td('t2')"><label for="tc2">2. Перейти в раздел «Задачи и проекты»</label></div>
+    <div class="checklist-item" id="t3"><input type="checkbox" id="tc3" onchange="td('t3')"><label for="tc3">3. Нажать зелёную кнопку «Создать»</label></div>
+    <div class="checklist-item" id="t4"><input type="checkbox" id="tc4" onchange="td('t4')"><label for="tc4">4. Заполнить поля по шаблону ниже</label></div>
+    <div class="checklist-item" id="t5"><input type="checkbox" id="tc5" onchange="td('t5')"><label for="tc5">5. Исполнитель — менеджер по звонкам (не забыть поменять!)</label></div>
+    <div class="checklist-item" id="t6"><input type="checkbox" id="tc6" onchange="td('t6')"><label for="tc6">6. Крайний срок — сегодня или завтра</label></div>
+    <div class="checklist-item" id="t7"><input type="checkbox" id="tc7" onchange="td('t7')"><label for="tc7">7. Если просил конкретный канал (WA / TG / MAX) — указать в описании</label></div>
+  </div>
+
+  <h3>Шаблон задачи</h3>
+  <div class="card">
+    <div class="task-field"><div class="task-label">Название</div><div class="task-val">Имя клиента — [площадка / продукт]<br><span style="font-size:12px;color:#888">Пример: Данила Дмитриевич — Екатерина</span></div></div>
+    <div class="task-field"><div class="task-label">Описание</div><div class="task-val">Коротко до 3 предложений: тип запроса, номер, продукт/ссылка, канал связи<br><span style="font-size:12px;color:#888">Пример: Горячий, просил позвонить. Номер: … Ссылка: (ссылка). Просил написать в WhatsApp.</span></div></div>
+    <div class="task-field"><div class="task-label">Время</div><div class="task-val">1 созвон ≈ 1 час. Максимум 8 задач в день</div></div>
+    <div class="task-field" style="margin-bottom:0"><div class="task-label">Приоритет</div><div class="task-val">Горячий → в приоритет, на ближайшее время</div></div>
+  </div>
+</div>
+
+<!-- ЧЕК-ЛИСТ -->
+<div class="section" id="sec-checklist">
+  <div class="page-header"><h1>Чек-лист смены</h1><p>Отмечайте по ходу работы</p></div>
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:13px;color:#888">Прогресс</span>
+    <span style="font-size:13px;font-weight:600;color:#2d5be3" id="prog-label">0 / 12</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="prog-bar" style="width:0%"></div></div>
+
+  <h3 style="margin-top:0">В начале смены</h3>
+  <div class="card" style="padding:0 20px">
+    <div class="checklist-item" id="c1"><input type="checkbox" id="cb1" onchange="upd()"><label for="cb1">Открыть Битрикс24, проверить новые заявки в колонке «Новые»</label></div>
+    <div class="checklist-item" id="c2"><input type="checkbox" id="cb2" onchange="upd()"><label for="cb2">Проверить «Вопросы» — есть ли ответы от менеджера для клиентов</label></div>
+    <div class="checklist-item" id="c3"><input type="checkbox" id="cb3" onchange="upd()"><label for="cb3">Открыть Авито, убедиться в доступе к аккаунтам</label></div>
+  </div>
+
+  <h3>В процессе работы</h3>
+  <div class="card" style="padding:0 20px">
+    <div class="checklist-item" id="c4"><input type="checkbox" id="cb4" onchange="upd()"><label for="cb4">Каждый новый лид — перевести из «Новые» в «Созвониться» после первого ответа</label></div>
+    <div class="checklist-item" id="c5"><input type="checkbox" id="cb5" onchange="upd()"><label for="cb5">Проверить, от какого лица отправляю (мужское/женское) до отправки</label></div>
+    <div class="checklist-item" id="c6"><input type="checkbox" id="cb6" onchange="upd()"><label for="cb6">Каждое сообщение заканчивается вопросом</label></div>
+    <div class="checklist-item" id="c7"><input type="checkbox" id="cb7" onchange="upd()"><label for="cb7">Горячих клиентов — задача менеджеру немедленно</label></div>
+    <div class="checklist-item" id="c8"><input type="checkbox" id="cb8" onchange="upd()"><label for="cb8">Не отвечает 2–3 дня → финальное сообщение → «Отвалился»</label></div>
+    <div class="checklist-item" id="c9"><input type="checkbox" id="cb9" onchange="upd()"><label for="cb9">Ссылку и телефон клиента зафиксировать в карточке Битрикс</label></div>
+  </div>
+
+  <h3>В конце смены</h3>
+  <div class="card" style="padding:0 20px">
+    <div class="checklist-item" id="c10"><input type="checkbox" id="cb10" onchange="upd()"><label for="cb10">Проверить, нет ли лидов без ответа</label></div>
+    <div class="checklist-item" id="c11"><input type="checkbox" id="cb11" onchange="upd()"><label for="cb11">Все горячие переданы менеджеру с задачей в Битрикс</label></div>
+    <div class="checklist-item" id="c12"><input type="checkbox" id="cb12" onchange="upd()"><label for="cb12">Сложные вопросы от клиентов — переведены в «Вопросы» с уточнением у менеджера</label></div>
+  </div>
+
+  <div style="margin-top:16px">
+    <button onclick="rst()" style="font-size:13px;color:#666;background:#fff;border:1px solid #e5e5e2;padding:7px 16px;border-radius:7px;cursor:pointer">Сбросить чек-лист</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.getElementById('btn-'+id).classList.add('active');
+  closeMobile();
+  window.scrollTo(0,0);
+}
+function cp(btn,text){
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='✓ Скопировано';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Копировать';btn.classList.remove('copied');},2000);
+  });
+}
+function td(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('done',el.querySelector('input').checked);
+}
+function upd(){
+  const all=document.querySelectorAll('#sec-checklist input[type=checkbox]');
+  const done=[...all].filter(c=>c.checked).length;
+  document.getElementById('prog-bar').style.width=(done/all.length*100)+'%';
+  document.getElementById('prog-label').textContent=done+' / '+all.length;
+  [...all].forEach(cb=>{cb.closest('.checklist-item').classList.toggle('done',cb.checked)});
+}
+function rst(){
+  document.querySelectorAll('#sec-checklist input[type=checkbox]').forEach(cb=>{cb.checked=false});
+  upd();
+}
+function toggleMobile(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeMobile(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>
