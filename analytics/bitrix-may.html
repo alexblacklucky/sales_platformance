@@ -1,0 +1,63 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Аналитика Bitrix24 — Воронка продаж · Май 2026</title><style>
+:root{--bg:#f6f3ff;--card:#fff;--line:#ddd5fa;--text:#241c4f;--muted:#746d91;--purple:#6846e8;--purple2:#9270ff;--green:#16875b;--red:#d14343;--amber:#c2871b;--shadow:0 12px 34px rgba(61,39,121,.08)}*{box-sizing:border-box}body{margin:0;padding:28px 22px 54px;font:14px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(900px 430px at 0 -8%,rgba(139,92,246,.15),transparent 62%),linear-gradient(#fcfbff,#f5f2ff)}.wrap{max-width:1240px;margin:auto}
+.hero{padding:26px 28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#fff,#eee8ff);box-shadow:var(--shadow);margin-bottom:26px}.hero small{font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--purple)}h1{font-size:30px;line-height:1.15;margin:7px 0 7px;letter-spacing:-.03em}.hero p{margin:0;color:var(--muted)}
+h2{font-size:19px;margin:30px 0 14px;display:flex;align-items:center;gap:9px}.dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));box-shadow:0 0 0 5px rgba(104,70,232,.1)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}.sum{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:15px;padding:17px}.sum span{display:block;color:var(--muted);font-size:12px}.sum strong{display:block;font-size:26px;margin-top:6px;letter-spacing:-.02em}.sum em{display:block;color:var(--muted);font-size:11px;font-style:normal;margin-top:5px;line-height:1.4}.sum.hl{background:linear-gradient(140deg,#6846e8,#9270ff);border-color:transparent;color:#fff}.sum.hl span,.sum.hl em{color:rgba(255,255,255,.82)}
+.funnel{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:22px 24px}.fstep{margin:0 0 14px}.fstep:last-child{margin-bottom:0}.fhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:12px}.fhead b{font-size:15px}.fhead .cnt{font-size:13px;color:var(--muted)}.fhead .cnt b{color:var(--text);font-size:17px}.fbar{height:34px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;padding-left:14px;color:#fff;font-weight:800;font-size:13px;min-width:64px;box-shadow:0 6px 16px rgba(104,70,232,.2);transition:width .5s}.fstep.s2 .fbar{background:linear-gradient(135deg,#7a59ee,#a886ff)}.fstep.s3 .fbar{background:linear-gradient(135deg,#16875b,#3bbd84)}.fconv{font-size:11px;color:var(--muted);margin-top:5px}.fconv b{color:var(--green)}
+.tablecard{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:8px 6px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:520px}th,td{text-align:left;padding:11px 14px;font-size:13px}th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}td{border-bottom:1px solid #f0ecfb}tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.cnt{font-weight:800;font-size:15px}.tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800}.tag.meet{color:var(--purple);background:#efeaff}.tag.win{color:var(--green);background:#e9f8f1}.tag.lost{color:var(--red);background:#fff0ef}.tag.mid{color:var(--amber);background:#fdf4e3}.tag.coop{color:#1d6fb8;background:#e7f1fb}
+.recs{background:linear-gradient(145deg,#fff,#f2edff);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:21px 24px}.recs ul{margin:0;padding-left:20px}.recs li{margin:0 0 11px;color:#443b68}.recs li:last-child{margin-bottom:0}.recs b{color:var(--text)}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:28px}
+@media(max-width:650px){body{padding:16px 10px 36px}.hero{padding:21px 18px}h1{font-size:23px}.summary{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><main class="wrap">
+<header class="hero"><small>Bitrix24 Dashboard</small><h1>Воронка продаж в Битрикс24 — Май 2026</h1><p>Сводные показатели по сделкам квалификатора: входящие заявки, проведённые встречи и закрытые сделки за месяц</p></header>
+
+<h2><span class="dot"></span>Ключевые показатели</h2>
+<section class="summary" id="summary"></section>
+
+<h2><span class="dot"></span>Воронка продаж</h2>
+<section class="funnel" id="funnel"></section>
+
+<h2><span class="dot"></span>Распределение по стадиям</h2>
+<section class="tablecard"><table><thead><tr><th>Стадия в Битрикс24</th><th class="n">Сделок</th><th>Группа</th></tr></thead><tbody id="stages"></tbody></table></section>
+
+<h2><span class="dot"></span>Выводы по воронке</h2>
+<section class="recs"><ul id="recs"></ul></section>
+
+<footer>Аналитика Bitrix24 · Май 2026 · собрано вручную на основе канбана сделок (фильтр «Прошлый месяц»)</footer>
+</main><script>
+const TOTAL=84, MEET=14, WON=3;
+const summary=[
+  ['Всего заявок / контактов', TOTAL, 'все карточки сделок в воронке за месяц'],
+  ['Провёл встречу', MEET, 'презентация, надо подумать, моросят, договор/счёт, провалена, БОМЖИК 2, успешна'],
+  ['Успешных сделок', WON, 'подписалось 3 клиента за май', 'hl'],
+  ['Конверсия в встречу', (MEET/TOTAL*100).toFixed(1).replace('.',',')+'%', 'встречи / заявки'],
+  ['Встреча → сделка', (WON/MEET*100).toFixed(1).replace('.',',')+'%', 'успешные / проведённые встречи'],
+  ['Общая конверсия воронки', (WON/TOTAL*100).toFixed(1).replace('.',',')+'%', 'успешные сделки / все заявки']
+];
+const funnel=[
+  ['Заявки / контакты', TOTAL, 1, null],
+  ['Провёл встречу', MEET, 2, 'заявка → встреча'],
+  ['Успешная сделка', WON, 3, 'встреча → сделка']
+];
+const stages=[
+  ['НОВЫЕ',0,'mid','В работе'],['Вопросы',0,'mid','В работе'],['Созвониться',0,'mid','В работе'],
+  ['Раскачиваю',0,'mid','В работе'],['Договориться на видеовстречу',0,'mid','В работе'],['В работе сейчас',0,'mid','В работе'],
+  ['На презентации',0,'meet','Встреча'],['Надо подумать',3,'meet','Встреча'],['Моросят',0,'meet','Встреча'],
+  ['Договор счёт',1,'meet','Встреча'],['Сделка провалена',6,'meet','Встреча'],['БОМЖИК ИКС 2',0,'meet','Встреча'],
+  ['Сделка успешна',4,'win','Успех'],['ОТВАЛИЛСЯ',65,'lost','Отвал'],['Сотрудничество',5,'coop','Сотрудн.'],['2025',0,'mid','Прочее']
+];
+const recs=[
+  '<b>Общая конверсия воронки 3,6%</b> — из 84 заявок за май до успешной сделки дошло 3 (подписались 3 клиента). Главная утечка на входе: до встречи доходит лишь 16,7% заявок.',
+  '<b>Конверсия встреча → сделка 21,4%</b> — закрывается примерно каждая пятая проведённая встреча. Это зона роста: усилить работу на этапе закрытия (в июне показатель уже выше).',
+  '<b>65 сделок в «ОТВАЛИЛСЯ»</b> — самая массовая стадия мая. Большая часть базы отваливается на первом контакте — стоит разобрать причины и качество входящих заявок.',
+  '<b>Проваленные сделки на 158 600 ₽</b> — 6 сделок в «Сделка провалена» с высоким чеком. Это потерянные деньги на поздних этапах — стоит проанализировать, почему сделки срываются у договора/счёта.'
+];
+const S=document.getElementById('summary');
+summary.forEach(x=>S.insertAdjacentHTML('beforeend',`<article class="sum ${x[3]||''}"><span>${x[0]}</span><strong>${x[1]}</strong>${x[2]?`<em>${x[2]}</em>`:''}</article>`));
+const F=document.getElementById('funnel');
+funnel.forEach(f=>{const pct=(f[1]/TOTAL*100);F.insertAdjacentHTML('beforeend',`<div class="fstep s${f[2]}"><div class="fhead"><b>${f[0]}</b><span class="cnt"><b>${f[1]}</b> · ${pct.toFixed(1).replace('.',',')}% от заявок</span></div><div class="fbar" style="width:${Math.max(pct,5)}%">${f[1]}</div>${f[3]?`<div class="fconv">${f[3]}: <b>${f[2]==2?(MEET/TOTAL*100).toFixed(1).replace('.',','):(WON/MEET*100).toFixed(1).replace('.',',')}%</b></div>`:''}</div>`)});
+const ST=document.getElementById('stages');
+stages.forEach(s=>ST.insertAdjacentHTML('beforeend',`<tr><td>${s[0]}</td><td class="n cnt">${s[1]}</td><td><span class="tag ${s[2]}">${s[3]}</span></td></tr>`));
+const R=document.getElementById('recs');
+recs.forEach(r=>R.insertAdjacentHTML('beforeend',`<li>${r}</li>`));
+</script></body></html>
