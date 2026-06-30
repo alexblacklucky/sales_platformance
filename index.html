@@ -25,7 +25,9 @@
       <div class="brand"><div class="brand-mark">P</div><div><strong>PLATFORMANCE</strong><span>База знаний</span></div></div>
       <div class="side-label">Навигация</div>
       <button class="side-btn" type="button" onclick="openKnowledge()"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Вернуться в базу знаний</button>
-      <button class="side-btn primary" type="button"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Аналитика</button>
+      <div class="side-label">Аналитика</div>
+      <button class="side-btn primary" type="button" onclick="openAnalytics('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Avito Dashboard</button>
+      <button class="side-btn" type="button" onclick="openBitrix('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard</button>
       <div class="side-spacer"></div>
       <a class="side-link" href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Открыть презентацию ↗</a>
       <a class="side-link" href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Открыть сайт ↗</a>
@@ -37,10 +39,14 @@
         <div class="external-links"><a href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Презентация ↗</a><a href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Наш сайт ↗</a></div>
       </header>
       <nav class="monthbar" aria-label="Месяцы аналитики">
+        <button class="month-btn" data-month="may" onclick="selectMonth('may')">Май<span class="dot"></span></button>
+        <button class="month-btn available" data-month="june" onclick="selectMonth('june')">Июнь<span class="dot"></span></button>
         <button class="month-btn" data-month="july" onclick="selectMonth('july')">Июль<span class="dot"></span></button>
         <button class="month-btn" data-month="august" onclick="selectMonth('august')">Август<span class="dot"></span></button>
         <button class="month-btn" data-month="september" onclick="selectMonth('september')">Сентябрь<span class="dot"></span></button>
-        <button class="month-btn available" data-month="june" onclick="selectMonth('june')">Июнь<span class="dot"></span></button>
+        <button class="month-btn" data-month="october" onclick="selectMonth('october')">Октябрь<span class="dot"></span></button>
+        <button class="month-btn" data-month="november" onclick="selectMonth('november')">Ноябрь<span class="dot"></span></button>
+        <button class="month-btn" data-month="december" onclick="selectMonth('december')">Декабрь<span class="dot"></span></button>
       </nav>
       <div class="analytics-stage">
         <div class="analytics-frame-wrap">
@@ -51,9 +57,46 @@
     </main>
   </div>
 </section>
+<section class="view" id="bitrix-view">
+  <div class="analytics-layout">
+    <aside class="analytics-sidebar">
+      <div class="brand"><div class="brand-mark">P</div><div><strong>PLATFORMANCE</strong><span>База знаний</span></div></div>
+      <div class="side-label">Навигация</div>
+      <button class="side-btn" type="button" onclick="openKnowledge()"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Вернуться в базу знаний</button>
+      <div class="side-label">Аналитика</div>
+      <button class="side-btn" type="button" onclick="openAnalytics('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Avito Dashboard</button>
+      <button class="side-btn primary" type="button" onclick="openBitrix('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard</button>
+      <div class="side-spacer"></div>
+      <a class="side-link" href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Открыть презентацию ↗</a>
+      <a class="side-link" href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Открыть сайт ↗</a>
+    </aside>
+    <main class="analytics-main">
+      <header class="analytics-topbar">
+        <button class="mobile-back" type="button" onclick="openKnowledge()" aria-label="Назад"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div class="top-title"><h1>Аналитика Bitrix Dashboard</h1><p>Воронка продаж и конверсии по сделкам в Битрикс24</p></div>
+        <div class="external-links"><a href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Презентация ↗</a><a href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Наш сайт ↗</a></div>
+      </header>
+      <nav class="monthbar" aria-label="Месяцы аналитики Bitrix">
+        <button class="month-btn available" data-bmonth="june" onclick="selectBitrixMonth('june')">Июнь<span class="dot"></span></button>
+        <button class="month-btn" data-bmonth="july" onclick="selectBitrixMonth('july')">Июль<span class="dot"></span></button>
+        <button class="month-btn" data-bmonth="august" onclick="selectBitrixMonth('august')">Август<span class="dot"></span></button>
+        <button class="month-btn" data-bmonth="september" onclick="selectBitrixMonth('september')">Сентябрь<span class="dot"></span></button>
+        <button class="month-btn" data-bmonth="october" onclick="selectBitrixMonth('october')">Октябрь<span class="dot"></span></button>
+        <button class="month-btn" data-bmonth="november" onclick="selectBitrixMonth('november')">Ноябрь<span class="dot"></span></button>
+        <button class="month-btn" data-bmonth="december" onclick="selectBitrixMonth('december')">Декабрь<span class="dot"></span></button>
+      </nav>
+      <div class="analytics-stage">
+        <div class="analytics-frame-wrap">
+          <iframe class="analytics-frame" id="bitrix-frame" title="Аналитика Bitrix24"></iframe>
+          <div class="empty-state" id="bitrix-empty"><div class="empty-card"><div class="empty-icon"><svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/></svg></div><h2 id="bitrix-empty-title">Отчёт ещё не добавлен</h2><p>Когда будет готов новый отчёт Bitrix Dashboard, добавьте его в папку <b>analytics</b> с именем <b>bitrix-месяц</b>.</p><code id="bitrix-empty-code">analytics/bitrix-july.html</code></div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
 <script>
 const BASE_SITE_URL='https://raw.githubusercontent.com/alexblacklucky/sales_platformance/790d435acdd85783810b0a75addf51445dee8edf/index.html';
-const MONTHS={june:'Июнь',july:'Июль',august:'Август',september:'Сентябрь'};
+const MONTHS={may:'Май',june:'Июнь',july:'Июль',august:'Август',september:'Сентябрь',october:'Октябрь',november:'Ноябрь',december:'Декабрь'};
 let baseLoaded=false;
 async function loadBaseSite(){
   try{
@@ -80,10 +123,14 @@ function injectAnalyticsLink(){
       button.className='nav-btn';button.type='button';button.id='btn-analytics-external';
       button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Аналитика';
       button.addEventListener('click',()=>openAnalytics('june'));
-      item.replaceWith(button);
+      const bbutton=doc.createElement('button');
+      bbutton.className='nav-btn';bbutton.type='button';bbutton.id='btn-bitrix-external';
+      bbutton.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard';
+      bbutton.addEventListener('click',()=>openBitrix('june'));
+      item.replaceWith(button);button.after(bbutton);
     }else{
       const section=doc.querySelector('.sidebar-section');
-      if(section){const button=doc.createElement('button');button.className='nav-btn';button.type='button';button.innerHTML='📊 Аналитика';button.addEventListener('click',()=>openAnalytics('june'));section.appendChild(button)}
+      if(section){const button=doc.createElement('button');button.className='nav-btn';button.type='button';button.innerHTML='📊 Аналитика';button.addEventListener('click',()=>openAnalytics('june'));section.appendChild(button);const bbutton=doc.createElement('button');bbutton.className='nav-btn';bbutton.type='button';bbutton.innerHTML='📈 Bitrix Dashboard';bbutton.addEventListener('click',()=>openBitrix('june'));section.appendChild(bbutton)}
     }
     const mobile=doc.querySelector('.mobile-header');
     if(mobile){const b=doc.createElement('button');b.textContent='Аналитика';b.style.cssText='margin-left:auto;border:1px solid #ddd6fe;background:#fff;color:#6846e8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700';b.addEventListener('click',()=>openAnalytics('june'));mobile.appendChild(b)}
@@ -109,7 +156,25 @@ async function selectMonth(month,push=true){
   }
   if(push)history.replaceState(null,'',location.pathname+location.search+`#analytics-${month}`);
 }
-function applyRoute(){const hash=location.hash.slice(1);if(hash.startsWith('analytics-')){openAnalytics(hash.replace('analytics-',''))}else{showView('knowledge')}}
+function openBitrix(month='june'){showView('bitrix');selectBitrixMonth(month,false)}
+async function selectBitrixMonth(month,push=true){
+  if(!MONTHS[month])month='june';
+  document.querySelectorAll('.month-btn[data-bmonth]').forEach(b=>b.classList.toggle('active',b.dataset.bmonth===month));
+  const frame=document.getElementById('bitrix-frame');const empty=document.getElementById('bitrix-empty');
+  frame.style.display='none';empty.classList.remove('show');
+  const path=`analytics/bitrix-${month}.html`;
+  try{
+    const response=await fetch(path,{cache:'no-cache'});
+    if(!response.ok)throw new Error('not found');
+    const html=await response.text();frame.srcdoc=html;frame.style.display='block';
+    const btn=document.querySelector(`.month-btn[data-bmonth="${month}"]`);if(btn)btn.classList.add('available');
+  }catch(e){
+    document.getElementById('bitrix-empty-title').textContent=`${MONTHS[month]}: отчёт ещё не добавлен`;
+    document.getElementById('bitrix-empty-code').textContent=path;empty.classList.add('show');
+  }
+  if(push)history.replaceState(null,'',location.pathname+location.search+`#bitrix-${month}`);
+}
+function applyRoute(){const hash=location.hash.slice(1);if(hash.startsWith('bitrix-')){openBitrix(hash.replace('bitrix-',''))}else if(hash.startsWith('analytics-')){openAnalytics(hash.replace('analytics-',''))}else{showView('knowledge')}}
 window.addEventListener('hashchange',applyRoute);loadBaseSite();applyRoute();
 </script>
 </body>
