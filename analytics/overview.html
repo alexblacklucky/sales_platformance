@@ -1,0 +1,69 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Общая аналитика — Май–Июнь 2026</title><style>
+:root{--bg:#f6f3ff;--card:#fff;--line:#ddd5fa;--text:#241c4f;--muted:#746d91;--purple:#6846e8;--purple2:#9270ff;--green:#16875b;--red:#d14343;--shadow:0 12px 34px rgba(61,39,121,.08)}*{box-sizing:border-box}body{margin:0;padding:28px 22px 54px;font:14px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(900px 430px at 0 -8%,rgba(139,92,246,.15),transparent 62%),linear-gradient(#fcfbff,#f5f2ff)}.wrap{max-width:1240px;margin:auto}
+.hero{padding:26px 28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#fff,#eee8ff);box-shadow:var(--shadow);margin-bottom:26px}.hero small{font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--purple)}h1{font-size:30px;line-height:1.15;margin:7px 0 7px;letter-spacing:-.03em}.hero p{margin:0;color:var(--muted)}
+h2{font-size:19px;margin:30px 0 14px;display:flex;align-items:center;gap:9px}.dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));box-shadow:0 0 0 5px rgba(104,70,232,.1)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.sum{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:15px;padding:17px}.sum span{display:block;color:var(--muted);font-size:12px}.sum strong{display:block;font-size:25px;margin-top:6px;letter-spacing:-.02em}.sum em{display:block;color:var(--muted);font-size:11px;font-style:normal;margin-top:5px;line-height:1.4}.sum.hl{background:linear-gradient(140deg,#6846e8,#9270ff);border-color:transparent;color:#fff}.sum.hl span,.sum.hl em{color:rgba(255,255,255,.82)}
+.tablecard{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:8px 6px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;padding:11px 15px;font-size:13px}th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}td{border-bottom:1px solid #f0ecfb}tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.metric{font-weight:600}td.val{font-weight:800;font-size:15px}td.d{text-align:right;font-weight:800;font-size:12px}.d-good{color:var(--green)}.d-bad{color:var(--red)}.d-flat{color:var(--muted)}
+.recs{background:linear-gradient(145deg,#fff,#f2edff);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:21px 24px}.recs ul{margin:0;padding-left:20px}.recs li{margin:0 0 11px;color:#443b68}.recs li:last-child{margin-bottom:0}.recs b{color:var(--text)}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:28px}
+@media(max-width:650px){body{padding:16px 10px 36px}.hero{padding:21px 18px}h1{font-size:23px}.summary{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><main class="wrap">
+<header class="hero"><small>Общая аналитика</small><h1>Сводная аналитика — Май–Июнь 2026</h1><p>Связка двух источников: трафик и контакты с Avito + воронка продаж и сделки в Битрикс24</p></header>
+
+<h2><span class="dot"></span>Ключевые показатели за 2 месяца</h2>
+<section class="summary" id="summary"></section>
+
+<h2><span class="dot"></span>Avito — источник трафика и контактов</h2>
+<section class="tablecard"><table><thead><tr><th>Показатель</th><th class="n">Май</th><th class="n">Июнь</th><th class="d">Динамика</th></tr></thead><tbody id="avito"></tbody></table></section>
+
+<h2><span class="dot"></span>Битрикс24 — воронка продаж</h2>
+<section class="tablecard"><table><thead><tr><th>Показатель</th><th class="n">Май</th><th class="n">Июнь</th><th class="d">Динамика</th></tr></thead><tbody id="bitrix"></tbody></table></section>
+
+<h2><span class="dot"></span>Связка: стоимость сделки</h2>
+<section class="tablecard"><table><thead><tr><th>Показатель</th><th class="n">Май</th><th class="n">Июнь</th><th class="d">Динамика</th></tr></thead><tbody id="link"></tbody></table></section>
+
+<h2><span class="dot"></span>Выводы</h2>
+<section class="recs"><ul id="recs"></ul></section>
+
+<footer>Общая аналитика · Май–Июнь 2026 · сводка по данным Avito Dashboard и Bitrix Dashboard</footer>
+</main><script>
+const summary=[
+  ['Успешных сделок (2 мес)','14','3 в мае + 11 в июне','hl'],
+  ['Контактов с Avito (2 мес)','335','112 в мае + 223 в июне'],
+  ['Расходы на Avito (2 мес)','176 352,3 ₽','суммарно за май и июнь'],
+  ['Средняя стоимость сделки','12 596,6 ₽','расходы Avito / успешные сделки'],
+  ['Рост сделок июнь к маю','+266,7%','3 → 11 успешных сделок'],
+  ['Конверсия воронки (июнь)','6,4%','против 3,6% в мае']
+];
+const avito=[
+  ['Суммарные просмотры','1 509','3 017','+100%','good'],
+  ['Суммарные контакты','112','223','+99,1%','good'],
+  ['Суммарные расходы','73 614,8 ₽','102 737,5 ₽','+39,6%','flat'],
+  ['Конверсия в контакт','7,4%','7,4%','0','flat'],
+  ['Средняя цена за контакт','657,3 ₽','460,7 ₽','−29,9%','good']
+];
+const bitrix=[
+  ['Заявки / контакты','84','173','+106%','good'],
+  ['Провёл встречу','14','34','+142,9%','good'],
+  ['Успешных сделок','3','11','+266,7%','good'],
+  ['Конверсия заявка → встреча','16,7%','19,7%','+3 п.п.','good'],
+  ['Конверсия встреча → сделка','21,4%','32,4%','+11 п.п.','good'],
+  ['Общая конверсия воронки','3,6%','6,4%','+2,8 п.п.','good']
+];
+const link=[
+  ['Стоимость успешной сделки','24 538,3 ₽','9 339,8 ₽','−61,9%','good']
+];
+const recs=[
+  '<b>Кратный рост по всей цепочке:</b> трафик и контакты с Avito выросли примерно вдвое, а успешных сделок в Битрикс стало в 3,7 раза больше (3 → 11). Рост сделок опережает рост трафика — воронка стала отрабатывать эффективнее.',
+  '<b>Стоимость сделки упала почти втрое:</b> с 24 538 ₽ в мае до 9 340 ₽ в июне (−61,9%). Каждый вложенный в Avito рубль стал приносить заметно больше закрытых сделок.',
+  '<b>Конверсия воронки выросла с 3,6% до 6,4%:</b> улучшения на обоих ключевых этапах — заявка→встреча (+3 п.п.) и встреча→сделка (+11 п.п.). Точка роста на июль — этап «заявка → встреча», где доходит лишь каждая пятая заявка.',
+  '<b>Расходы выросли умереннее результата:</b> +39,6% к бюджету Avito дали +266,7% к сделкам — масштабирование оправдано, можно аккуратно наращивать бюджет на профили с лучшей ценой контакта.'
+];
+const fmtD=(t,c)=>`<td class="d d-${c}">${t}</td>`;
+document.getElementById('summary').innerHTML=summary.map(x=>`<article class="sum ${x[3]||''}"><span>${x[0]}</span><strong>${x[1]}</strong>${x[2]?`<em>${x[2]}</em>`:''}</article>`).join('');
+const fillRow=r=>`<tr><td class="metric">${r[0]}</td><td class="n val">${r[1]}</td><td class="n val">${r[2]}</td>${fmtD(r[3],r[4])}</tr>`;
+document.getElementById('avito').innerHTML=avito.map(fillRow).join('');
+document.getElementById('bitrix').innerHTML=bitrix.map(fillRow).join('');
+document.getElementById('link').innerHTML=link.map(fillRow).join('');
+document.getElementById('recs').innerHTML=recs.map(r=>`<li>${r}</li>`).join('');
+</script></body></html>
