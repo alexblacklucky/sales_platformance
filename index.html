@@ -77,6 +77,7 @@
         <div class="external-links"><a href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Презентация ↗</a><a href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Наш сайт ↗</a></div>
       </header>
       <nav class="monthbar" aria-label="Месяцы аналитики Bitrix">
+        <button class="month-btn" data-bmonth="may" onclick="selectBitrixMonth('may')">Май<span class="dot"></span></button>
         <button class="month-btn available" data-bmonth="june" onclick="selectBitrixMonth('june')">Июнь<span class="dot"></span></button>
         <button class="month-btn" data-bmonth="july" onclick="selectBitrixMonth('july')">Июль<span class="dot"></span></button>
         <button class="month-btn" data-bmonth="august" onclick="selectBitrixMonth('august')">Август<span class="dot"></span></button>
@@ -121,7 +122,7 @@ function injectAnalyticsLink(){
     if(item){
       const button=doc.createElement('button');
       button.className='nav-btn';button.type='button';button.id='btn-analytics-external';
-      button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Аналитика';
+      button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Аналитика Avito';
       button.addEventListener('click',()=>openAnalytics('june'));
       const bbutton=doc.createElement('button');
       bbutton.className='nav-btn';bbutton.type='button';bbutton.id='btn-bitrix-external';
@@ -130,7 +131,7 @@ function injectAnalyticsLink(){
       item.replaceWith(button);button.after(bbutton);
     }else{
       const section=doc.querySelector('.sidebar-section');
-      if(section){const button=doc.createElement('button');button.className='nav-btn';button.type='button';button.innerHTML='📊 Аналитика';button.addEventListener('click',()=>openAnalytics('june'));section.appendChild(button);const bbutton=doc.createElement('button');bbutton.className='nav-btn';bbutton.type='button';bbutton.innerHTML='📈 Bitrix Dashboard';bbutton.addEventListener('click',()=>openBitrix('june'));section.appendChild(bbutton)}
+      if(section){const button=doc.createElement('button');button.className='nav-btn';button.type='button';button.innerHTML='📊 Аналитика Avito';button.addEventListener('click',()=>openAnalytics('june'));section.appendChild(button);const bbutton=doc.createElement('button');bbutton.className='nav-btn';bbutton.type='button';bbutton.innerHTML='📈 Bitrix Dashboard';bbutton.addEventListener('click',()=>openBitrix('june'));section.appendChild(bbutton)}
     }
     const mobile=doc.querySelector('.mobile-header');
     if(mobile){const b=doc.createElement('button');b.textContent='Аналитика';b.style.cssText='margin-left:auto;border:1px solid #ddd6fe;background:#fff;color:#6846e8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700';b.addEventListener('click',()=>openAnalytics('june'));mobile.appendChild(b)}
