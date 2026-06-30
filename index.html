@@ -37,10 +37,14 @@
         <div class="external-links"><a href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Презентация ↗</a><a href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Наш сайт ↗</a></div>
       </header>
       <nav class="monthbar" aria-label="Месяцы аналитики">
+        <button class="month-btn" data-month="may" onclick="selectMonth('may')">Май<span class="dot"></span></button>
+        <button class="month-btn available" data-month="june" onclick="selectMonth('june')">Июнь<span class="dot"></span></button>
         <button class="month-btn" data-month="july" onclick="selectMonth('july')">Июль<span class="dot"></span></button>
         <button class="month-btn" data-month="august" onclick="selectMonth('august')">Август<span class="dot"></span></button>
         <button class="month-btn" data-month="september" onclick="selectMonth('september')">Сентябрь<span class="dot"></span></button>
-        <button class="month-btn available" data-month="june" onclick="selectMonth('june')">Июнь<span class="dot"></span></button>
+        <button class="month-btn" data-month="october" onclick="selectMonth('october')">Октябрь<span class="dot"></span></button>
+        <button class="month-btn" data-month="november" onclick="selectMonth('november')">Ноябрь<span class="dot"></span></button>
+        <button class="month-btn" data-month="december" onclick="selectMonth('december')">Декабрь<span class="dot"></span></button>
       </nav>
       <div class="analytics-stage">
         <div class="analytics-frame-wrap">
@@ -53,7 +57,7 @@
 </section>
 <script>
 const BASE_SITE_URL='https://raw.githubusercontent.com/alexblacklucky/sales_platformance/790d435acdd85783810b0a75addf51445dee8edf/index.html';
-const MONTHS={june:'Июнь',july:'Июль',august:'Август',september:'Сентябрь'};
+const MONTHS={may:'Май',june:'Июнь',july:'Июль',august:'Август',september:'Сентябрь',october:'Октябрь',november:'Ноябрь',december:'Декабрь'};
 let baseLoaded=false;
 async function loadBaseSite(){
   try{
