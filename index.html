@@ -28,6 +28,7 @@
       <div class="side-label">Аналитика</div>
       <button class="side-btn primary" type="button" onclick="openAnalytics('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Avito Dashboard</button>
       <button class="side-btn" type="button" onclick="openBitrix('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard</button>
+      <button class="side-btn" type="button" onclick="openOverview()"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>Общая аналитика</button>
       <div class="side-spacer"></div>
       <a class="side-link" href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Открыть презентацию ↗</a>
       <a class="side-link" href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Открыть сайт ↗</a>
@@ -66,6 +67,7 @@
       <div class="side-label">Аналитика</div>
       <button class="side-btn" type="button" onclick="openAnalytics('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Avito Dashboard</button>
       <button class="side-btn primary" type="button" onclick="openBitrix('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard</button>
+      <button class="side-btn" type="button" onclick="openOverview()"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>Общая аналитика</button>
       <div class="side-spacer"></div>
       <a class="side-link" href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Открыть презентацию ↗</a>
       <a class="side-link" href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Открыть сайт ↗</a>
@@ -95,6 +97,35 @@
     </main>
   </div>
 </section>
+<section class="view" id="overview-view">
+  <div class="analytics-layout">
+    <aside class="analytics-sidebar">
+      <div class="brand"><div class="brand-mark">P</div><div><strong>PLATFORMANCE</strong><span>База знаний</span></div></div>
+      <div class="side-label">Навигация</div>
+      <button class="side-btn" type="button" onclick="openKnowledge()"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>Вернуться в базу знаний</button>
+      <div class="side-label">Аналитика</div>
+      <button class="side-btn" type="button" onclick="openAnalytics('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Avito Dashboard</button>
+      <button class="side-btn" type="button" onclick="openBitrix('june')"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard</button>
+      <button class="side-btn primary" type="button" onclick="openOverview()"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>Общая аналитика</button>
+      <div class="side-spacer"></div>
+      <a class="side-link" href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Открыть презентацию ↗</a>
+      <a class="side-link" href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Открыть сайт ↗</a>
+    </aside>
+    <main class="analytics-main">
+      <header class="analytics-topbar">
+        <button class="mobile-back" type="button" onclick="openKnowledge()" aria-label="Назад"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+        <div class="top-title"><h1>Общая аналитика</h1><p>Сводная картина по Avito и Битрикс24 за май и июнь</p></div>
+        <div class="external-links"><a href="https://grown-cetacean-x3xdais.gamma.site/" target="_blank" rel="noopener">Презентация ↗</a><a href="https://uhjr7sv23.urest.org/" target="_blank" rel="noopener">Наш сайт ↗</a></div>
+      </header>
+      <div class="analytics-stage" style="padding-top:18px">
+        <div class="analytics-frame-wrap">
+          <iframe class="analytics-frame" id="overview-frame" title="Общая аналитика"></iframe>
+          <div class="empty-state" id="overview-empty"><div class="empty-card"><div class="empty-icon"><svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/></svg></div><h2>Отчёт ещё не добавлен</h2><p>Добавьте файл сводного отчёта в папку <b>analytics</b>.</p><code>analytics/overview.html</code></div></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
 <script>
 const BASE_SITE_URL='https://raw.githubusercontent.com/alexblacklucky/sales_platformance/790d435acdd85783810b0a75addf51445dee8edf/index.html';
 const MONTHS={may:'Май',june:'Июнь',july:'Июль',august:'Август',september:'Сентябрь',october:'Октябрь',november:'Ноябрь',december:'Декабрь'};
@@ -117,24 +148,28 @@ function injectAnalyticsLink(){
     const frame=document.getElementById('knowledge-frame');
     const doc=frame.contentDocument;
     if(!doc)return;
-    const candidates=[...doc.querySelectorAll('.coming-soon')];
-    let item=candidates.find(el=>el.textContent.toLowerCase().includes('аналитика'));
-    if(item){
-      const button=doc.createElement('button');
-      button.className='nav-btn';button.type='button';button.id='btn-analytics-external';
-      button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>Аналитика Avito';
-      button.addEventListener('click',()=>openAnalytics('june'));
-      const bbutton=doc.createElement('button');
-      bbutton.className='nav-btn';bbutton.type='button';bbutton.id='btn-bitrix-external';
-      bbutton.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>Bitrix Dashboard';
-      bbutton.addEventListener('click',()=>openBitrix('june'));
-      item.replaceWith(button);button.after(bbutton);
-    }else{
-      const section=doc.querySelector('.sidebar-section');
-      if(section){const button=doc.createElement('button');button.className='nav-btn';button.type='button';button.innerHTML='📊 Аналитика Avito';button.addEventListener('click',()=>openAnalytics('june'));section.appendChild(button);const bbutton=doc.createElement('button');bbutton.className='nav-btn';bbutton.type='button';bbutton.innerHTML='📈 Bitrix Dashboard';bbutton.addEventListener('click',()=>openBitrix('june'));section.appendChild(bbutton)}
-    }
+    if(doc.getElementById('analytics-section'))return;
+    // Удаляем пункт «Аналитика» из секции «Скоро»
+    [...doc.querySelectorAll('.coming-soon')].forEach(el=>{if(el.textContent.toLowerCase().includes('аналитика'))el.remove()});
+    // Собираем отдельную большую секцию «Аналитика»
+    const mkBtn=(icon,label,fn)=>{const b=doc.createElement('button');b.className='nav-btn';b.type='button';b.innerHTML=icon+label;b.addEventListener('click',fn);return b};
+    const icoAvito='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>';
+    const icoBitrix='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="13" y="7" width="3" height="10"/></svg>';
+    const icoOver='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 3"/></svg>';
+    const section=doc.createElement('div');
+    section.className='sidebar-section';section.id='analytics-section';
+    const label=doc.createElement('div');label.className='sidebar-section-label';label.textContent='Аналитика';
+    section.appendChild(label);
+    section.appendChild(mkBtn(icoAvito,'Аналитика Avito',()=>openAnalytics('june')));
+    section.appendChild(mkBtn(icoBitrix,'Bitrix Dashboard',()=>openBitrix('june')));
+    section.appendChild(mkBtn(icoOver,'Общая аналитика',()=>openOverview()));
+    // Вставляем секцию после «Материалы», иначе в конец сайдбара
+    const sections=[...doc.querySelectorAll('.sidebar-section')];
+    const materials=sections.find(s=>{const l=s.querySelector('.sidebar-section-label');return l&&l.textContent.trim().toLowerCase()==='материалы'});
+    const sidebar=doc.getElementById('sidebar');
+    if(materials){materials.after(section)}else if(sidebar){sidebar.appendChild(section)}
     const mobile=doc.querySelector('.mobile-header');
-    if(mobile){const b=doc.createElement('button');b.textContent='Аналитика';b.style.cssText='margin-left:auto;border:1px solid #ddd6fe;background:#fff;color:#6846e8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700';b.addEventListener('click',()=>openAnalytics('june'));mobile.appendChild(b)}
+    if(mobile){const b=doc.createElement('button');b.textContent='Аналитика';b.style.cssText='margin-left:auto;border:1px solid #ddd6fe;background:#fff;color:#6846e8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700';b.addEventListener('click',()=>openOverview());mobile.appendChild(b)}
   }catch(e){console.warn('Analytics navigation injection failed',e)}
 }
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(name+'-view').classList.add('active')}
@@ -158,6 +193,17 @@ async function selectMonth(month,push=true){
   if(push)history.replaceState(null,'',location.pathname+location.search+`#analytics-${month}`);
 }
 function openBitrix(month='june'){showView('bitrix');selectBitrixMonth(month,false)}
+async function openOverview(){
+  showView('overview');history.replaceState(null,'',location.pathname+location.search+'#overview');
+  const frame=document.getElementById('overview-frame');const empty=document.getElementById('overview-empty');
+  if(frame.dataset.loaded)return;
+  frame.style.display='none';empty.classList.remove('show');
+  try{
+    const response=await fetch('analytics/overview.html',{cache:'no-cache'});
+    if(!response.ok)throw new Error('not found');
+    frame.srcdoc=await response.text();frame.style.display='block';frame.dataset.loaded='1';
+  }catch(e){empty.classList.add('show')}
+}
 async function selectBitrixMonth(month,push=true){
   if(!MONTHS[month])month='june';
   document.querySelectorAll('.month-btn[data-bmonth]').forEach(b=>b.classList.toggle('active',b.dataset.bmonth===month));
@@ -175,7 +221,7 @@ async function selectBitrixMonth(month,push=true){
   }
   if(push)history.replaceState(null,'',location.pathname+location.search+`#bitrix-${month}`);
 }
-function applyRoute(){const hash=location.hash.slice(1);if(hash.startsWith('bitrix-')){openBitrix(hash.replace('bitrix-',''))}else if(hash.startsWith('analytics-')){openAnalytics(hash.replace('analytics-',''))}else{showView('knowledge')}}
+function applyRoute(){const hash=location.hash.slice(1);if(hash==='overview'){openOverview()}else if(hash.startsWith('bitrix-')){openBitrix(hash.replace('bitrix-',''))}else if(hash.startsWith('analytics-')){openAnalytics(hash.replace('analytics-',''))}else{showView('knowledge')}}
 window.addEventListener('hashchange',applyRoute);loadBaseSite();applyRoute();
 </script>
 </body>
