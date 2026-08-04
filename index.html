@@ -173,52 +173,101 @@ function injectAnalyticsLink(){
     injectManagerSection(doc);
   }catch(e){console.warn('Analytics navigation injection failed',e)}
 }
-// Раздел «Менеджер по продажам» — нативная секция внутри базы знаний
+// Раздел «Менеджер по продажам» — нативные секции внутри базы знаний
+const MANAGER_TOC={'m-1':'prep','m-2':'logic','m-3':'scripts','m-4':'audit','m-5':'business','m-6':'price','m-7':'cases','m-8':'process','m-9':'objections','m-10':'extras','m-11':'rules','m-shpargalka':'cheatsheet'};
+function goManagerPart(doc,id,title){
+  const w=doc.defaultView;
+  if(w&&typeof w.show==='function')w.show('mgr-'+id);
+  const topbar=doc.getElementById('current-page');
+  if(topbar)topbar.textContent=title;
+}
 async function injectManagerSection(doc){
   try{
-    if(doc.getElementById('sec-manager'))return;
+    if(doc.getElementById('manager-section'))return;
     const response=await fetch('manager-section.html',{cache:'no-cache'});
     if(!response.ok)throw new Error('HTTP '+response.status);
-    const html=await response.text();
+    const holder=doc.createElement('div');
+    holder.innerHTML=await response.text();
     const shell=doc.querySelector('.content-shell');
     if(!shell)return;
-    // 1. Контентная секция
-    const section=doc.createElement('div');
-    section.className='section';section.id='sec-manager';
-    section.innerHTML=html;
-    shell.appendChild(section);
-    // 2. Кнопка в сайдбаре — отдельная секция сразу после «Квалификатора»
+    // Стили раздела — один раз в <head>
+    const style=holder.querySelector('style');
+    if(style)doc.head.appendChild(style);
+    // Сворачиваемые секции сайдбара
+    const navStyle=doc.createElement('style');
+    navStyle.textContent='.sidebar-section-label{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none;transition:color .15s ease}'+
+      '.sidebar-section-label:hover{color:#cdc4f5}'+
+      '.sidebar-section-label .m-chev{margin-left:auto;transition:transform .2s ease;opacity:.75;flex-shrink:0}'+
+      '.sidebar-section.m-collapsed .m-chev{transform:rotate(-90deg)}'+
+      '.sidebar-section.m-collapsed .nav-btn{display:none}';
+    doc.head.appendChild(navStyle);
+    // Секция сайдбара «Менеджер по продажам»
     const navSection=doc.createElement('div');
     navSection.className='sidebar-section';navSection.id='manager-section';
     const label=doc.createElement('div');label.className='sidebar-section-label';label.textContent='Менеджер по продажам';
     navSection.appendChild(label);
-    const button=doc.createElement('button');
-    button.className='nav-btn';button.type='button';button.id='btn-manager';
-    button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>Регламент обучения';
-    button.addEventListener('click',()=>{
-      const w=doc.defaultView;
-      if(w&&typeof w.show==='function')w.show('manager');
-      const title=doc.getElementById('current-page');
-      if(title)title.textContent='Регламент обучения продавца';
+    const parts=[...holder.querySelectorAll('.m-part')];
+    const metaPairs=[];
+    parts.forEach(part=>{
+      const id=part.dataset.id,title=part.dataset.title,nav=part.dataset.nav;
+      const section=doc.createElement('div');
+      section.className='section';section.id='sec-mgr-'+id;
+      section.innerHTML=part.innerHTML;
+      shell.appendChild(section);
+      metaPairs.push("'mgr-"+id+"':"+JSON.stringify(title));
+      const button=doc.createElement('button');
+      button.className='nav-btn';button.type='button';button.id='btn-mgr-'+id;
+      button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'+nav;
+      button.addEventListener('click',()=>goManagerPart(doc,id,title));
+      navSection.appendChild(button);
     });
-    // Регистрируем раздел в базе знаний: заголовок топбара + переиндексация поиска.
-    // sectionMeta и index объявлены через const/let, поэтому меняем их изнутри её же scope.
-    const hook=doc.createElement('script');
-    hook.textContent="try{sectionMeta['manager']='Регламент обучения продавца';index=searchIndex()}catch(e){}";
-    doc.body.appendChild(hook);
-    navSection.appendChild(button);
+    // Плитки «Содержания» и ссылка «Шпаргалка цифр» ведут на нужный блок
+    shell.querySelectorAll('#sec-mgr-overview a[href^="#m-"]').forEach(link=>{
+      const target=MANAGER_TOC[link.getAttribute('href').slice(1)];
+      if(!target)return;
+      const part=parts.find(p=>p.dataset.id===target);
+      link.setAttribute('href','javascript:void(0)');
+      link.addEventListener('click',event=>{event.preventDefault();goManagerPart(doc,target,part?part.dataset.title:'')});
+    });
+    // Вставляем секцию сразу после «Квалификатора»
     const sections=[...doc.querySelectorAll('.sidebar-section')];
     const qualifier=sections.find(s=>{const l=s.querySelector('.sidebar-section-label');return l&&l.textContent.trim().toLowerCase()==='квалификатор'});
     const separator=doc.createElement('div');separator.className='nav-sep';
     if(qualifier){
-      // после «Квалификатора» идёт разделитель — вставляем секцию сразу за ним
       const after=qualifier.nextElementSibling&&qualifier.nextElementSibling.classList.contains('nav-sep')?qualifier.nextElementSibling:qualifier;
       after.after(navSection);navSection.after(separator);
     }else{
       const sidebar=doc.getElementById('sidebar');
       if(sidebar)sidebar.appendChild(navSection);
     }
+    if(qualifier)makeCollapsible(qualifier,'kb-collapse-qualifier');
+    makeCollapsible(navSection,'kb-collapse-manager');
+    // Регистрируем разделы в базе знаний: заголовки топбара, переиндексация поиска и
+    // восстановление последнего открытого блока. sectionMeta/index/store объявлены через
+    // const/let, поэтому меняем их изнутри её же scope — уже после вставки кнопок в сайдбар.
+    const hook=doc.createElement('script');
+    hook.textContent="try{Object.assign(sectionMeta,{"+metaPairs.join(',')+"});index=searchIndex();"+
+      "var last=store.get('kb-section');if(last&&last.indexOf('mgr-')===0)show(last,false)}catch(e){}";
+    doc.body.appendChild(hook);
   }catch(e){console.warn('Manager section injection failed',e)}
+}
+// Сворачивание/разворачивание списка пунктов в секции сайдбара
+function makeCollapsible(section,storeKey){
+  const label=section.querySelector('.sidebar-section-label');
+  if(!label||label.dataset.collapsible)return;
+  label.dataset.collapsible='1';
+  const chevron=label.ownerDocument.createElement('span');
+  chevron.className='m-chev';
+  chevron.innerHTML='<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>';
+  label.appendChild(chevron);
+  label.setAttribute('title','Свернуть / развернуть');
+  let collapsed=false;
+  try{collapsed=localStorage.getItem(storeKey)==='1'}catch(e){}
+  if(collapsed)section.classList.add('m-collapsed');
+  label.addEventListener('click',()=>{
+    const isCollapsed=section.classList.toggle('m-collapsed');
+    try{localStorage.setItem(storeKey,isCollapsed?'1':'0')}catch(e){}
+  });
 }
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(name+'-view').classList.add('active')}
 function openKnowledge(){showView('knowledge');history.replaceState(null,'',location.pathname+location.search+'#knowledge')}
