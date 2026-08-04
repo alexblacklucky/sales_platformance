@@ -170,7 +170,55 @@ function injectAnalyticsLink(){
     if(materials){materials.after(section)}else if(sidebar){sidebar.appendChild(section)}
     const mobile=doc.querySelector('.mobile-header');
     if(mobile){const b=doc.createElement('button');b.textContent='Аналитика';b.style.cssText='margin-left:auto;border:1px solid #ddd6fe;background:#fff;color:#6846e8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700';b.addEventListener('click',()=>openOverview());mobile.appendChild(b)}
+    injectManagerSection(doc);
   }catch(e){console.warn('Analytics navigation injection failed',e)}
+}
+// Раздел «Менеджер по продажам» — нативная секция внутри базы знаний
+async function injectManagerSection(doc){
+  try{
+    if(doc.getElementById('sec-manager'))return;
+    const response=await fetch('manager-section.html',{cache:'no-cache'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const html=await response.text();
+    const shell=doc.querySelector('.content-shell');
+    if(!shell)return;
+    // 1. Контентная секция
+    const section=doc.createElement('div');
+    section.className='section';section.id='sec-manager';
+    section.innerHTML=html;
+    shell.appendChild(section);
+    // 2. Кнопка в сайдбаре — отдельная секция сразу после «Квалификатора»
+    const navSection=doc.createElement('div');
+    navSection.className='sidebar-section';navSection.id='manager-section';
+    const label=doc.createElement('div');label.className='sidebar-section-label';label.textContent='Менеджер по продажам';
+    navSection.appendChild(label);
+    const button=doc.createElement('button');
+    button.className='nav-btn';button.type='button';button.id='btn-manager';
+    button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>Регламент обучения';
+    button.addEventListener('click',()=>{
+      const w=doc.defaultView;
+      if(w&&typeof w.show==='function')w.show('manager');
+      const title=doc.getElementById('current-page');
+      if(title)title.textContent='Регламент обучения продавца';
+    });
+    // Регистрируем раздел в базе знаний: заголовок топбара + переиндексация поиска.
+    // sectionMeta и index объявлены через const/let, поэтому меняем их изнутри её же scope.
+    const hook=doc.createElement('script');
+    hook.textContent="try{sectionMeta['manager']='Регламент обучения продавца';index=searchIndex()}catch(e){}";
+    doc.body.appendChild(hook);
+    navSection.appendChild(button);
+    const sections=[...doc.querySelectorAll('.sidebar-section')];
+    const qualifier=sections.find(s=>{const l=s.querySelector('.sidebar-section-label');return l&&l.textContent.trim().toLowerCase()==='квалификатор'});
+    const separator=doc.createElement('div');separator.className='nav-sep';
+    if(qualifier){
+      // после «Квалификатора» идёт разделитель — вставляем секцию сразу за ним
+      const after=qualifier.nextElementSibling&&qualifier.nextElementSibling.classList.contains('nav-sep')?qualifier.nextElementSibling:qualifier;
+      after.after(navSection);navSection.after(separator);
+    }else{
+      const sidebar=doc.getElementById('sidebar');
+      if(sidebar)sidebar.appendChild(navSection);
+    }
+  }catch(e){console.warn('Manager section injection failed',e)}
 }
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(name+'-view').classList.add('active')}
 function openKnowledge(){showView('knowledge');history.replaceState(null,'',location.pathname+location.search+'#knowledge')}
