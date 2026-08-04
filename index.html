@@ -149,8 +149,8 @@ function injectAnalyticsLink(){
     const doc=frame.contentDocument;
     if(!doc)return;
     if(doc.getElementById('analytics-section'))return;
-    // Удаляем пункт «Аналитика» из секции «Скоро»
-    [...doc.querySelectorAll('.coming-soon')].forEach(el=>{if(el.textContent.toLowerCase().includes('аналитика'))el.remove()});
+    injectSidebarStyles(doc);
+    rebuildComingSoon(doc);
     // Собираем отдельную большую секцию «Аналитика»
     const mkBtn=(icon,label,fn)=>{const b=doc.createElement('button');b.className='nav-btn';b.type='button';b.innerHTML=icon+label;b.addEventListener('click',fn);return b};
     const icoAvito='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>';
@@ -168,10 +168,41 @@ function injectAnalyticsLink(){
     const materials=sections.find(s=>{const l=s.querySelector('.sidebar-section-label');return l&&l.textContent.trim().toLowerCase()==='материалы'});
     const sidebar=doc.getElementById('sidebar');
     if(materials){materials.after(section)}else if(sidebar){sidebar.appendChild(section)}
+    makeCollapsible(section,'kb-collapse-analytics');
     const mobile=doc.querySelector('.mobile-header');
     if(mobile){const b=doc.createElement('button');b.textContent='Аналитика';b.style.cssText='margin-left:auto;border:1px solid #ddd6fe;background:#fff;color:#6846e8;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700';b.addEventListener('click',()=>openOverview());mobile.appendChild(b)}
     injectManagerSection(doc);
   }catch(e){console.warn('Analytics navigation injection failed',e)}
+}
+// Крупные яркие заголовки секций сайдбара + стили сворачивания
+function injectSidebarStyles(doc){
+  if(doc.getElementById('kb-sidebar-styles'))return;
+  const style=doc.createElement('style');
+  style.id='kb-sidebar-styles';
+  style.textContent=
+    '.sidebar-section-label{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:800;'+
+      'color:#efeaff;letter-spacing:.04em;padding:9px 11px;margin-bottom:4px;border-radius:9px;'+
+      'cursor:pointer;user-select:none;transition:background .15s ease,color .15s ease}'+
+    '.sidebar-section-label:hover{background:rgba(255,255,255,.09);color:#fff}'+
+    '.sidebar-section-label .m-chev{margin-left:auto;transition:transform .2s ease;opacity:.8;flex-shrink:0}'+
+    '.sidebar-section.m-collapsed .m-chev{transform:rotate(-90deg)}'+
+    '.sidebar-section.m-collapsed .nav-btn,.sidebar-section.m-collapsed .coming-soon{display:none}'+
+    '.nav-sep{margin:12px 18px}';
+  doc.head.appendChild(style);
+}
+// Раздел «Скоро»: вместо «Менеджер» и «Специалист» — «Создание договора»
+function rebuildComingSoon(doc){
+  const items=[...doc.querySelectorAll('.coming-soon')];
+  if(!items.length)return;
+  const host=items[0].parentElement;
+  items.forEach(el=>el.remove());
+  const item=doc.createElement('div');
+  item.className='coming-soon';
+  item.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">'+
+    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>'+
+    '<line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>'+
+    'Создание договора<span class="badge-soon">скоро</span>';
+  host.appendChild(item);
 }
 // Раздел «Менеджер по продажам» — нативные секции внутри базы знаний
 const MANAGER_TOC={'m-1':'prep','m-2':'logic','m-3':'scripts','m-4':'audit','m-5':'business','m-6':'price','m-7':'cases','m-8':'process','m-9':'objections','m-10':'extras','m-11':'rules','m-shpargalka':'cheatsheet'};
@@ -193,14 +224,6 @@ async function injectManagerSection(doc){
     // Стили раздела — один раз в <head>
     const style=holder.querySelector('style');
     if(style)doc.head.appendChild(style);
-    // Сворачиваемые секции сайдбара
-    const navStyle=doc.createElement('style');
-    navStyle.textContent='.sidebar-section-label{display:flex;align-items:center;gap:7px;cursor:pointer;user-select:none;transition:color .15s ease}'+
-      '.sidebar-section-label:hover{color:#cdc4f5}'+
-      '.sidebar-section-label .m-chev{margin-left:auto;transition:transform .2s ease;opacity:.75;flex-shrink:0}'+
-      '.sidebar-section.m-collapsed .m-chev{transform:rotate(-90deg)}'+
-      '.sidebar-section.m-collapsed .nav-btn{display:none}';
-    doc.head.appendChild(navStyle);
     // Секция сайдбара «Менеджер по продажам»
     const navSection=doc.createElement('div');
     navSection.className='sidebar-section';navSection.id='manager-section';
@@ -242,6 +265,11 @@ async function injectManagerSection(doc){
     }
     if(qualifier)makeCollapsible(qualifier,'kb-collapse-qualifier');
     makeCollapsible(navSection,'kb-collapse-manager');
+    // Остальные секции («Материалы», «Скоро») тоже сворачиваются — заголовки везде кликабельны
+    [...doc.querySelectorAll('.sidebar-section')].forEach((s,i)=>{
+      const l=s.querySelector('.sidebar-section-label');
+      if(l&&l.textContent.trim())makeCollapsible(s,'kb-collapse-'+(s.id||'sec'+i));
+    });
     // Регистрируем разделы в базе знаний: заголовки топбара, переиндексация поиска и
     // восстановление последнего открытого блока. sectionMeta/index/store объявлены через
     // const/let, поэтому меняем их изнутри её же scope — уже после вставки кнопок в сайдбар.
