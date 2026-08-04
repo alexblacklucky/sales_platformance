@@ -151,6 +151,7 @@ function injectAnalyticsLink(){
     if(doc.getElementById('analytics-section'))return;
     injectSidebarStyles(doc);
     rebuildComingSoon(doc);
+    injectMaterialsLink(doc);
     // Собираем отдельную большую секцию «Аналитика»
     const mkBtn=(icon,label,fn)=>{const b=doc.createElement('button');b.className='nav-btn';b.type='button';b.innerHTML=icon+label;b.addEventListener('click',fn);return b};
     const icoAvito='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>';
@@ -189,6 +190,22 @@ function injectSidebarStyles(doc){
     '.sidebar-section.m-collapsed .nav-btn,.sidebar-section.m-collapsed .coming-soon{display:none}'+
     '.nav-sep{margin:12px 18px}';
   doc.head.appendChild(style);
+}
+// «Материалы»: ссылка на папку с основными файлами — сразу под «Наш сайт»
+const DRIVE_FILES_URL='https://drive.google.com/drive/folders/11cELacKQmGowcFeF5WrOybCXrcU6zIi5?usp=sharing';
+function injectMaterialsLink(doc){
+  if(doc.getElementById('btn-drive-files'))return;
+  const sections=[...doc.querySelectorAll('.sidebar-section')];
+  const materials=sections.find(s=>{const l=s.querySelector('.sidebar-section-label');return l&&l.textContent.trim().toLowerCase()==='материалы'});
+  if(!materials)return;
+  const link=doc.createElement('a');
+  link.className='nav-btn external-nav';link.id='btn-drive-files';
+  link.href=DRIVE_FILES_URL;link.target='_blank';link.rel='noopener noreferrer';
+  link.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">'+
+    '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>'+
+    'Основные файлы<span class="external-arrow">↗</span>';
+  const site=[...materials.querySelectorAll('a.external-nav')].pop();
+  if(site){site.after(link)}else{materials.appendChild(link)}
 }
 // Раздел «Скоро»: вместо «Менеджер» и «Специалист» — «Создание договора»
 function rebuildComingSoon(doc){
