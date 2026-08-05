@@ -1,0 +1,211 @@
+<style>
+.c-hero-actions{position:relative;z-index:2;margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.c-dl{display:inline-flex;align-items:center;gap:9px;background:#6548e8;color:#fff;border:1px solid #6548e8;border-radius:11px;padding:11px 17px;font-size:13px;font-weight:750;cursor:pointer;text-decoration:none;box-shadow:0 8px 20px rgba(101,72,232,.24);transition:.16s ease}
+.c-dl:hover{background:#5637dd;border-color:#5637dd;transform:translateY(-2px);box-shadow:0 12px 26px rgba(101,72,232,.32)}
+.c-dl-ghost{background:var(--surface);color:var(--violet);border:1px solid color-mix(in srgb,var(--violet) 42%,var(--line));box-shadow:0 1px 2px rgba(45,34,105,.06)}
+.c-dl-ghost:hover{background:color-mix(in srgb,var(--violet) 12%,var(--surface));border-color:color-mix(in srgb,var(--violet) 62%,var(--line));box-shadow:0 1px 2px rgba(45,34,105,.06)}
+.c-meta{position:relative;z-index:1;font-size:12px;color:var(--muted-2);margin-top:14px}
+.c-flow{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:4px 0 2px}
+.c-flow span{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface-2);font-size:12.5px;font-weight:700;color:var(--text)}
+.c-flow span b{width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);font-size:10.5px;font-weight:800}
+.c-flow i{font-style:normal;color:var(--muted-2);font-weight:800}
+.c-toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:9px;margin:6px 0 4px}
+.c-toc a{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);color:var(--text);text-decoration:none;font-size:12.5px;font-weight:650;transition:.15s ease}
+.c-toc a:hover{border-color:color-mix(in srgb,var(--primary) 38%,var(--line));background:var(--primary-soft);color:var(--primary);transform:translateY(-1px)}
+.c-toc i{font-style:normal;width:23px;height:23px;flex-shrink:0;border-radius:7px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);font-size:10.5px;font-weight:800;color:var(--primary)}
+.c-sub{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:800;color:var(--text);margin:0 0 10px}
+.c-sub span{flex-shrink:0;min-width:26px;height:23px;padding:0 6px;border-radius:7px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);font-size:11px;font-weight:800}
+.c-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 6px;color:var(--muted)}
+/* Фон красных блоков мешаем из --danger и --surface: переменная --danger-soft
+   в базе не переопределяется для тёмной темы и осталась бы светлой. */
+.c-rule{background:color-mix(in srgb,var(--danger) 13%,var(--surface));border:1px solid color-mix(in srgb,var(--danger) 30%,var(--line));border-left:4px solid var(--danger);border-radius:12px;padding:12px 15px;margin:11px 0;font-size:13px;line-height:1.62;color:var(--text)}
+.c-rule b{color:color-mix(in srgb,var(--danger) 62%,var(--text));font-weight:800}
+.c-note{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:11px 0;font-size:13px;line-height:1.62;color:var(--text)}
+.c-note b{font-weight:740}
+.c-tip{background:var(--violet-soft);border:1px solid color-mix(in srgb,var(--violet) 24%,var(--line));border-left:4px solid var(--violet);border-radius:12px;padding:12px 15px;margin:11px 0;font-size:13px;line-height:1.62;color:var(--text)}
+.c-tip b{color:var(--violet);font-weight:800}
+.c-ul,.c-ol{margin:8px 0;padding-left:21px;font-size:13.5px;line-height:1.68;color:var(--text)}
+.c-ul li,.c-ol li{margin-bottom:7px}
+.c-ul li:last-child,.c-ol li:last-child{margin-bottom:0}
+.c-check{list-style:none;margin:8px 0;padding:0;font-size:13.5px;line-height:1.6;color:var(--text)}
+.c-check li{position:relative;padding:9px 12px 9px 40px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2);margin-bottom:7px}
+.c-check li:last-child{margin-bottom:0}
+.c-check li:before{content:"";position:absolute;left:13px;top:12px;width:15px;height:15px;border-radius:5px;border:2px solid color-mix(in srgb,var(--primary) 50%,var(--line));background:var(--surface)}
+.c-check li b{font-weight:750}
+.c-check li em{display:block;font-style:normal;font-size:12.2px;color:var(--muted);margin-top:2px}
+.c-no{list-style:none;margin:8px 0;padding:0;font-size:13.5px;line-height:1.6;color:var(--text)}
+.c-no li{position:relative;padding:11px 14px 11px 42px;border:1px solid color-mix(in srgb,var(--danger) 30%,var(--line));border-radius:11px;background:color-mix(in srgb,var(--danger) 13%,var(--surface));margin-bottom:8px;font-weight:650}
+.c-no li:last-child{margin-bottom:0}
+.c-no li:before{content:"✕";position:absolute;left:15px;top:10px;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background:var(--danger);color:#fff;font-size:10px;font-weight:800}
+.c-msg{background:var(--surface-3);border:1px solid color-mix(in srgb,var(--primary) 24%,var(--line));border-left:4px solid var(--primary);border-radius:12px;padding:13px 16px;margin:9px 0;font-size:13.5px;line-height:1.7;color:var(--text)}
+.c-msg p{margin:0 0 9px}
+.c-msg p:last-child{margin-bottom:0}
+.c-path{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--text)}
+.c-path code{background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:3px 8px;font-size:12.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--primary)}
+.c-path i{font-style:normal;color:var(--muted-2);font-weight:800}
+.c-anchor{scroll-margin-top:18px}
+@media(max-width:650px){.c-toc{grid-template-columns:1fr}.c-flow span{font-size:12px}}
+</style>
+
+<div class="c-part" data-id="overview" data-nav="Обзор" data-title="Создание договора">
+<div class="page-header">
+  <h1>Создание договора</h1>
+  <p>Памятка для сотрудников: как создать договор с нуля — от сбора данных клиента до переноса папки после подписи и оплаты. Порядок строгий, шаги не переставляются и не пропускаются.</p>
+  <div class="c-hero-actions">
+    <a class="c-dl" href="contracts/pamyatka-sozdanie-dogovora.docx" download>
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+      Скачать памятку (.docx)
+    </a>
+    <a class="c-dl c-dl-ghost" href="#c-7">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg>
+      Что запрещено
+    </a>
+  </div>
+  <div class="c-meta">Памятка по созданию договоров · серия «Исполнитель — ИП Чалова Т. В.»</div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">Порядок работы</h3>
+  <p style="font-size:13.5px;line-height:1.65;color:var(--muted)">Шесть шагов подряд. Каждый следующий начинается только тогда, когда полностью закрыт предыдущий.</p>
+  <div class="c-flow">
+    <span><b>1</b>Папка клиента</span><i>→</i>
+    <span><b>2</b>Claude</span><i>→</i>
+    <span><b>3</b>Проверка</span><i>→</i>
+    <span><b>4</b>PDF</span><i>→</i>
+    <span><b>5</b>Отправка</span><i>→</i>
+    <span><b>6</b>Перенос папки</span>
+  </div>
+  <div class="c-rule"><b>Правило:</b> перенос папки в «Список клиентов» — только после того, как клиент И подписал договор, И оплатил счёт. Ни раньше, ни «на всякий случай».</div>
+</div>
+
+<h2>Содержание</h2>
+<div class="c-toc">
+  <a href="#c-1"><i>1</i>Данные клиента — 8 позиций</a>
+  <a href="#c-2"><i>2</i>Папка на Google Диске</a>
+  <a href="#c-3"><i>3</i>Запрос договора у Claude</a>
+  <a href="#c-4"><i>4</i>Проверка договора</a>
+  <a href="#c-5"><i>5</i>Отправка договора</a>
+  <a href="#c-6"><i>6</i>После подписи и оплаты</a>
+  <a href="#c-7"><i>7</i>Что запрещено</a>
+</div>
+</div>
+
+<div class="c-part" data-id="data" data-nav="1. Данные клиента" data-title="1. Данные клиента — 8 позиций">
+<h2 id="c-1" class="c-anchor">Шаг 1. Собери данные клиента</h2>
+<div class="card">
+  <div class="c-sub"><span>8</span> позиций, без которых договор не сделать</div>
+  <p style="font-size:13.5px;color:var(--muted);margin-bottom:4px">Без любой из них Claude остановится и переспросит — быстрее собрать всё сразу, одним заходом.</p>
+  <ul class="c-check">
+    <li><b>Номер договора</b><em>Уточнить у руководителя. Нумерация прыгает — брать «следующий по порядку» нельзя.</em></li>
+    <li><b>Карточка реквизитов заказчика</b> — файлом или текстом<em>Наименование, ИНН, ОГРНИП/ОГРН, адрес, банк, р/с, к/с, БИК. Для ООО — дополнительно КПП и ФИО директора.</em></li>
+    <li><b>Дата старта договора</b></li>
+    <li><b>Сумма</b> — фиксированная, руб./мес.</li>
+    <li><b>Количество артикулов</b> — «до N»</li>
+    <li><b>Маркетплейс</b> — OZON или Wildberries</li>
+    <li><b>Телефон и e-mail заказчика</b></li>
+    <li><b>Порог для 3,5%</b> — 1 млн / 500 тыс. / «без процента»<em>Обязательно согласован с руководителем. Ставить «по умолчанию» нельзя.</em></li>
+  </ul>
+  <div class="c-rule"><b>Правило:</b> если какого-то пункта нет — сначала узнай у руководителя, и только потом продолжай. Не подставляй значения от себя.</div>
+</div>
+</div>
+
+<div class="c-part" data-id="folder" data-nav="2. Папка на Диске" data-title="2. Папка клиента на Google Диске">
+<h2 id="c-2" class="c-anchor">Шаг 2. Создай папку клиента на Google Диске</h2>
+<div class="card">
+  <div class="c-sub"><span>2.1</span> Куда идти</div>
+  <div class="c-path">
+    <code>Документы</code><i>→</i><code>Клиенты-2. В ожидании подписи</code><i>→</i><span>создать папку</span>
+  </div>
+  <div class="c-label">Название папки</div>
+  <div class="c-note"><b>Формат:</b> «[Номер договора]. [Название организации]».<br>Пример: <b>109. ИП Иванов</b></div>
+</div>
+<div class="card">
+  <div class="c-sub"><span>2.2</span> Что положить внутрь</div>
+  <p style="font-size:13.5px;color:var(--muted);margin-bottom:4px">Вся информация о клиенте живёт в этой папке — чтобы потом ничего не искать по чатам:</p>
+  <ul class="c-ul">
+    <li>карточка реквизитов;</li>
+    <li>свидетельства (ОГРНИП/ИНН и прочие документы);</li>
+    <li>переписка по условиям — всё, о чём договорились.</li>
+  </ul>
+</div>
+</div>
+
+<div class="c-part" data-id="claude" data-nav="3. Запрос у Claude" data-title="3. Запрос договора у Claude">
+<h2 id="c-3" class="c-anchor">Шаг 3. Запроси договор у Claude</h2>
+<div class="card">
+  <div class="c-sub"><span>3.1</span> Где писать</div>
+  <div class="c-path">
+    <code>Claude</code><i>→</i><code>проект «Договора.»</code><i>→</i><span>уже созданный чат или новый</span>
+  </div>
+  <div class="c-note">Приложи карточку реквизитов и опиши задачу <b>одним сообщением</b> — так меньше уточняющих вопросов.</div>
+</div>
+<div class="card">
+  <div class="c-sub"><span>3.2</span> Пример сообщения</div>
+  <div class="c-msg">
+    <p>Создай договор №139. Карточка во вложении. ИП, мужчина. Старт 10.08.2026, сумма 45 000, до 50 артикулов, OZON, порог 500 000. Тел. +7…, почта …@….</p>
+  </div>
+  <div class="c-rule"><b>Правило:</b> если Claude задаёт вопросы — отвечай точно. Не проси «поставить по умолчанию»: любой недостающий параметр сначала уточняется у руководителя.</div>
+</div>
+</div>
+
+<div class="c-part" data-id="check" data-nav="4. Проверка" data-title="4. Проверка договора">
+<h2 id="c-4" class="c-anchor">Шаг 4. Скачай и проверь договор</h2>
+<div class="card">
+  <div class="c-sub"><span>4.1</span> Куда положить</div>
+  <p style="font-size:13.5px;color:var(--muted);margin-bottom:4px">Получи готовый <b>.docx</b> от Claude, скачай и помести в папку клиента на Google Диске. Затем открой и проверь глазами.</p>
+</div>
+<div class="card">
+  <div class="c-sub"><span>4.2</span> Что проверить</div>
+  <ul class="c-check">
+    <li><b>Вёрстка не поплыла</b><em>Никаких съехавших блоков, всё ровно, документ — ровно на 7 страницах.</em></li>
+    <li><b>Все данные совпадают с карточкой</b><em>Цены, даты (срок — ровно 1 год), количество артикулов, маркетплейс, реквизиты заказчика.</em></li>
+    <li><b>Род правильный</b><em>«именуемый» / «именуемая» — по полу заказчика.</em></li>
+    <li><b>Номер договора стоит в двух местах</b><em>В шапке И в Приложении №1.</em></li>
+    <li><b>Порог — как согласовано</b><em>Тот, что подтвердил руководитель, а не «по умолчанию».</em></li>
+    <li><b>Блок Исполнителя не изменён</b><em>Реквизиты ИП Чалова остаются как есть.</em></li>
+  </ul>
+  <div class="c-tip"><b>Не забудь:</b> убедись, что Claude добавил договор в журнал проекта (<b>journal.md</b>). Если не добавил — попроси добавить.</div>
+</div>
+</div>
+
+<div class="c-part" data-id="send" data-nav="5. Отправка" data-title="5. Отправка договора">
+<h2 id="c-5" class="c-anchor">Шаг 5. Отправь договор</h2>
+<div class="card">
+  <div class="c-rule"><b>Правило:</b> отправляем только после перепроверки по шагу 4. Непроверенный договор не уходит клиенту ни при каких обстоятельствах.</div>
+  <div class="c-label">Два пути отправки</div>
+  <ul class="c-ul">
+    <li><b>Через бухгалтера</b> — скинуть в общий чат в Max, бухгалтер отправит по ЭДО.</li>
+    <li><b>Напрямую клиенту</b> — обязательно в формате <b>PDF</b>.</li>
+  </ul>
+  <div class="c-note"><b>Как получить PDF:</b> Word-файл на Google Диске скачивается как PDF прямо на Диске — <b>Файл → Скачать → PDF</b>. Отдельная конвертация не нужна.</div>
+</div>
+</div>
+
+<div class="c-part" data-id="after" data-nav="6. После подписи" data-title="6. После подписания и оплаты">
+<h2 id="c-6" class="c-anchor">Шаг 6. После подписания и оплаты</h2>
+<div class="card">
+  <div class="c-rule"><b>Условие:</b> шаг выполняется, только когда клиент <b>подписал договор</b> И <b>оплатил счёт</b>. Одного из двух недостаточно.</div>
+  <ul class="c-ul">
+    <li><b>Перенеси папку клиента</b> из «Клиенты-2. В ожидании подписи» в папку <b>«Список клиентов»</b>. Строго не раньше.</li>
+    <li><b>Если договор подписан сканом</b> — скан с подписью клиента обязательно положи в папку клиента, чтобы там была вся информация.</li>
+    <li><b>Все дальнейшие документы</b> — правки, допсоглашения и прочее по этому клиенту — сохраняй только в эту папку.</li>
+  </ul>
+  <div class="c-path" style="margin-top:12px">
+    <code>Клиенты-2. В ожидании подписи</code><i>→</i><code>Список клиентов</code>
+  </div>
+</div>
+</div>
+
+<div class="c-part" data-id="forbidden" data-nav="7. Запрещено" data-title="7. Что запрещено">
+<h2 id="c-7" class="c-anchor">Запрещено</h2>
+<div class="card">
+  <p style="font-size:13.5px;color:var(--muted);margin-bottom:4px">Пять вещей, которые нельзя делать ни при каких условиях:</p>
+  <ul class="c-no">
+    <li>Брать за основу старые договора №107–137</li>
+    <li>Менять реквизиты Исполнителя (ИП Чалова)</li>
+    <li>Ставить порог «по умолчанию» без согласования</li>
+    <li>Отправлять договор без проверки по шагу 4</li>
+    <li>Переносить папку в «Список клиентов» до подтверждения подписи и оплаты</li>
+  </ul>
+</div>
+</div>

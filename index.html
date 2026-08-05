@@ -207,19 +207,14 @@ function injectMaterialsLink(doc){
   const site=[...materials.querySelectorAll('a.external-nav')].pop();
   if(site){site.after(link)}else{materials.appendChild(link)}
 }
-// Раздел «Скоро»: вместо «Менеджер» и «Специалист» — «Создание договора»
+// Раздел «Скоро»: пунктов больше нет — «Создание договора» стал полноценным разделом.
+// Чистим заглушки и прячем секцию целиком, чтобы в сайдбаре не висел пустой заголовок.
 function rebuildComingSoon(doc){
   const items=[...doc.querySelectorAll('.coming-soon')];
   if(!items.length)return;
   const host=items[0].parentElement;
   items.forEach(el=>el.remove());
-  const item=doc.createElement('div');
-  item.className='coming-soon';
-  item.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">'+
-    '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>'+
-    '<line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>'+
-    'Создание договора<span class="badge-soon">скоро</span>';
-  host.appendChild(item);
+  if(host&&!host.querySelector('.nav-btn,.coming-soon'))host.style.display='none';
 }
 // Раздел «Менеджер по продажам» — нативные секции внутри базы знаний
 const MANAGER_TOC={'m-1':'prep','m-2':'logic','m-3':'scripts','m-4':'audit','m-5':'business','m-6':'price','m-7':'cases','m-8':'process','m-9':'objections','m-10':'extras','m-11':'rules','m-shpargalka':'cheatsheet'};
@@ -294,7 +289,71 @@ async function injectManagerSection(doc){
     hook.textContent="try{Object.assign(sectionMeta,{"+metaPairs.join(',')+"});index=searchIndex();"+
       "var last=store.get('kb-section');if(last&&last.indexOf('mgr-')===0)show(last,false)}catch(e){}";
     doc.body.appendChild(hook);
+    await injectContractsSection(doc);
   }catch(e){console.warn('Manager section injection failed',e)}
+}
+// Раздел «Создание договора» — нативные секции, идут сразу за «Менеджером по продажам»
+const CONTRACTS_TOC={'c-1':'data','c-2':'folder','c-3':'claude','c-4':'check','c-5':'send','c-6':'after','c-7':'forbidden'};
+function goContractsPart(doc,id,title){
+  const w=doc.defaultView;
+  if(w&&typeof w.show==='function')w.show('dog-'+id);
+  const topbar=doc.getElementById('current-page');
+  if(topbar)topbar.textContent=title;
+}
+async function injectContractsSection(doc){
+  try{
+    if(doc.getElementById('contracts-section'))return;
+    const response=await fetch('contracts-section.html',{cache:'no-cache'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const holder=doc.createElement('div');
+    holder.innerHTML=await response.text();
+    const shell=doc.querySelector('.content-shell');
+    if(!shell)return;
+    const style=holder.querySelector('style');
+    if(style)doc.head.appendChild(style);
+    const navSection=doc.createElement('div');
+    navSection.className='sidebar-section';navSection.id='contracts-section';
+    const label=doc.createElement('div');label.className='sidebar-section-label';label.textContent='Создание договора';
+    navSection.appendChild(label);
+    const parts=[...holder.querySelectorAll('.c-part')];
+    const metaPairs=[];
+    parts.forEach(part=>{
+      const id=part.dataset.id,title=part.dataset.title,nav=part.dataset.nav;
+      const section=doc.createElement('div');
+      section.className='section';section.id='sec-dog-'+id;
+      section.innerHTML=part.innerHTML;
+      shell.appendChild(section);
+      metaPairs.push("'dog-"+id+"':"+JSON.stringify(title));
+      const button=doc.createElement('button');
+      button.className='nav-btn';button.type='button';button.id='btn-dog-'+id;
+      button.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/></svg>'+nav;
+      button.addEventListener('click',()=>goContractsPart(doc,id,title));
+      navSection.appendChild(button);
+    });
+    // Плитки «Содержания» и кнопка «Что запрещено» ведут на нужный шаг
+    shell.querySelectorAll('#sec-dog-overview a[href^="#c-"]').forEach(link=>{
+      const target=CONTRACTS_TOC[link.getAttribute('href').slice(1)];
+      if(!target)return;
+      const part=parts.find(p=>p.dataset.id===target);
+      link.setAttribute('href','javascript:void(0)');
+      link.addEventListener('click',event=>{event.preventDefault();goContractsPart(doc,target,part?part.dataset.title:'')});
+    });
+    // Вставляем секцию сразу после «Менеджера по продажам»
+    const manager=doc.getElementById('manager-section');
+    const separator=doc.createElement('div');separator.className='nav-sep';
+    if(manager){
+      const after=manager.nextElementSibling&&manager.nextElementSibling.classList.contains('nav-sep')?manager.nextElementSibling:manager;
+      after.after(navSection);navSection.after(separator);
+    }else{
+      const sidebar=doc.getElementById('sidebar');
+      if(sidebar)sidebar.appendChild(navSection);
+    }
+    makeCollapsible(navSection,'kb-collapse-contracts');
+    const hook=doc.createElement('script');
+    hook.textContent="try{Object.assign(sectionMeta,{"+metaPairs.join(',')+"});index=searchIndex();"+
+      "var last=store.get('kb-section');if(last&&last.indexOf('dog-')===0)show(last,false)}catch(e){}";
+    doc.body.appendChild(hook);
+  }catch(e){console.warn('Contracts section injection failed',e)}
 }
 // Сворачивание/разворачивание списка пунктов в секции сайдбара
 function makeCollapsible(section,storeKey){
