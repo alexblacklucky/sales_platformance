@@ -154,6 +154,7 @@ function injectAnalyticsLink(){
     rebuildComingSoon(doc);
     injectMaterialsLink(doc);
     rewriteCompanySiteLinks(doc);
+    injectQualifierVideoButton(doc);
     // Собираем отдельную большую секцию «Аналитика»
     const mkBtn=(icon,label,fn)=>{const b=doc.createElement('button');b.className='nav-btn';b.type='button';b.innerHTML=icon+label;b.addEventListener('click',fn);return b};
     const icoAvito='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-7"/></svg>';
@@ -208,6 +209,23 @@ function injectMaterialsLink(doc){
     'Основные файлы<span class="external-arrow">↗</span>';
   const site=[...materials.querySelectorAll('a.external-nav')].pop();
   if(site){site.after(link)}else{materials.appendChild(link)}
+}
+// Кнопка «Видеообучение» на главной странице квалификатора («Роли и движение клиента»).
+// Страница зашита в закреплённый коммит BASE_SITE_URL, поэтому кнопку добавляем после загрузки.
+const VIDEO_TRAINING_URL='https://drive.google.com/drive/folders/1nnvKLA4vlZCiGnA8WhaCKCotRnsG9Ipk?usp=sharing';
+function injectQualifierVideoButton(doc){
+  if(doc.getElementById('qualifier-video-btn'))return;
+  const header=doc.querySelector('#sec-roles .page-header');
+  if(!header)return;
+  const wrap=doc.createElement('div');
+  wrap.style.cssText='position:relative;z-index:2;margin-top:16px;display:flex;gap:10px;flex-wrap:wrap';
+  const a=doc.createElement('a');
+  a.id='qualifier-video-btn';a.href=VIDEO_TRAINING_URL;a.target='_blank';a.rel='noopener noreferrer';
+  a.style.cssText='display:inline-flex;align-items:center;gap:9px;background:#0f9d76;color:#fff;border:1px solid #0f9d76;border-radius:11px;padding:11px 17px;font-size:13px;font-weight:750;text-decoration:none;box-shadow:0 8px 20px rgba(15,157,118,.24)';
+  a.innerHTML='<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polygon points="10 8 16 12 10 16" fill="currentColor" stroke="none"/></svg>'+
+    'Видеообучение<span style="font-size:11px;opacity:.85">↗</span>';
+  wrap.appendChild(a);
+  header.appendChild(wrap);
 }
 // Ссылка «Наш сайт» внутри базы знаний зашита в закреплённый коммит BASE_SITE_URL —
 // файл напрямую не редактируем, поэтому переписываем href на актуальный домен после загрузки.
