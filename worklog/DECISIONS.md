@@ -79,3 +79,17 @@ DNS настроен заказчиком на reg.ru). Старый адрес 
 из закреплённого коммита и не редактируется напрямую) переписывается в рантайме
 функцией `rewriteCompanySiteLinks(doc)`.
 </content>
+
+### 2026-08-24 · Видеообучение — одна папка Google Диска для всех кнопок
+Все кнопки видеообучения на сайте («Видео-инструкция» в «Менеджере по продажам»,
+«Видеообучение» в «Создании договора» и на главной квалификатора) ведут на одну
+папку: `https://drive.google.com/drive/folders/1nnvKLA4vlZCiGnA8WhaCKCotRnsG9Ipk`.
+URL хранится в `index.html` константой `VIDEO_TRAINING_URL` (для инжекта в
+квалификатор); в `manager-section.html` и `contracts-section.html` он прописан
+в href кнопок. При смене папки — менять во всех трёх местах.
+
+### 2026-08-24 · Private-репозиторий выключает GitHub Pages насовсем
+На бесплатном тарифе перевод репозитория в private отключает Pages, и возврат
+в public его НЕ включает обратно. Чинится вручную: Settings → Pages → Source
+«Deploy from a branch» → `main` / `(root)`, проверить Custom domain
+`platformance-team.ru` и Enforce HTTPS. DNS при этом трогать не нужно.
