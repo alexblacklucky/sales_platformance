@@ -1,0 +1,90 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Аналитика Bitrix24 — Воронка продаж · Август 2026</title><style>
+:root{--bg:#f6f3ff;--card:#fff;--line:#ddd5fa;--text:#241c4f;--muted:#746d91;--purple:#6846e8;--purple2:#9270ff;--green:#16875b;--red:#d14343;--amber:#c2871b;--shadow:0 12px 34px rgba(61,39,121,.08)}*{box-sizing:border-box}body{margin:0;padding:28px 22px 54px;font:14px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(900px 430px at 0 -8%,rgba(139,92,246,.15),transparent 62%),linear-gradient(#fcfbff,#f5f2ff)}.wrap{max-width:1240px;margin:auto}
+.hero{padding:26px 28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(135deg,#fff,#eee8ff);box-shadow:var(--shadow);margin-bottom:26px}.hero small{font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:var(--purple)}h1{font-size:30px;line-height:1.15;margin:7px 0 7px;letter-spacing:-.03em}.hero p{margin:0;color:var(--muted)}
+h2{font-size:19px;margin:30px 0 14px;display:flex;align-items:center;gap:9px}.dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple2));box-shadow:0 0 0 5px rgba(104,70,232,.1)}
+.note{background:linear-gradient(145deg,#fff8ec,#fff);border:1px solid #f0dcb4;border-left:4px solid var(--amber);border-radius:14px;padding:15px 18px;margin-bottom:22px;font-size:13px;color:#5c4a24;box-shadow:var(--shadow)}.note b{color:#3f3316}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}.sum{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:15px;padding:17px}.sum span{display:block;color:var(--muted);font-size:12px}.sum strong{display:block;font-size:26px;margin-top:6px;letter-spacing:-.02em}.sum em{display:block;color:var(--muted);font-size:11px;font-style:normal;margin-top:5px;line-height:1.4}.sum.hl{background:linear-gradient(140deg,#6846e8,#9270ff);border-color:transparent;color:#fff}.sum.hl span,.sum.hl em{color:rgba(255,255,255,.82)}
+.funnel{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:22px 24px}.fstep{margin:0 0 14px}.fstep:last-child{margin-bottom:0}.fhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:12px}.fhead b{font-size:15px}.fhead .cnt{font-size:13px;color:var(--muted)}.fhead .cnt b{color:var(--text);font-size:17px}.fbar{height:34px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;padding-left:14px;color:#fff;font-weight:800;font-size:13px;min-width:64px;box-shadow:0 6px 16px rgba(104,70,232,.2);transition:width .5s}.fstep.s2 .fbar{background:linear-gradient(135deg,#7a59ee,#a886ff)}.fstep.s3 .fbar{background:linear-gradient(135deg,#16875b,#3bbd84)}.fconv{font-size:11px;color:var(--muted);margin-top:5px}.fconv b{color:var(--green)}
+.tablecard{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:8px 6px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:520px}th,td{text-align:left;padding:11px 14px;font-size:13px}th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}td{border-bottom:1px solid #f0ecfb}tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.cnt{font-weight:800;font-size:15px}td.pct{font-weight:800;font-size:15px;text-align:right;font-variant-numeric:tabular-nums}td.sub{color:var(--muted);font-size:12px}td.fix{color:var(--amber);font-size:11px;font-weight:700}
+.tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800}.tag.meet{color:var(--purple);background:#efeaff}.tag.win{color:var(--green);background:#e9f8f1}.tag.lost{color:var(--red);background:#fff0ef}.tag.mid{color:var(--amber);background:#fdf4e3}.tag.coop{color:#1d6fb8;background:#e7f1fb}.tag.none{color:var(--muted);background:#f3f1f8}
+.qbar{height:9px;border-radius:999px;background:#f2eefc;min-width:110px}.qbar i{display:block;height:100%;border-radius:999px}.b-win{background:linear-gradient(135deg,#16875b,#3bbd84)}.b-lost{background:linear-gradient(135deg,#d14343,#f07a7a)}.b-mid{background:linear-gradient(135deg,#c2871b,#e8b455)}.b-meet{background:linear-gradient(135deg,#6846e8,#9270ff)}.b-coop{background:linear-gradient(135deg,#1d6fb8,#5aa4e0)}.b-none{background:linear-gradient(135deg,#a9a2bd,#cbc6da)}
+.recs{background:linear-gradient(145deg,#fff,#f2edff);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:21px 24px}.recs ul{margin:0;padding-left:20px}.recs li{margin:0 0 11px;color:#443b68}.recs li:last-child{margin-bottom:0}.recs b{color:var(--text)}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:28px}
+@media(max-width:650px){body{padding:16px 10px 36px}.hero{padding:21px 18px}h1{font-size:23px}.summary{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><main class="wrap">
+<header class="hero"><small>Bitrix24 Dashboard</small><h1>Воронка продаж в Битрикс24 — Август 2026</h1><p>Сводные показатели по сделкам квалификатора: входящие заявки, проведённые встречи, закрытые сделки и квалификация клиентов за месяц</p></header>
+
+<div class="note"><b>Важно про данные августа.</b> В канбане за август колонки «Сделка провалена» и «ОТВАЛИЛСЯ» были заполнены неверно — продавец смешал отказы после встречи с теми, кто вообще не вышел на связь. Фактическое число проведённых встреч — <b>25</b> (включая закрытые сделки), это ручная цифра от руководителя, а не сумма колонок. По ней сделан пересчёт: в «Сделка провалена» оставлены <b>18</b> отказов после встречи (25 − 7 закрытых), остальные <b>41</b> перенесены в «ОТВАЛИЛСЯ» как нецелевые (31 → 72). Общее число сделок за месяц (168) не изменилось. С сентября канбан ведётся корректно.</div>
+
+<h2><span class="dot"></span>Ключевые показатели</h2>
+<section class="summary" id="summary"></section>
+
+<h2><span class="dot"></span>Воронка продаж</h2>
+<section class="funnel" id="funnel"></section>
+
+<h2><span class="dot"></span>Квалификация клиентов</h2>
+<section class="tablecard"><table><thead><tr><th>Категория</th><th>Стадии канбана</th><th class="n">Сделок</th><th class="n">Доля</th><th></th></tr></thead><tbody id="qual"></tbody></table></section>
+
+<h2><span class="dot"></span>Распределение по стадиям</h2>
+<section class="tablecard"><table><thead><tr><th>Стадия в Битрикс24</th><th class="n">Сделок</th><th>Категория</th><th>Правка</th></tr></thead><tbody id="stages"></tbody></table></section>
+
+<h2><span class="dot"></span>Выводы по воронке</h2>
+<section class="recs"><ul id="recs"></ul></section>
+
+<footer>Аналитика Bitrix24 · Август 2026 · собрано вручную на основе канбана сделок (фильтр «Дата начала: Август 2026»), колонки «Сделка провалена» и «ОТВАЛИЛСЯ» скорректированы по фактическому числу встреч</footer>
+</main><script>
+const TOTAL=168, MEET=25, WON=7, QUAL=31, SPEND=189158.4;
+const pc=v=>v.toFixed(1).replace('.',',');
+const summary=[
+  ['Всего заявок / контактов', TOTAL, 'все карточки сделок в воронке за месяц'],
+  ['Провёл встречу', MEET, 'фактическая цифра от руководителя (колонки канбана в августе смешаны)'],
+  ['Успешных сделок', WON, 'закрытые сделки за август (колонка «Сделка успешна»)', 'hl'],
+  ['Квал-лидов', QUAL, pc(QUAL/TOTAL*100)+'% от всех заявок: надо подумать, моросят, договор/счёт, провалена, успешна'],
+  ['Конверсия в встречу', pc(MEET/TOTAL*100)+'%', 'встречи / заявки'],
+  ['Встреча → сделка', pc(WON/MEET*100)+'%', 'успешные / проведённые встречи'],
+  ['Общая конверсия воронки', pc(WON/TOTAL*100)+'%', 'успешные сделки / все заявки'],
+  ['Цена квал-лида', Math.round(SPEND/QUAL).toLocaleString('ru-RU')+' ₽', 'расходы Avito за август ÷ квал-лиды']
+];
+const funnel=[
+  ['Заявки / контакты', TOTAL, 1, null],
+  ['Провёл встречу', MEET, 2, 'заявка → встреча'],
+  ['Успешная сделка', WON, 3, 'встреча → сделка']
+];
+const qual=[
+  ['В работе, пока непонятно','новые, вопросы, созвониться, раскачиваю, договориться на видеовстречу, в работе сейчас, на презентации',4,'mid'],
+  ['Квал-лиды','надо подумать, моросят, договор счёт, сделка провалена, сделка успешна',31,'win'],
+  ['Дорого','БОМЖИК ИКС 2',24,'meet'],
+  ['Глухой — не вышел на связь','ОТВАЛИЛСЯ (неквал: общение не началось)',72,'lost'],
+  ['Спам','Сотрудничество (входящие предложения, не клиенты)',33,'coop'],
+  ['Не учитывается','2025',4,'none']
+];
+const stages=[
+  ['НОВЫЕ',0,'mid','В работе',''],['Вопросы',3,'mid','В работе',''],['Созвониться',0,'mid','В работе',''],
+  ['Раскачиваю',0,'mid','В работе',''],['Договориться на видеовстречу',0,'mid','В работе',''],['В работе сейчас',0,'mid','В работе',''],
+  ['На презентации',1,'mid','В работе',''],
+  ['Надо подумать',4,'win','Квал',''],['Моросят',2,'win','Квал',''],['Договор счёт',0,'win','Квал',''],
+  ['Сделка провалена',18,'win','Квал','было 59'],['Сделка успешна',7,'win','Квал',''],
+  ['БОМЖИК ИКС 2',24,'meet','Дорого',''],
+  ['ОТВАЛИЛСЯ',72,'lost','Глухой','было 31'],
+  ['Сотрудничество',33,'coop','Спам',''],['2025',4,'none','—','']
+];
+const recs=[
+  '<b>Заявок стало заметно больше, а сделок — меньше:</b> 168 заявок против 118 в июле (+42,4%), но встреч 25 против 46 и сделок 7 против 13. Общая конверсия воронки упала с 11,0% до 4,2%. Рост трафика с Avito (расходы +75%) отдел обработать не успел — узкое место сместилось с качества встреч на скорость обработки входящих.',
+  '<b>Главная потеря месяца — «глухие»: 72 заявки, 42,9% от всех.</b> Это люди, которые вообще не вышли на связь и не начали общение. Почти половина оплаченного трафика не доходит даже до первого разговора. Это самый дорогой резерв: сокращение «глухих» вдвое дало бы примерно вдвое больше квал-лидов без увеличения бюджета. Смотреть надо на скорость первого касания и число попыток дозвона.',
+  '<b>Квал-лидов 31 (18,5% от заявок), из них закрыто 7 — конверсия квал-лида в сделку 22,6%.</b> Цена квал-лида — 6 102 ₽ при расходах Avito 189 158,4 ₽ за август. Это рабочий ориентир для планирования бюджета на сентябрь.',
+  '<b>«Дорого» — 24 заявки (14,3%), вторая по размеру категория после глухих.</b> Эти клиенты дошли до обсуждения цены и отвалились на ней. Работа с этой группой (пакеты, рассрочка, демонстрация ценности, возврат через 1–2 месяца) — самый быстрый способ поднять число сделок без роста трафика.',
+  '<b>Спам занимает пятую часть воронки — 33 заявки (19,6%).</b> Это входящие предложения о сотрудничестве, а не клиенты. Их стоит отсекать до попадания в канбан, иначе они завышают число заявок и занижают все конверсии: без спама и стадии «2025» реальная база месяца — 131 заявка, и конверсия в сделку составила бы 5,3%.',
+  '<b>Встреча → сделка держится на уровне июля:</b> 28,0% против 28,3%. Само качество встреч не просело — просело их количество (25 против 46). То есть проблема августа не в презентации, а в том, что до презентации доводят слишком мало заявок.',
+  '<b>Стоимость успешной сделки выросла до 27 023 ₽</b> (8 298 ₽ в июле): расходы на Avito выросли на 75%, а сделок стало вдвое меньше. Сентябрь надо начинать не с наращивания бюджета, а с обработки уже оплаченного потока — в первую очередь с «глухих» и «дорого».'
+];
+const S=document.getElementById('summary');
+summary.forEach(x=>S.insertAdjacentHTML('beforeend',`<article class="sum ${x[3]||''}"><span>${x[0]}</span><strong>${x[1]}</strong>${x[2]?`<em>${x[2]}</em>`:''}</article>`));
+const F=document.getElementById('funnel');
+funnel.forEach(f=>{const p=(f[1]/TOTAL*100);F.insertAdjacentHTML('beforeend',`<div class="fstep s${f[2]}"><div class="fhead"><b>${f[0]}</b><span class="cnt"><b>${f[1]}</b> · ${pc(p)}% от заявок</span></div><div class="fbar" style="width:${Math.max(p,5)}%">${f[1]}</div>${f[3]?`<div class="fconv">${f[3]}: <b>${f[2]==2?pc(MEET/TOTAL*100):pc(WON/MEET*100)}%</b></div>`:''}</div>`)});
+const Q=document.getElementById('qual');
+qual.forEach(q=>{const p=q[2]/TOTAL*100;Q.insertAdjacentHTML('beforeend',`<tr><td><span class="tag ${q[3]}">${q[0]}</span></td><td class="sub">${q[1]}</td><td class="n cnt">${q[2]}</td><td class="pct">${pc(p)}%</td><td><div class="qbar"><i class="b-${q[3]}" style="width:${p}%"></i></div></td></tr>`)});
+const ST=document.getElementById('stages');
+stages.forEach(s=>ST.insertAdjacentHTML('beforeend',`<tr><td>${s[0]}</td><td class="n cnt">${s[1]}</td><td><span class="tag ${s[2]}">${s[3]}</span></td><td class="fix">${s[4]}</td></tr>`));
+const R=document.getElementById('recs');
+recs.forEach(r=>R.insertAdjacentHTML('beforeend',`<li>${r}</li>`));
+</script></body></html>
