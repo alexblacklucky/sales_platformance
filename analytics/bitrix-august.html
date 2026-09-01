@@ -87,7 +87,7 @@ const F=document.getElementById('funnel');
 funnel.forEach(f=>{const p=(f[1]/TOTAL*100);F.insertAdjacentHTML('beforeend',`<div class="fstep s${f[2]}"><div class="fhead"><b>${f[0]}</b><span class="cnt"><b>${f[1]}</b> · ${pc(p)}% от заявок</span></div><div class="fbar" style="width:${Math.max(p,5)}%">${f[1]}</div>${f[3]?`<div class="fconv">${f[3]}: <b>${f[2]==2?pc(MEET/TOTAL*100):pc(WON/MEET*100)}%</b></div>`:''}</div>`)});
 const Q=document.getElementById('qual');
 qual.forEach(q=>{const p=q[2]/TOTAL*100;Q.insertAdjacentHTML('beforeend',`<tr><td><span class="tag ${q[3]}">${q[0]}</span></td><td class="sub">${q[1]}</td><td class="n cnt">${q[2]}</td><td class="pct">${pc(p)}%</td><td><div class="qbar"><i class="b-${q[3]}" style="width:${p}%"></i></div></td></tr>`)});
-Q.insertAdjacentHTML('beforeend',`<tr class="total"><td><b>ИТОГО</b></td><td class="sub"><b>${AVITO}</b> контактов по данным Avito → <b>${TOTAL}</b> реально дошло до Битрикса (${pc(TOTAL/AVITO*100)}%; потеряно ${AVITO-TOTAL} контактов, ${pc((AVITO-TOTAL)/AVITO*100)}%)</td><td class="n cnt">${TOTAL}</td><td class="pct">100%</td><td></td></tr>`);
+Q.insertAdjacentHTML('beforeend',`<tr class="total"><td><b>ИТОГО</b></td><td class="sub"><b>${AVITO}</b> контактов по данным Avito → <b>${TOTAL}</b> реально дошло до Битрикса (${pc(TOTAL/AVITO*100)}%; потери — ${AVITO-TOTAL}, или ${pc((AVITO-TOTAL)/AVITO*100)}%)</td><td class="n cnt">${TOTAL}</td><td class="pct">100%</td><td></td></tr>`);
 const ST=document.getElementById('stages');
 stages.forEach(s=>ST.insertAdjacentHTML('beforeend',`<tr><td>${s[0]}</td><td class="n cnt">${s[1]}</td><td><span class="tag ${s[2]}">${s[3]}</span></td><td class="fix">${s[4]}</td></tr>`));
 const R=document.getElementById('recs');
