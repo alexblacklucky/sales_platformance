@@ -191,6 +191,11 @@ function injectSidebarStyles(doc){
     '.sidebar-section-label .m-chev{margin-left:auto;transition:transform .2s ease;opacity:.8;flex-shrink:0}'+
     '.sidebar-section.m-collapsed .m-chev{transform:rotate(-90deg)}'+
     '.sidebar-section.m-collapsed .nav-btn,.sidebar-section.m-collapsed .coming-soon{display:none}'+
+    // Свёрнутая группа прячет и вложенные подразделы целиком (их заголовки — не .nav-btn)
+    '.sidebar-section.m-collapsed > .sidebar-section{display:none}'+
+    // Подразделы внутри группы «Обучение» — со смещением и тонкой линией слева
+    '.kb-subsection{margin:2px 0 2px 6px;padding-left:9px;border-left:1px solid rgba(255,255,255,.11)}'+
+    '.kb-subsection > .sidebar-section-label{font-size:12px;font-weight:700;color:#d7d0ee;padding:7px 9px}'+
     '.nav-sep{margin:12px 18px}';
   doc.head.appendChild(style);
 }
@@ -419,6 +424,9 @@ async function injectSalarySection(doc){
     const hook=doc.createElement('script');
     hook.textContent="try{Object.assign(sectionMeta,{'sal-main':"+JSON.stringify(part.dataset.title)+"})}catch(e){}";
     doc.body.appendChild(hook);
+    // Все разделы вставлены — собираем «Обучение» и расставляем порядок
+    buildTrainingGroup(doc);
+    reorderSidebar(doc);
   }catch(e){console.warn('Salary section injection failed',e)}
 }
 // Раздел «Создание договора» — нативные секции, идут сразу за «Менеджером по продажам»
@@ -485,6 +493,49 @@ async function injectContractsSection(doc){
     await injectSalarySection(doc);
   }catch(e){console.warn('Contracts section injection failed',e)}
 }
+// ─── Структура сайдбара ──────────────────────────────────────────────────────
+// Порядок: Обучение (Квалификатор + Менеджер по продажам + Создание договора)
+// → Материалы → Аналитика → Зарплаты.
+function findSection(doc,title){
+  return [...doc.querySelectorAll('.sidebar-section')].find(s=>{
+    const l=s.querySelector(':scope > .sidebar-section-label');
+    return l&&l.textContent.trim().toLowerCase()===title;
+  });
+}
+// Три учебных раздела прячем под общий заголовок «Обучение» как подразделы
+function buildTrainingGroup(doc){
+  if(doc.getElementById('training-group'))return;
+  const parts=['квалификатор','менеджер по продажам','создание договора']
+    .map(t=>findSection(doc,t)).filter(Boolean);
+  if(!parts.length)return;
+  const group=doc.createElement('div');
+  group.className='sidebar-section';group.id='training-group';
+  const label=doc.createElement('div');
+  label.className='sidebar-section-label';label.textContent='Обучение';
+  group.appendChild(label);
+  parts[0].before(group);
+  parts.forEach(s=>{s.classList.add('kb-subsection');group.appendChild(s)});
+  makeCollapsible(group,'kb-collapse-training');
+}
+// Расставляем секции в нужном порядке и заново раскладываем разделители
+function reorderSidebar(doc){
+  const sidebar=doc.getElementById('sidebar');
+  if(!sidebar)return;
+  const order=[
+    doc.getElementById('training-group'),
+    findSection(doc,'материалы'),
+    doc.getElementById('analytics-section'),
+    doc.getElementById('salary-section'),
+    findSection(doc,'скоро')
+  ].filter(Boolean);
+  if(order.length<2)return;
+  [...sidebar.querySelectorAll('.nav-sep')].forEach(s=>s.remove());
+  let prev=order[0];
+  order.slice(1).forEach(section=>{
+    const sep=doc.createElement('div');sep.className='nav-sep';
+    prev.after(sep);sep.after(section);prev=section;
+  });
+}
 // Сворачивание/разворачивание списка пунктов в секции сайдбара
 function makeCollapsible(section,storeKey){
   const label=section.querySelector('.sidebar-section-label');
@@ -495,13 +546,10 @@ function makeCollapsible(section,storeKey){
   chevron.innerHTML='<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>';
   label.appendChild(chevron);
   label.setAttribute('title','Свернуть / развернуть');
-  let collapsed=false;
-  try{collapsed=localStorage.getItem(storeKey)==='1'}catch(e){}
-  if(collapsed)section.classList.add('m-collapsed');
-  label.addEventListener('click',()=>{
-    const isCollapsed=section.classList.toggle('m-collapsed');
-    try{localStorage.setItem(storeKey,isCollapsed?'1':'0')}catch(e){}
-  });
+  // При каждой загрузке сайта все разделы свёрнуты — сайдбар открывается компактным.
+  // Состояние намеренно НЕ запоминается между визитами.
+  section.classList.add('m-collapsed');
+  label.addEventListener('click',()=>section.classList.toggle('m-collapsed'));
 }
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(name+'-view').classList.add('active')}
 function openKnowledge(){showView('knowledge');history.replaceState(null,'',location.pathname+location.search+'#knowledge')}
