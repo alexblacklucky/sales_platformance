@@ -4,7 +4,7 @@
 
 **Обновлено:** 2026-09-02
 **Последняя сессия:** `sessions/2026-09-02_02_планер.md`
-**Рабочая ветка сейчас:** `claude/start-work-c4jn43`
+**Рабочая ветка сейчас:** `claude/start-work-c4jn43` (всё влито в `main`, PR #28–#38)
 **Ветка деплоя:** `main` → https://platformance-team.ru (кастомный домен,
 GitHub Pages; старый адрес https://alexblacklucky.github.io тоже работает)
 
