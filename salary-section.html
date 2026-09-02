@@ -9,44 +9,54 @@
 .s-field button{padding:11px 18px;border:1px solid #6548e8;border-radius:11px;background:#6548e8;color:#fff;font-size:13px;font-weight:750;font-family:inherit;cursor:pointer;transition:.16s ease}
 .s-field button:hover{background:#5637dd;border-color:#5637dd}
 .s-err{margin:13px 0 0;font-size:12.5px;font-weight:700;color:var(--danger);min-height:17px}
-.s-hero{padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--surface),color-mix(in srgb,var(--violet) 9%,var(--surface)));margin-bottom:18px}
+.s-hero{padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--surface),color-mix(in srgb,var(--violet) 9%,var(--surface)));margin-bottom:16px}
 .s-hero h3{margin:0 0 6px;font-size:21px;color:var(--text)}
 .s-hero p{margin:0;font-size:13px;color:var(--muted)}
 .s-warn{display:flex;gap:11px;align-items:flex-start;padding:13px 16px;border:1px solid color-mix(in srgb,var(--danger) 32%,var(--line));border-left:4px solid var(--danger);border-radius:13px;background:color-mix(in srgb,var(--danger) 9%,var(--surface));font-size:12.5px;line-height:1.55;color:var(--text);margin-bottom:18px}
-.s-warn b{color:var(--text)}
 .s-months{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .s-mbtn{padding:8px 15px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:.16s ease}
 .s-mbtn:hover{border-color:var(--violet);color:var(--violet)}
 .s-mbtn.on{background:#6548e8;border-color:#6548e8;color:#fff;box-shadow:0 7px 18px rgba(101,72,232,.22)}
 .s-month{display:none}.s-month.on{display:block}
-.s-tablewrap{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:auto;margin-bottom:16px}
-.s-table{width:100%;border-collapse:collapse;min-width:620px}
-.s-table th,.s-table td{text-align:left;padding:12px 15px;font-size:13px;color:var(--text)}
+.s-h4{margin:22px 0 11px;font-size:15px;font-weight:800;color:var(--text)}
+.s-h4:first-child{margin-top:0}
+.s-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:11px;margin-bottom:6px}
+.s-card{padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.s-card span{display:block;font-size:11.5px;color:var(--muted)}
+.s-card strong{display:block;font-size:21px;margin-top:5px;color:var(--text);letter-spacing:-.02em}
+.s-card em{display:block;font-style:normal;font-size:11px;color:var(--muted);margin-top:4px}
+.s-card.good strong{color:#0f7a58}.s-card.bad strong{color:var(--danger)}
+.s-card.hl{background:linear-gradient(140deg,#6548e8,#9270ff);border-color:transparent}
+.s-card.hl span,.s-card.hl em{color:rgba(255,255,255,.85)}.s-card.hl strong{color:#fff}
+.s-tablewrap{border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:auto}
+.s-table{width:100%;border-collapse:collapse;min-width:560px}
+.s-table th,.s-table td{text-align:left;padding:11px 15px;font-size:13px;color:var(--text)}
 .s-table th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800;border-bottom:1px solid var(--line);background:var(--surface-2)}
 .s-table td{border-bottom:1px solid color-mix(in srgb,var(--line) 55%,transparent)}
 .s-table tr:last-child td{border-bottom:0}
-.s-table .n{text-align:right;font-variant-numeric:tabular-nums}
-.s-table .sum{font-weight:800}
-.s-table tr.s-total td{background:var(--surface-2);border-top:2px solid var(--line);font-weight:800}
-.s-role{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
-.s-chip{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:800}
+.s-table .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.s-table .neg{color:var(--danger)}
+.s-table .pos{color:#0f7a58}
+.s-table tr.s-sum td{background:var(--surface-2);font-weight:800}
+.s-table tr.s-fin td{background:color-mix(in srgb,var(--violet) 8%,var(--surface));border-top:2px solid var(--line);font-weight:800;font-size:14px}
+.s-note{font-size:11.5px;color:var(--muted);margin-top:2px}
+.s-chip{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10.5px;font-weight:800;white-space:nowrap}
 .s-paid{color:#0f7a58;background:color-mix(in srgb,#16875b 15%,var(--surface))}
 .s-wait{color:#a8720f;background:color-mix(in srgb,#c2871b 17%,var(--surface))}
-.s-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:11px;margin-bottom:18px}
-.s-card{padding:15px 17px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-.s-card span{display:block;font-size:11.5px;color:var(--muted)}
-.s-card strong{display:block;font-size:21px;margin-top:5px;color:var(--text)}
-.s-lockbtn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--muted);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer}
+.s-method{margin-top:22px;padding:17px 20px;border:1px solid var(--line);border-radius:16px;background:var(--surface-2);font-size:12.5px;line-height:1.65;color:var(--text)}
+.s-method b{color:var(--text)}
+.s-method ul{margin:9px 0 0;padding-left:19px}.s-method li{margin-bottom:6px}
+.s-lockbtn{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:10px 16px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--muted);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer}
 .s-lockbtn:hover{border-color:var(--violet);color:var(--violet)}
 @media(max-width:700px){.s-gate{margin:24px auto;padding:24px 20px}.s-field{flex-direction:column}}
 </style>
 
-<div class="s-part" data-id="main" data-nav="Зарплаты" data-title="Зарплаты — закрытый раздел">
+<div class="s-part" data-id="main" data-nav="Экономика и зарплаты" data-title="Экономика отдела продаж">
 
   <div class="s-gate">
     <div class="s-lock"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
     <h3>Закрытый раздел</h3>
-    <p>Раздел с данными по зарплатам. Введите пароль, чтобы открыть его.</p>
+    <p>Экономика отдела продаж и зарплаты. Введите пароль, чтобы открыть.</p>
     <div class="s-field">
       <input type="password" id="sal-pass" placeholder="Пароль" autocomplete="current-password" spellcheck="false">
       <button type="button" id="sal-btn">Открыть</button>
@@ -56,38 +66,163 @@
 
   <div class="s-body">
     <div class="s-hero">
-      <h3>Зарплаты</h3>
-      <p>Начисления по сотрудникам отдела продаж: оклад, бонусы и итог к выплате по месяцам</p>
+      <h3>Экономика отдела продаж</h3>
+      <p>Приход от подписанных клиентов, расходы на рекламу и зарплаты, прибыль по месяцам</p>
     </div>
 
     <div class="s-warn">
       <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex:0 0 auto;margin-top:1px"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
-      <div><b>Конфиденциально.</b> Не пересылайте скриншоты и не оставляйте раздел открытым на общем экране. Пароль — только для тех, кому положено видеть эти цифры.</div>
+      <div><b>Конфиденциально.</b> Зарплаты сотрудников и прибыль отдела. Не пересылайте скриншоты и не оставляйте раздел открытым на общем экране.</div>
     </div>
 
     <div class="s-months">
-      <button type="button" class="s-mbtn on" data-smonth="2026-08">Август 2026</button>
+      <button type="button" class="s-mbtn" data-smonth="july">Июль 2026</button>
+      <button type="button" class="s-mbtn on" data-smonth="august">Август 2026</button>
+      <button type="button" class="s-mbtn" data-smonth="compare">Сравнение</button>
     </div>
 
-    <div class="s-month on" data-smonth="2026-08">
+    <!-- ========================= ИЮЛЬ ========================= -->
+    <div class="s-month" data-smonth="july">
       <div class="s-cards">
-        <div class="s-card"><span>Фонд оплаты труда</span><strong>0 ₽</strong></div>
-        <div class="s-card"><span>Сотрудников</span><strong>0</strong></div>
-        <div class="s-card"><span>Выплачено</span><strong>0 ₽</strong></div>
-        <div class="s-card"><span>К выплате</span><strong>0 ₽</strong></div>
+        <div class="s-card"><span>Приход</span><strong>610 000 ₽</strong><em>13 подписанных клиентов</em></div>
+        <div class="s-card"><span>Расходы</span><strong>293 522,4 ₽</strong><em>реклама + ФОТ</em></div>
+        <div class="s-card hl"><span>Прибыль</span><strong>316 477,6 ₽</strong><em>рентабельность 51,9%</em></div>
+        <div class="s-card"><span>Прибыль на клиента</span><strong>24 344 ₽</strong><em>средний чек 46 923 ₽</em></div>
       </div>
 
-      <div class="s-tablewrap">
-        <table class="s-table">
-          <thead><tr><th>Сотрудник</th><th class="n">Оклад</th><th class="n">Бонус</th><th class="n">Итого</th><th>Статус</th></tr></thead>
-          <tbody>
-            <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:26px 15px">Данные за август ещё не внесены — пришлите таблицу, и раздел заполнится</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="s-h4">Финансовая экономика — июль 2026</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Статья</th><th class="n">Сумма</th><th class="n">Доля от прихода</th></tr></thead>
+        <tbody>
+          <tr><td><b>Приход</b> — сумма подписанных клиентов</td><td class="n pos"><b>610 000 ₽</b></td><td class="n">100%</td></tr>
+          <tr><td>Реклама Avito</td><td class="n neg">−107 876,4 ₽</td><td class="n">17,7%</td></tr>
+          <tr><td>Менеджер по маркетингу (Avito)</td><td class="n neg">−25 000 ₽</td><td class="n">4,1%</td></tr>
+          <tr><td>Продавец Дмитрий</td><td class="n neg">−80 646 ₽</td><td class="n">13,2%</td></tr>
+          <tr><td>Коммерческий директор</td><td class="n neg">−80 000 ₽</td><td class="n">13,1%</td></tr>
+          <tr class="s-sum"><td>Расходы итого</td><td class="n neg">−293 522,4 ₽</td><td class="n">48,1%</td></tr>
+          <tr class="s-fin"><td>Прибыль</td><td class="n pos">316 477,6 ₽</td><td class="n">51,9%</td></tr>
+        </tbody>
+      </table></div>
 
-      <button type="button" class="s-lockbtn" id="sal-lock"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Закрыть раздел</button>
+      <div class="s-h4">Зарплаты — июль 2026</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Сотрудник</th><th class="n">Оклад</th><th class="n">Премия / KPI</th><th class="n">Итого</th><th>Статус</th></tr></thead>
+        <tbody>
+          <tr><td>Продавец Дмитрий<div class="s-note">с 13.07, оклад по отработанным дням</div></td><td class="n">30 646 ₽</td><td class="n">50 000 ₽</td><td class="n"><b>80 646 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr><td>Менеджер по маркетингу (Avito)<div class="s-note">отработал половину месяца</div></td><td class="n">25 000 ₽</td><td class="n">—</td><td class="n"><b>25 000 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr><td>Коммерческий директор<div class="s-note">фиксированно, без KPI</div></td><td class="n">80 000 ₽</td><td class="n">—</td><td class="n"><b>80 000 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr class="s-sum"><td>Фонд оплаты труда</td><td class="n">135 646 ₽</td><td class="n">50 000 ₽</td><td class="n">185 646 ₽</td><td></td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="s-h4">Детализация — продавец Дмитрий</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Период</th><th class="n">Подписано</th><th class="n">Оклад</th><th class="n">Премия 20%</th><th class="n">Итого</th><th>Статус</th></tr></thead>
+        <tbody>
+          <tr><td>13.07.26 – 26.07.26</td><td class="n">35 000 ₽</td><td class="n">22 581 ₽</td><td class="n">7 000 ₽</td><td class="n"><b>29 581 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr><td>27.07.26 – 31.07.26</td><td class="n">215 000 ₽</td><td class="n">8 065 ₽</td><td class="n">43 000 ₽</td><td class="n"><b>51 065 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr class="s-sum"><td>Итого за июль</td><td class="n">250 000 ₽</td><td class="n">30 646 ₽</td><td class="n">50 000 ₽</td><td class="n">80 646 ₽</td><td></td></tr>
+        </tbody>
+      </table></div>
     </div>
+
+    <!-- ========================= АВГУСТ ========================= -->
+    <div class="s-month on" data-smonth="august">
+      <div class="s-cards">
+        <div class="s-card"><span>Приход</span><strong>415 000 ₽</strong><em>11 подписанных клиентов</em></div>
+        <div class="s-card"><span>Расходы</span><strong>455 158,4 ₽</strong><em>реклама + ФОТ</em></div>
+        <div class="s-card bad"><span>Прибыль</span><strong>−40 158,4 ₽</strong><em>рентабельность −9,7%</em></div>
+        <div class="s-card bad"><span>Прибыль на клиента</span><strong>−3 651 ₽</strong><em>средний чек 37 727 ₽</em></div>
+      </div>
+
+      <div class="s-h4">Финансовая экономика — август 2026</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Статья</th><th class="n">Сумма</th><th class="n">Доля от прихода</th></tr></thead>
+        <tbody>
+          <tr><td><b>Приход</b> — сумма подписанных клиентов</td><td class="n pos"><b>415 000 ₽</b></td><td class="n">100%</td></tr>
+          <tr><td>Реклама Avito</td><td class="n neg">−189 158,4 ₽</td><td class="n">45,6%</td></tr>
+          <tr><td>Менеджер по маркетингу (Avito)<div class="s-note">30 000 ₽ оклад + 20 000 ₽ KPI выполнен</div></td><td class="n neg">−50 000 ₽</td><td class="n">12,0%</td></tr>
+          <tr><td>Продавец Дмитрий</td><td class="n neg">−136 000 ₽</td><td class="n">32,8%</td></tr>
+          <tr><td>Коммерческий директор</td><td class="n neg">−80 000 ₽</td><td class="n">19,3%</td></tr>
+          <tr class="s-sum"><td>Расходы итого</td><td class="n neg">−455 158,4 ₽</td><td class="n">109,7%</td></tr>
+          <tr class="s-fin"><td>Прибыль</td><td class="n neg">−40 158,4 ₽</td><td class="n">−9,7%</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="s-h4">Зарплаты — август 2026</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Сотрудник</th><th class="n">Оклад</th><th class="n">Премия / KPI</th><th class="n">Итого</th><th>Статус</th></tr></thead>
+        <tbody>
+          <tr><td>Продавец Дмитрий<div class="s-note">полный месяц, премия 20% от подписанного</div></td><td class="n">50 000 ₽</td><td class="n">86 000 ₽</td><td class="n"><b>136 000 ₽</b></td><td><span class="s-chip s-wait">67 194 ₽ выплачено</span></td></tr>
+          <tr><td>Менеджер по маркетингу (Avito)<div class="s-note">KPI выполнен полностью</div></td><td class="n">30 000 ₽</td><td class="n">20 000 ₽</td><td class="n"><b>50 000 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr><td>Коммерческий директор<div class="s-note">фиксированно, без KPI</div></td><td class="n">80 000 ₽</td><td class="n">—</td><td class="n"><b>80 000 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr class="s-sum"><td>Фонд оплаты труда</td><td class="n">160 000 ₽</td><td class="n">106 000 ₽</td><td class="n">266 000 ₽</td><td></td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="s-h4">Детализация — продавец Дмитрий</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Период</th><th class="n">Подписано</th><th class="n">Оклад</th><th class="n">Премия 20%</th><th class="n">Итого</th><th>Статус</th></tr></thead>
+        <tbody>
+          <tr><td>01.08.26 – 15.08.26</td><td class="n">215 000 ₽</td><td class="n">24 194 ₽</td><td class="n">43 000 ₽</td><td class="n"><b>67 194 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr><td>16.08.26 – 31.08.26</td><td class="n">215 000 ₽</td><td class="n">25 806 ₽</td><td class="n">43 000 ₽</td><td class="n"><b>68 806 ₽</b></td><td><span class="s-chip s-wait">К выплате</span></td></tr>
+          <tr class="s-sum"><td>Итого за август</td><td class="n">430 000 ₽</td><td class="n">50 000 ₽</td><td class="n">86 000 ₽</td><td class="n">136 000 ₽</td><td></td></tr>
+        </tbody>
+      </table></div>
+      <p class="s-note" style="margin-top:9px">База премии в таблице Дмитрия — 430 000 ₽ (по 215 000 ₽ на период). В листе «по месяцам» на август приходится 415 000 ₽, ещё 15 000 ₽ — договор Трофимовой от 31.07, то есть июльский. Разница в премии — 3 000 ₽.</p>
+    </div>
+
+    <!-- ========================= СРАВНЕНИЕ ========================= -->
+    <div class="s-month" data-smonth="compare">
+      <div class="s-cards">
+        <div class="s-card"><span>Приход за 2 месяца</span><strong>1 025 000 ₽</strong><em>24 клиента</em></div>
+        <div class="s-card"><span>Расходы за 2 месяца</span><strong>748 680,8 ₽</strong><em>реклама + ФОТ</em></div>
+        <div class="s-card hl"><span>Прибыль за 2 месяца</span><strong>276 319,2 ₽</strong><em>рентабельность 27,0%</em></div>
+        <div class="s-card bad"><span>Динамика прибыли</span><strong>−356 636 ₽</strong><em>июль → август</em></div>
+      </div>
+
+      <div class="s-h4">Июль и август рядом</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Показатель</th><th class="n">Июль</th><th class="n">Август</th><th class="n">Динамика</th></tr></thead>
+        <tbody>
+          <tr><td>Приход</td><td class="n">610 000 ₽</td><td class="n">415 000 ₽</td><td class="n neg">−32,0%</td></tr>
+          <tr><td>Реклама Avito</td><td class="n">107 876,4 ₽</td><td class="n">189 158,4 ₽</td><td class="n neg">+75,3%</td></tr>
+          <tr><td>Фонд оплаты труда</td><td class="n">185 646 ₽</td><td class="n">266 000 ₽</td><td class="n neg">+43,3%</td></tr>
+          <tr class="s-sum"><td>Расходы итого</td><td class="n">293 522,4 ₽</td><td class="n">455 158,4 ₽</td><td class="n neg">+55,1%</td></tr>
+          <tr class="s-fin"><td>Прибыль</td><td class="n pos">316 477,6 ₽</td><td class="n neg">−40 158,4 ₽</td><td class="n neg">−356 636 ₽</td></tr>
+          <tr><td>Рентабельность</td><td class="n pos">51,9%</td><td class="n neg">−9,7%</td><td class="n neg">−61,6 п.п.</td></tr>
+          <tr><td>Подписано клиентов</td><td class="n">13</td><td class="n">11</td><td class="n neg">−2</td></tr>
+          <tr><td>Средний чек</td><td class="n">46 923 ₽</td><td class="n">37 727 ₽</td><td class="n neg">−19,6%</td></tr>
+          <tr><td>Прибыль на клиента</td><td class="n pos">24 344 ₽</td><td class="n neg">−3 651 ₽</td><td class="n neg">−27 995 ₽</td></tr>
+          <tr><td>Доля рекламы в приходе</td><td class="n">17,7%</td><td class="n">45,6%</td><td class="n neg">+27,9 п.п.</td></tr>
+          <tr><td>Доля ФОТ в приходе</td><td class="n">30,4%</td><td class="n">64,1%</td><td class="n neg">+33,7 п.п.</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="s-method">
+        <b>Что произошло в августе.</b> Отдел ушёл в минус на 40 158 ₽ впервые за наблюдаемый период. Причина не одна, их три сразу:
+        <ul>
+          <li><b>Реклама выросла на 75,3%</b> (107 876 → 189 158 ₽), а клиентов стало меньше — 11 против 13. Доля рекламы в приходе подскочила с 17,7% до 45,6%.</li>
+          <li><b>ФОТ вырос на 43,3%</b> (185 646 → 266 000 ₽): продавец отработал полный месяц вместо половины, маркетолог получил полный оклад с KPI.</li>
+          <li><b>Средний чек упал на 19,6%</b> — 37 727 ₽ против 46 923 ₽. Клиенты не только реже, но и мельче.</li>
+        </ul>
+        Чтобы август вышел в ноль при тех же расходах, нужно было подписать клиентов на 455 158 ₽ — то есть ещё примерно на 40 000 ₽, около одного среднего клиента. Точка безубыточности отдела при текущей структуре — <b>12 клиентов со средним чеком 37 727 ₽</b>.
+      </div>
+
+      <div class="s-method" style="margin-top:12px">
+        <b>Как считаем.</b>
+        <ul>
+          <li><b>Приход</b> — сумма подписанных клиентов за месяц (лист «по месяцам» в таблице зарплат), по дате договора.</li>
+          <li><b>Продавец Дмитрий</b> — оклад 50 000 ₽/мес пропорционально отработанным дням плюс премия 20% от суммы подписанных договоров.</li>
+          <li><b>Менеджер по маркетингу (Avito)</b> — 30 000 ₽ оклад плюс 20 000 ₽ KPI. В июле отработал половину месяца — 25 000 ₽, в августе KPI выполнен полностью — 50 000 ₽.</li>
+          <li><b>Коммерческий директор</b> — 80 000 ₽ в месяц фиксированно, без KPI.</li>
+          <li><b>Реклама Avito</b> — суммарные расходы всех профилей за месяц, берутся из Avito Dashboard.</li>
+          <li>Май и июнь в экономику не включены: продавец вышел 13.07, данных по ФОТ за эти месяцы нет.</li>
+        </ul>
+      </div>
+    </div>
+
+    <button type="button" class="s-lockbtn" id="sal-lock"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Закрыть раздел</button>
   </div>
 
 </div>
