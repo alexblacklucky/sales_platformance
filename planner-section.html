@@ -1,0 +1,284 @@
+<style>
+.pl-hero{padding:22px 24px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,var(--surface),color-mix(in srgb,var(--violet) 9%,var(--surface)));margin-bottom:14px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;justify-content:space-between}
+.pl-hero h3{margin:0 0 6px;font-size:21px;color:var(--text)}
+.pl-hero p{margin:0;font-size:13px;color:var(--muted)}
+.pl-tools{display:flex;gap:8px;flex-wrap:wrap}
+.pl-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s ease}
+.pl-btn:hover{border-color:var(--violet);color:var(--violet)}
+.pl-btn.primary{background:#6548e8;border-color:#6548e8;color:#fff;box-shadow:0 7px 18px rgba(101,72,232,.2)}
+.pl-btn.primary:hover{background:#5637dd;border-color:#5637dd;color:#fff}
+.pl-note{display:flex;gap:10px;align-items:flex-start;padding:12px 15px;border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:12px;background:var(--surface-2);font-size:12.5px;line-height:1.55;color:var(--text);margin-bottom:16px}
+.pl-add{display:flex;gap:8px;flex-wrap:wrap;padding:15px 17px;border:1px solid var(--line);border-radius:15px;background:var(--surface);margin-bottom:16px}
+.pl-add input[type=text]{flex:1;min-width:220px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);font-size:13.5px;font-family:inherit}
+.pl-add input[type=month]{padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);font-size:13px;font-family:inherit}
+.pl-add input:focus{outline:none;border-color:var(--violet);background:var(--surface)}
+.pl-months{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.pl-mbtn{padding:8px 15px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s ease}
+.pl-mbtn:hover{border-color:var(--violet);color:var(--violet)}
+.pl-mbtn.on{background:#6548e8;border-color:#6548e8;color:#fff;box-shadow:0 7px 18px rgba(101,72,232,.2)}
+.pl-mbtn i{font-style:normal;opacity:.75;font-size:11px;margin-left:5px}
+.pl-mhead{display:flex;align-items:center;gap:11px;margin:22px 0 11px}
+.pl-mhead:first-child{margin-top:0}
+.pl-mhead b{font-size:15px;color:var(--text)}
+.pl-mhead span{font-size:11.5px;color:var(--muted)}
+.pl-mhead:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--violet);flex:0 0 auto}
+.pl-card{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:17px 19px;margin-bottom:11px}
+.pl-card.done{background:var(--surface-2);border-color:color-mix(in srgb,#16875b 24%,var(--line))}
+.pl-top{display:flex;gap:12px;align-items:flex-start}
+.pl-tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.05em;color:var(--danger);background:color-mix(in srgb,var(--danger) 12%,var(--surface));white-space:nowrap;margin-bottom:6px}
+.pl-card.done .pl-tag{color:#0f7a58;background:color-mix(in srgb,#16875b 15%,var(--surface))}
+.pl-title{font-size:15.5px;font-weight:800;color:var(--text);line-height:1.4;word-break:break-word}
+.pl-card.done .pl-title{text-decoration:line-through;color:var(--muted)}
+.pl-meta{font-size:11.5px;color:var(--muted);margin-top:5px}
+.pl-actions{margin-left:auto;display:flex;gap:5px;flex:0 0 auto}
+.pl-ico{width:29px;height:29px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);cursor:pointer;padding:0}
+.pl-ico:hover{border-color:var(--violet);color:var(--violet)}
+.pl-ico.del:hover{border-color:var(--danger);color:var(--danger)}
+.pl-bar{height:6px;border-radius:999px;background:var(--surface-3,#efeaff);margin:12px 0 4px;overflow:hidden}
+.pl-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(135deg,#6548e8,#9270ff);transition:width .25s ease}
+.pl-card.done .pl-bar i{background:linear-gradient(135deg,#16875b,#3bbd84)}
+.pl-steps{list-style:none;margin:12px 0 0;padding:0}
+.pl-step{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px dashed color-mix(in srgb,var(--line) 70%,transparent)}
+.pl-step:first-child{border-top:0}
+.pl-check{width:19px;height:19px;flex:0 0 auto;margin-top:1px;border:1.5px solid color-mix(in srgb,var(--violet) 45%,var(--line));border-radius:6px;background:var(--surface);cursor:pointer;display:grid;place-items:center;padding:0;color:#fff}
+.pl-check.on{background:#16875b;border-color:#16875b}
+.pl-check svg{opacity:0}.pl-check.on svg{opacity:1}
+.pl-steptext{flex:1;font-size:13.5px;line-height:1.5;color:var(--text);word-break:break-word;cursor:pointer}
+.pl-step.done .pl-steptext{text-decoration:line-through;color:var(--muted)}
+.pl-stepdel{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;padding:2px 4px;opacity:.55}
+.pl-stepdel:hover{color:var(--danger);opacity:1}
+.pl-stepadd{display:flex;gap:7px;margin-top:11px}
+.pl-stepadd input{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface-2);color:var(--text);font-size:13px;font-family:inherit}
+.pl-stepadd input:focus{outline:none;border-color:var(--violet);background:var(--surface)}
+.pl-stepadd button{padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--violet);font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer}
+.pl-stepadd button:hover{border-color:var(--violet)}
+.pl-empty{padding:38px 22px;text-align:center;border:1px dashed var(--line);border-radius:16px;background:var(--surface-2);color:var(--muted);font-size:13.5px;line-height:1.6}
+.pl-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px;margin-bottom:16px}
+.pl-sumc{padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.pl-sumc span{display:block;font-size:11.5px;color:var(--muted)}
+.pl-sumc strong{display:block;font-size:20px;margin-top:4px;color:var(--text)}
+@media(max-width:700px){.pl-hero{padding:18px}.pl-add input[type=text]{min-width:100%}}
+</style>
+
+<div class="pl-part" data-id="main" data-nav="Планер" data-title="Планер — проблемы и решения">
+
+  <div class="pl-hero">
+    <div>
+      <h3>Планер</h3>
+      <p>Проблемы месяца и шаги решения к каждой. Отмечайте выполненное галочками.</p>
+    </div>
+    <div class="pl-tools">
+      <button type="button" class="pl-btn" id="pl-export">Экспорт</button>
+      <button type="button" class="pl-btn" id="pl-import">Импорт</button>
+      <input type="file" id="pl-file" accept="application/json,.json" hidden>
+    </div>
+  </div>
+
+  <div class="pl-note">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex:0 0 auto;margin-top:1px;color:var(--violet)"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+    <div>Записи хранятся <b>в этом браузере</b>, на сервер не уходят: на другом устройстве и у сотрудников их не будет, а очистка данных браузера их сотрёт. Для бэкапа и переноса пользуйтесь кнопками «Экспорт» и «Импорт».</div>
+  </div>
+
+  <div class="pl-sum" id="pl-sum"></div>
+
+  <div class="pl-add">
+    <input type="text" id="pl-new" placeholder="Опишите проблему — например: 45% заявок не выходят на связь" maxlength="300">
+    <input type="month" id="pl-newmonth">
+    <button type="button" class="pl-btn primary" id="pl-addbtn">Добавить проблему</button>
+  </div>
+
+  <div class="pl-months" id="pl-months"></div>
+  <div id="pl-list"></div>
+
+</div>
+
+<script id="pl-logic">
+(function(){
+  var KEY='kb-planner-v1';
+  var MN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  var root=document.getElementById('sec-plan-main');
+  if(!root||root.dataset.plReady)return;
+  root.dataset.plReady='1';
+
+  var data=load(), filter='all';
+  var $=function(id){return root.querySelector('#'+id)};
+
+  function load(){
+    try{var raw=localStorage.getItem(KEY);var d=raw?JSON.parse(raw):[];return Array.isArray(d)?d:[]}
+    catch(e){return []}
+  }
+  function save(){
+    try{localStorage.setItem(KEY,JSON.stringify(data))}
+    catch(e){alert('Не удалось сохранить: в браузере закончилось место или запись заблокирована.')}
+  }
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+  function curMonth(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+  function monthName(m){
+    var p=String(m||'').split('-');
+    if(p.length<2||isNaN(+p[1]))return m||'Без месяца';
+    return MN[+p[1]-1]+' '+p[0];
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function isDone(p){return p.steps.length>0&&p.steps.every(function(s){return s.done})}
+
+  function render(){
+    // сводка
+    var total=data.length,
+        solved=data.filter(isDone).length,
+        steps=data.reduce(function(a,p){return a+p.steps.length},0),
+        stepsDone=data.reduce(function(a,p){return a+p.steps.filter(function(s){return s.done}).length},0);
+    $('pl-sum').innerHTML=
+      card('Проблем всего',total)+card('Решено',solved)+
+      card('Шагов решения',steps)+card('Шагов выполнено',stepsDone);
+
+    // месяцы
+    var months=[];
+    data.forEach(function(p){if(months.indexOf(p.month)<0)months.push(p.month)});
+    months.sort().reverse();
+    var mh='<button type="button" class="pl-mbtn'+(filter==='all'?' on':'')+'" data-m="all">Все месяцы<i>'+total+'</i></button>';
+    months.forEach(function(m){
+      var n=data.filter(function(p){return p.month===m}).length;
+      mh+='<button type="button" class="pl-mbtn'+(filter===m?' on':'')+'" data-m="'+esc(m)+'">'+esc(monthName(m))+'<i>'+n+'</i></button>';
+    });
+    $('pl-months').innerHTML=mh;
+
+    // список
+    var list=$('pl-list');
+    var shown=filter==='all'?data.slice():data.filter(function(p){return p.month===filter});
+    if(!shown.length){
+      list.innerHTML='<div class="pl-empty">'+(total?'В этом месяце проблем не записано.':'Пока пусто. Опишите первую проблему в поле выше — потом добавите к ней шаги решения.')+'</div>';
+      return;
+    }
+    shown.sort(function(a,b){return a.month===b.month?b.created-a.created:(a.month<b.month?1:-1)});
+    var html='',last=null;
+    shown.forEach(function(p){
+      if(filter==='all'&&p.month!==last){
+        last=p.month;
+        var inM=data.filter(function(x){return x.month===p.month});
+        html+='<div class="pl-mhead"><b>'+esc(monthName(p.month))+'</b><span>'+
+          inM.filter(isDone).length+' из '+inM.length+' решено</span></div>';
+      }
+      html+=cardHTML(p);
+    });
+    list.innerHTML=html;
+  }
+
+  function card(label,val){return '<div class="pl-sumc"><span>'+label+'</span><strong>'+val+'</strong></div>'}
+
+  function cardHTML(p){
+    var done=p.steps.filter(function(s){return s.done}).length,
+        pct=p.steps.length?Math.round(done/p.steps.length*100):0,
+        fin=isDone(p);
+    var h='<article class="pl-card'+(fin?' done':'')+'" data-id="'+p.id+'">'+
+      '<div class="pl-top"><div><span class="pl-tag">'+(fin?'РЕШЕНО':'ПРОБЛЕМА')+'</span>'+
+      '<div class="pl-title">'+esc(p.title)+'</div>'+
+      '<div class="pl-meta">'+esc(monthName(p.month))+' · '+
+      (p.steps.length?done+' из '+p.steps.length+' шагов выполнено':'шаги решения не добавлены')+'</div></div>'+
+      '<div class="pl-actions">'+
+        '<button type="button" class="pl-ico" data-act="edit" title="Переименовать"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button>'+
+        '<button type="button" class="pl-ico del" data-act="del" title="Удалить проблему"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>'+
+      '</div></div>';
+    if(p.steps.length)h+='<div class="pl-bar"><i style="width:'+pct+'%"></i></div>';
+    h+='<ul class="pl-steps">';
+    p.steps.forEach(function(s,i){
+      h+='<li class="pl-step'+(s.done?' done':'')+'" data-i="'+i+'">'+
+        '<button type="button" class="pl-check'+(s.done?' on':'')+'" data-act="toggle" title="Отметить"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>'+
+        '<span class="pl-steptext" data-act="toggle">'+esc(s.text)+'</span>'+
+        '<button type="button" class="pl-stepdel" data-act="stepdel" title="Удалить шаг">×</button></li>';
+    });
+    h+='</ul><div class="pl-stepadd"><input type="text" data-role="stepinput" placeholder="Добавить шаг решения" maxlength="300">'+
+       '<button type="button" data-act="stepadd">Добавить</button></div></article>';
+    return h;
+  }
+
+  function find(id){return data.filter(function(p){return p.id===id})[0]}
+
+  // добавление проблемы
+  function addProblem(){
+    var t=$('pl-new').value.trim();
+    if(!t){$('pl-new').focus();return}
+    var m=$('pl-newmonth').value||curMonth();
+    data.push({id:uid(),title:t,month:m,created:Date.now(),steps:[]});
+    save();$('pl-new').value='';
+    if(filter!=='all'&&filter!==m)filter=m;
+    render();
+  }
+  $('pl-addbtn').addEventListener('click',addProblem);
+  $('pl-new').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addProblem()}});
+  $('pl-newmonth').value=curMonth();
+
+  // фильтр месяцев
+  $('pl-months').addEventListener('click',function(e){
+    var b=e.target.closest('.pl-mbtn'); if(!b)return;
+    filter=b.dataset.m; render();
+  });
+
+  // действия внутри карточек
+  $('pl-list').addEventListener('click',function(e){
+    var btn=e.target.closest('[data-act]'); if(!btn)return;
+    var card=e.target.closest('.pl-card'); if(!card)return;
+    var p=find(card.dataset.id); if(!p)return;
+    var act=btn.dataset.act;
+    if(act==='del'){
+      if(!confirm('Удалить проблему «'+p.title+'» вместе с шагами?'))return;
+      data=data.filter(function(x){return x.id!==p.id});save();render();
+    } else if(act==='edit'){
+      var t=prompt('Формулировка проблемы:',p.title);
+      if(t===null)return; t=t.trim(); if(!t)return;
+      p.title=t;save();render();
+    } else if(act==='toggle'){
+      var i=+e.target.closest('.pl-step').dataset.i;
+      p.steps[i].done=!p.steps[i].done;save();render();
+    } else if(act==='stepdel'){
+      var j=+e.target.closest('.pl-step').dataset.i;
+      p.steps.splice(j,1);save();render();
+    } else if(act==='stepadd'){
+      var inp=card.querySelector('[data-role=stepinput]');
+      var v=inp.value.trim(); if(!v){inp.focus();return}
+      p.steps.push({text:v,done:false});save();render();
+      var again=$('pl-list').querySelector('.pl-card[data-id="'+p.id+'"] [data-role=stepinput]');
+      if(again)again.focus();
+    }
+  });
+  $('pl-list').addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    var inp=e.target.closest('[data-role=stepinput]'); if(!inp)return;
+    e.preventDefault();
+    var card=inp.closest('.pl-card'), p=find(card.dataset.id);
+    var v=inp.value.trim(); if(!p||!v)return;
+    p.steps.push({text:v,done:false});save();render();
+    var again=$('pl-list').querySelector('.pl-card[data-id="'+p.id+'"] [data-role=stepinput]');
+    if(again)again.focus();
+  });
+
+  // экспорт / импорт
+  $('pl-export').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='planer-platformance-'+curMonth()+'.json';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},0);
+  });
+  $('pl-import').addEventListener('click',function(){$('pl-file').click()});
+  $('pl-file').addEventListener('change',function(e){
+    var f=e.target.files&&e.target.files[0]; if(!f)return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var d=JSON.parse(r.result);
+        if(!Array.isArray(d))throw new Error('формат');
+        var ok=d.every(function(p){return p&&typeof p.title==='string'&&Array.isArray(p.steps)});
+        if(!ok)throw new Error('формат');
+        if(data.length&&!confirm('Заменить текущие '+data.length+' записей содержимым файла ('+d.length+')?'))return;
+        data=d.map(function(p){return{id:p.id||uid(),title:p.title,month:p.month||curMonth(),
+          created:p.created||Date.now(),steps:p.steps.map(function(s){return{text:String(s.text||''),done:!!s.done}})}});
+        save();render();
+      }catch(err){alert('Не похоже на файл планера — импорт отменён.')}
+    };
+    r.readAsText(f);e.target.value='';
+  });
+
+  render();
+})();
+</script>
