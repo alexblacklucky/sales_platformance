@@ -317,6 +317,110 @@ async function injectManagerSection(doc){
     await injectContractsSection(doc);
   }catch(e){console.warn('Manager section injection failed',e)}
 }
+// ─── Раздел «Зарплаты» (закрыт паролем) ──────────────────────────────────────
+// Пароль меняется здесь, одной строкой. Защита рассчитана на то, чтобы раздел
+// не открыли случайно: содержимое лежит в salary-section.html и технически
+// доступно тому, кто откроет исходники сайта. Секретов сюда не класть.
+const SALARY_PASSWORD='platformance2026';
+// Разблокировка держится до закрытия вкладки (sessionStorage), не дольше.
+const SALARY_KEY='kb-salary-unlocked';
+function goSalaryPart(doc,title){
+  const w=doc.defaultView;
+  if(w&&typeof w.show==='function')w.show('sal-main');
+  const topbar=doc.getElementById('current-page');
+  if(topbar)topbar.textContent=title;
+}
+async function injectSalarySection(doc){
+  try{
+    if(doc.getElementById('salary-section'))return;
+    const response=await fetch('salary-section.html',{cache:'no-cache'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const holder=doc.createElement('div');
+    holder.innerHTML=await response.text();
+    const shell=doc.querySelector('.content-shell');
+    if(!shell)return;
+    const style=holder.querySelector('style');
+    if(style)doc.head.appendChild(style);
+    const part=holder.querySelector('.s-part');
+    if(!part)return;
+    // Содержимое раздела держим ВНЕ документа до ввода пароля: так оно не попадает
+    // ни в DOM, ни в поиск по базе знаний, пока раздел заблокирован.
+    const bodyNode=part.querySelector('.s-body');
+    const bodyHTML=bodyNode?bodyNode.innerHTML:'';
+    if(bodyNode)bodyNode.remove();
+    const section=doc.createElement('div');
+    section.className='section';section.id='sec-sal-main';
+    section.innerHTML=part.innerHTML;
+    shell.appendChild(section);
+    const gate=section.querySelector('.s-gate');
+    const input=section.querySelector('#sal-pass');
+    const error=section.querySelector('#sal-err');
+    const unlock=()=>{
+      if(section.querySelector('.s-body'))return;
+      const body=doc.createElement('div');
+      body.className='s-body';body.innerHTML=bodyHTML;
+      section.appendChild(body);
+      if(gate)gate.style.display='none';
+      try{sessionStorage.setItem(SALARY_KEY,'1')}catch(e){}
+      // Переключатель месяцев
+      const buttons=[...body.querySelectorAll('.s-mbtn')],panes=[...body.querySelectorAll('.s-month')];
+      buttons.forEach(b=>b.addEventListener('click',()=>{
+        buttons.forEach(x=>x.classList.toggle('on',x===b));
+        panes.forEach(p=>p.classList.toggle('on',p.dataset.smonth===b.dataset.smonth));
+      }));
+      const lockBtn=body.querySelector('#sal-lock');
+      if(lockBtn)lockBtn.addEventListener('click',lock);
+    };
+    const lock=()=>{
+      const body=section.querySelector('.s-body');
+      if(body)body.remove();
+      if(gate)gate.style.display='';
+      if(input)input.value='';
+      if(error)error.textContent='';
+      try{sessionStorage.removeItem(SALARY_KEY)}catch(e){}
+    };
+    const check=()=>{
+      if(!input)return;
+      if(input.value===SALARY_PASSWORD){unlock()}
+      else{
+        if(error)error.textContent='Неверный пароль';
+        input.value='';input.focus();
+      }
+    };
+    const button=section.querySelector('#sal-btn');
+    if(button)button.addEventListener('click',check);
+    if(input)input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check()}});
+    let already=false;
+    try{already=sessionStorage.getItem(SALARY_KEY)==='1'}catch(e){}
+    if(already)unlock();
+    // Кнопка в сайдбаре — своя секция с иконкой замка
+    const navSection=doc.createElement('div');
+    navSection.className='sidebar-section';navSection.id='salary-section';
+    const label=doc.createElement('div');label.className='sidebar-section-label';label.textContent='Зарплаты';
+    navSection.appendChild(label);
+    const navButton=doc.createElement('button');
+    navButton.className='nav-btn';navButton.type='button';navButton.id='btn-sal-main';
+    navButton.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>'+part.dataset.nav;
+    navButton.addEventListener('click',()=>goSalaryPart(doc,part.dataset.title));
+    navSection.appendChild(navButton);
+    // Вставляем сразу после «Создания договора»
+    const contracts=doc.getElementById('contracts-section');
+    const separator=doc.createElement('div');separator.className='nav-sep';
+    if(contracts){
+      const after=contracts.nextElementSibling&&contracts.nextElementSibling.classList.contains('nav-sep')?contracts.nextElementSibling:contracts;
+      after.after(navSection);navSection.after(separator);
+    }else{
+      const sidebar=doc.getElementById('sidebar');
+      if(sidebar)sidebar.appendChild(navSection);
+    }
+    makeCollapsible(navSection,'kb-collapse-salary');
+    // Заголовок для топбара регистрируем, но поиск НЕ переиндексируем —
+    // закрытый раздел не должен находиться поиском по базе знаний.
+    const hook=doc.createElement('script');
+    hook.textContent="try{Object.assign(sectionMeta,{'sal-main':"+JSON.stringify(part.dataset.title)+"})}catch(e){}";
+    doc.body.appendChild(hook);
+  }catch(e){console.warn('Salary section injection failed',e)}
+}
 // Раздел «Создание договора» — нативные секции, идут сразу за «Менеджером по продажам»
 const CONTRACTS_TOC={'c-1':'data','c-2':'folder','c-3':'claude','c-4':'check','c-5':'send','c-6':'after','c-7':'forbidden'};
 function goContractsPart(doc,id,title){
@@ -378,6 +482,7 @@ async function injectContractsSection(doc){
     hook.textContent="try{Object.assign(sectionMeta,{"+metaPairs.join(',')+"});index=searchIndex();"+
       "var last=store.get('kb-section');if(last&&last.indexOf('dog-')===0)show(last,false)}catch(e){}";
     doc.body.appendChild(hook);
+    await injectSalarySection(doc);
   }catch(e){console.warn('Contracts section injection failed',e)}
 }
 // Сворачивание/разворачивание списка пунктов в секции сайдбара
