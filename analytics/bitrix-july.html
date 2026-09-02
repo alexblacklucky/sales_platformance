@@ -5,6 +5,7 @@ h2{font-size:19px;margin:30px 0 14px;display:flex;align-items:center;gap:9px}.do
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}.sum{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:15px;padding:17px}.sum span{display:block;color:var(--muted);font-size:12px}.sum strong{display:block;font-size:26px;margin-top:6px;letter-spacing:-.02em}.sum em{display:block;color:var(--muted);font-size:11px;font-style:normal;margin-top:5px;line-height:1.4}.sum.hl{background:linear-gradient(140deg,#6846e8,#9270ff);border-color:transparent;color:#fff}.sum.hl span,.sum.hl em{color:rgba(255,255,255,.82)}
 .funnel{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:22px 24px}.fstep{margin:0 0 14px}.fstep:last-child{margin-bottom:0}.fhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;gap:12px}.fhead b{font-size:15px}.fhead .cnt{font-size:13px;color:var(--muted)}.fhead .cnt b{color:var(--text);font-size:17px}.fbar{height:34px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--purple2));display:flex;align-items:center;padding-left:14px;color:#fff;font-weight:800;font-size:13px;min-width:64px;box-shadow:0 6px 16px rgba(104,70,232,.2);transition:width .5s}.fstep.s2 .fbar{background:linear-gradient(135deg,#7a59ee,#a886ff)}.fstep.s3 .fbar{background:linear-gradient(135deg,#16875b,#3bbd84)}.fconv{font-size:11px;color:var(--muted);margin-top:5px}.fconv b{color:var(--green)}
 .tablecard{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:8px 6px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:520px}th,td{text-align:left;padding:11px 14px;font-size:13px}th{color:var(--muted);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--line)}td{border-bottom:1px solid #f0ecfb}tr:last-child td{border-bottom:0}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}td.cnt{font-weight:800;font-size:15px}.tag{display:inline-block;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800}.tag.meet{color:var(--purple);background:#efeaff}.tag.win{color:var(--green);background:#e9f8f1}.tag.lost{color:var(--red);background:#fff0ef}.tag.mid{color:var(--amber);background:#fdf4e3}.tag.coop{color:#1d6fb8;background:#e7f1fb}
+.tag.none{color:var(--muted);background:#f3f1f8}tr.total td{background:#f7f4ff;border-top:2px solid var(--line);border-bottom:0}tr.total td.sub{color:#4a4170}td.pct{font-weight:800;font-size:15px;text-align:right;font-variant-numeric:tabular-nums}td.sub{color:var(--muted);font-size:12px}.qbar{height:9px;border-radius:999px;background:#f2eefc;min-width:110px}.qbar i{display:block;height:100%;border-radius:999px}.b-win{background:linear-gradient(135deg,#16875b,#3bbd84)}.b-lost{background:linear-gradient(135deg,#d14343,#f07a7a)}.b-mid{background:linear-gradient(135deg,#c2871b,#e8b455)}.b-meet{background:linear-gradient(135deg,#6846e8,#9270ff)}.b-coop{background:linear-gradient(135deg,#1d6fb8,#5aa4e0)}.b-none{background:linear-gradient(135deg,#a9a2bd,#cbc6da)}
 .recs{background:linear-gradient(145deg,#fff,#f2edff);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:18px;padding:21px 24px}.recs ul{margin:0;padding-left:20px}.recs li{margin:0 0 11px;color:#443b68}.recs li:last-child{margin-bottom:0}.recs b{color:var(--text)}
 footer{text-align:center;color:var(--muted);font-size:11px;margin-top:28px}
 @media(max-width:650px){body{padding:16px 10px 36px}.hero{padding:21px 18px}h1{font-size:23px}.summary{grid-template-columns:repeat(2,1fr)}}
@@ -17,15 +18,19 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin-top:28px}
 <h2><span class="dot"></span>Воронка продаж</h2>
 <section class="funnel" id="funnel"></section>
 
+<h2><span class="dot"></span>Квалификация клиентов</h2>
+<section class="tablecard"><table><thead><tr><th>Категория</th><th>Стадии канбана</th><th class="n">Сделок</th><th class="n">Доля</th><th></th></tr></thead><tbody id="qual"></tbody></table></section>
+
 <h2><span class="dot"></span>Распределение по стадиям</h2>
-<section class="tablecard"><table><thead><tr><th>Стадия в Битрикс24</th><th class="n">Сделок</th><th>Группа</th></tr></thead><tbody id="stages"></tbody></table></section>
+<section class="tablecard"><table><thead><tr><th>Стадия в Битрикс24</th><th class="n">Сделок</th><th>Категория</th></tr></thead><tbody id="stages"></tbody></table></section>
 
 <h2><span class="dot"></span>Выводы по воронке</h2>
 <section class="recs"><ul id="recs"></ul></section>
 
 <footer>Аналитика Bitrix24 · Июль 2026 · собрано вручную на основе канбана сделок (фильтр «Дата начала: Июль 2026»)</footer>
 </main><script>
-const TOTAL=118, MEET=46, WON=13;
+const TOTAL=118, MEET=46, WON=13, QUAL=38, AVITO=192, SPEND=107876.4;
+const pc=v=>v.toFixed(1).replace('.',',');
 const summary=[
   ['Всего заявок / контактов', TOTAL, 'все карточки сделок в воронке за месяц'],
   ['Провёл встречу', MEET, 'презентация, надо подумать, моросят, договор/счёт, провалена, БОМЖИК 2, успешна'],
@@ -33,6 +38,8 @@ const summary=[
   ['Конверсия в встречу', (MEET/TOTAL*100).toFixed(1).replace('.',',')+'%', 'встречи / заявки'],
   ['Встреча → сделка', (WON/MEET*100).toFixed(1).replace('.',',')+'%', 'успешные / проведённые встречи'],
   ['Общая конверсия воронки', (WON/TOTAL*100).toFixed(1).replace('.',',')+'%', 'успешные сделки / все заявки']
+  ,['Квал-лидов', QUAL, pc(QUAL/TOTAL*100)+'% от всех заявок; конверсия квал-лида в сделку — '+pc(WON/QUAL*100)+'%'],
+  ['Цена квал-лида', Math.round(SPEND/QUAL).toLocaleString('ru-RU')+' ₽', 'расходы Avito за месяц ÷ квал-лиды']
 ];
 const funnel=[
   ['Заявки / контакты', TOTAL, 1, null],
@@ -40,11 +47,22 @@ const funnel=[
   ['Успешная сделка', WON, 3, 'встреча → сделка']
 ];
 const stages=[
-  ['НОВЫЕ',0,'mid','В работе'],['Вопросы',18,'mid','В работе'],['Созвониться',8,'mid','В работе'],
-  ['Раскачиваю',5,'mid','В работе'],['Договориться на видеовстречу',3,'mid','В работе'],['В работе сейчас',2,'mid','В работе'],
-  ['На презентации',2,'meet','Встреча'],['Надо подумать',9,'meet','Встреча'],['Моросят',1,'meet','Встреча'],
-  ['Договор счёт',3,'meet','Встреча'],['Сделка провалена',21,'meet','Встреча'],['БОМЖИК ИКС 2',6,'meet','Встреча'],
-  ['Сделка успешна',4,'win','Успех'],['ОТВАЛИЛСЯ',23,'lost','Отвал'],['Сотрудничество',13,'coop','Сотрудн.'],['2025',0,'mid','Прочее']
+  ['НОВЫЕ',0,'mid','В работе'],
+  ['Вопросы',18,'mid','В работе'],
+  ['Созвониться',8,'mid','В работе'],
+  ['Раскачиваю',5,'mid','В работе'],
+  ['Договориться на видеовстречу',3,'mid','В работе'],
+  ['В работе сейчас',2,'mid','В работе'],
+  ['На презентации',2,'mid','В работе'],
+  ['Надо подумать',9,'win','Квал'],
+  ['Моросят',1,'win','Квал'],
+  ['Договор счёт',3,'win','Квал'],
+  ['Сделка провалена',21,'win','Квал'],
+  ['БОМЖИК ИКС 2',6,'meet','Дорого'],
+  ['Сделка успешна',4,'win','Квал'],
+  ['ОТВАЛИЛСЯ',23,'lost','Глухой'],
+  ['Сотрудничество',13,'coop','Спам'],
+  ['2025',0,'none','—']
 ];
 const recs=[
   '<b>Общая конверсия воронки 11,0%</b> — лучший результат за три месяца (3,6% в мае → 6,4% в июне → 11,0% в июле). Из 118 заявок 13 дошли до подписания договора.',
@@ -53,12 +71,25 @@ const recs=[
   '<b>21 сделка в «Сделка провалена»</b> — почти столько же, сколько в «ОТВАЛИЛСЯ» (23), и это уже после проведённой встречи. Самая дорогая потеря в воронке: на этих клиентов потрачено время на презентацию. Нужно разобрать причины отказов после встречи — это главный резерв роста на август.',
   '<b>Горячий резерв на август:</b> «Договор счёт» — 3 сделки на 240 000 ₽, «Надо подумать» — 9 на 103 000 ₽, «БОМЖИК ИКС 2» — 6. Эти клиенты уже прошли встречу и близки к закрытию, по ним нужны точечные касания в первые дни месяца.',
   '<b>Верх воронки в работе:</b> «Вопросы» — 18, «Созвониться» — 8, «Раскачиваю» — 5, «Договориться на видеовстречу» — 3. Итого 34 заявки не доведены до встречи. При конверсии июля это ещё ~13 встреч и ~3–4 сделки — их нельзя терять на стыке месяцев.',
-  '<b>13 подписанных клиентов дают 610 000 ₽ абонентской платы в месяц</b>, первые счета оплачены на 545 967 ₽. Средний чек нового клиента — около 47 000 ₽/мес.'
+  '<b>13 подписанных клиентов дают 610 000 ₽ абонентской платы в месяц</b>, первые счета оплачены на 545 967 ₽. Средний чек нового клиента — около 47 000 ₽/мес.',
+  '<b>Квалификация: лучший месяц по качеству потока.</b> Квал-лидов 38 (32,2% против 17,3% в июне), «глухих» всего 23 (19,5% против 53,8%), спам 13 (11,0%). Ещё 38 заявок (32,2%) остались в работе — это задел, который нужно было доработать в августе.',
+  '<b>Из 192 контактов Avito до Битрикса дошло 118 (61,5%)</b> — худшая доходимость за все месяцы, потери 74 контакта (38,5%). При этом цена квал-лида минимальная — 2 839 ₽, конверсия квал-лида в сделку 34,2%.'
+];
+const qual=[
+  ['В работе, пока непонятно','новые, вопросы, созвониться, раскачиваю, договориться на видеовстречу, в работе сейчас, на презентации',38,'mid'],
+  ['Квал-лиды','надо подумать, моросят, договор счёт, сделка провалена, сделка успешна',38,'win'],
+  ['Дорого','БОМЖИК ИКС 2',6,'meet'],
+  ['Глухой — не вышел на связь','ОТВАЛИЛСЯ (неквал: общение не началось)',23,'lost'],
+  ['Спам','Сотрудничество (входящие предложения, не клиенты)',13,'coop'],
+  ['Не учитывается','2025',0,'none']
 ];
 const S=document.getElementById('summary');
 summary.forEach(x=>S.insertAdjacentHTML('beforeend',`<article class="sum ${x[3]||''}"><span>${x[0]}</span><strong>${x[1]}</strong>${x[2]?`<em>${x[2]}</em>`:''}</article>`));
 const F=document.getElementById('funnel');
 funnel.forEach(f=>{const pct=(f[1]/TOTAL*100);F.insertAdjacentHTML('beforeend',`<div class="fstep s${f[2]}"><div class="fhead"><b>${f[0]}</b><span class="cnt"><b>${f[1]}</b> · ${pct.toFixed(1).replace('.',',')}% от заявок</span></div><div class="fbar" style="width:${Math.max(pct,5)}%">${f[1]}</div>${f[3]?`<div class="fconv">${f[3]}: <b>${f[2]==2?(MEET/TOTAL*100).toFixed(1).replace('.',','):(WON/MEET*100).toFixed(1).replace('.',',')}%</b></div>`:''}</div>`)});
+const Q=document.getElementById('qual');
+qual.forEach(q=>{const p=q[2]/TOTAL*100;Q.insertAdjacentHTML('beforeend',`<tr><td><span class="tag ${q[3]}">${q[0]}</span></td><td class="sub">${q[1]}</td><td class="n cnt">${q[2]}</td><td class="pct">${pc(p)}%</td><td><div class="qbar"><i class="b-${q[3]}" style="width:${p}%"></i></div></td></tr>`)});
+Q.insertAdjacentHTML('beforeend',`<tr class="total"><td><b>ИТОГО</b></td><td class="sub"><b>${AVITO}</b> контактов по данным Avito → <b>${TOTAL}</b> реально дошло до Битрикса (${pc(TOTAL/AVITO*100)}%; потери — ${AVITO-TOTAL}, или ${pc((AVITO-TOTAL)/AVITO*100)}%)</td><td class="n cnt">${TOTAL}</td><td class="pct">100%</td><td></td></tr>`);
 const ST=document.getElementById('stages');
 stages.forEach(s=>ST.insertAdjacentHTML('beforeend',`<tr><td>${s[0]}</td><td class="n cnt">${s[1]}</td><td><span class="tag ${s[2]}">${s[3]}</span></td></tr>`));
 const R=document.getElementById('recs');
