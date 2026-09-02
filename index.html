@@ -322,6 +322,59 @@ async function injectManagerSection(doc){
     await injectContractsSection(doc);
   }catch(e){console.warn('Manager section injection failed',e)}
 }
+// ─── Раздел «Планер» (проблемы месяца и шаги решения) ────────────────────────
+// Записи живут в localStorage браузера: сервера у сайта нет, синхронизации между
+// устройствами тоже. Бэкап и перенос — через «Экспорт» / «Импорт» внутри раздела.
+function goPlannerPart(doc,title){
+  const w=doc.defaultView;
+  if(w&&typeof w.show==='function')w.show('plan-main');
+  const topbar=doc.getElementById('current-page');
+  if(topbar)topbar.textContent=title;
+}
+async function injectPlannerSection(doc){
+  try{
+    if(doc.getElementById('planner-section'))return;
+    const response=await fetch('planner-section.html',{cache:'no-cache'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const holder=doc.createElement('div');
+    holder.innerHTML=await response.text();
+    const shell=doc.querySelector('.content-shell');
+    if(!shell)return;
+    const style=holder.querySelector('style');
+    if(style)doc.head.appendChild(style);
+    const part=holder.querySelector('.pl-part');
+    if(!part)return;
+    const logic=holder.querySelector('#pl-logic');
+    const section=doc.createElement('div');
+    section.className='section';section.id='sec-plan-main';
+    section.innerHTML=part.innerHTML;
+    shell.appendChild(section);
+    // Кнопка в сайдбаре
+    const navSection=doc.createElement('div');
+    navSection.className='sidebar-section';navSection.id='planner-section';
+    const label=doc.createElement('div');
+    label.className='sidebar-section-label';label.textContent='Планер';
+    navSection.appendChild(label);
+    const navButton=doc.createElement('button');
+    navButton.className='nav-btn';navButton.type='button';navButton.id='btn-plan-main';
+    navButton.innerHTML='<svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>'+part.dataset.nav;
+    navButton.addEventListener('click',()=>goPlannerPart(doc,part.dataset.title));
+    navSection.appendChild(navButton);
+    const analytics=doc.getElementById('analytics-section');
+    if(analytics){analytics.after(navSection)}
+    else{const sidebar=doc.getElementById('sidebar');if(sidebar)sidebar.appendChild(navSection)}
+    makeCollapsible(navSection,'kb-collapse-planner');
+    // Скрипт из innerHTML сам не исполняется — пересоздаём его
+    if(logic){
+      const s=doc.createElement('script');
+      s.textContent=logic.textContent;
+      doc.body.appendChild(s);
+    }
+    const hook=doc.createElement('script');
+    hook.textContent="try{Object.assign(sectionMeta,{'plan-main':"+JSON.stringify(part.dataset.title)+"});index=searchIndex()}catch(e){}";
+    doc.body.appendChild(hook);
+  }catch(e){console.warn('Planner section injection failed',e)}
+}
 // ─── Раздел «Зарплаты» (закрыт паролем) ──────────────────────────────────────
 // Пароль меняется здесь, одной строкой. Защита рассчитана на то, чтобы раздел
 // не открыли случайно: содержимое лежит в salary-section.html и технически
@@ -424,6 +477,7 @@ async function injectSalarySection(doc){
     const hook=doc.createElement('script');
     hook.textContent="try{Object.assign(sectionMeta,{'sal-main':"+JSON.stringify(part.dataset.title)+"})}catch(e){}";
     doc.body.appendChild(hook);
+    await injectPlannerSection(doc);
     // Все разделы вставлены — собираем «Обучение» и расставляем порядок
     buildTrainingGroup(doc);
     reorderSidebar(doc);
@@ -525,6 +579,7 @@ function reorderSidebar(doc){
     doc.getElementById('training-group'),
     findSection(doc,'материалы'),
     doc.getElementById('analytics-section'),
+    doc.getElementById('planner-section'),
     doc.getElementById('salary-section'),
     findSection(doc,'скоро')
   ].filter(Boolean);
