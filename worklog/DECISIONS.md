@@ -176,3 +176,10 @@ URL хранится в `index.html` константой `VIDEO_TRAINING_URL` (
 Логика раздела живёт в `planner-section.html` в теге `<script id="pl-logic">`:
 при инжекте скрипт пересоздаётся через `createElement('script')`, иначе из
 `innerHTML` он не исполнится.
+
+### 2026-09-06 · Сайт не должен индексироваться поисковиками
+Добавлены `robots.txt` (`Disallow: /` для всех, отдельно Yandex и Googlebot) и
+`<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">`
+во все HTML-файлы. При создании новых страниц и дашбордов **meta noindex обязателен**.
+Важно понимать границу: это убирает сайт из поисковой выдачи, но НЕ закрывает
+доступ — по прямой ссылке всё по-прежнему открыто, пока проект публичный.
