@@ -1,0 +1,10 @@
+# Внутренний ресурс отдела продаж PLATFORMANCE.
+# Индексация запрещена полностью — сайт не предназначен для поиска.
+User-agent: *
+Disallow: /
+
+User-agent: Yandex
+Disallow: /
+
+User-agent: Googlebot
+Disallow: /
