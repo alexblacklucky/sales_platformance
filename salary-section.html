@@ -78,7 +78,8 @@
 
     <div class="s-months">
       <button type="button" class="s-mbtn" data-smonth="july">Июль 2026</button>
-      <button type="button" class="s-mbtn on" data-smonth="august">Август 2026</button>
+      <button type="button" class="s-mbtn" data-smonth="august">Август 2026</button>
+      <button type="button" class="s-mbtn on" data-smonth="september">Сентябрь 2026</button>
       <button type="button" class="s-mbtn" data-smonth="compare">Сравнение</button>
     </div>
 
@@ -128,7 +129,7 @@
     </div>
 
     <!-- ========================= АВГУСТ ========================= -->
-    <div class="s-month on" data-smonth="august">
+    <div class="s-month" data-smonth="august">
       <div class="s-cards">
         <div class="s-card"><span>Приход</span><strong>415 000 ₽</strong><em>11 подписанных клиентов</em></div>
         <div class="s-card"><span>Расходы</span><strong>455 158,4 ₽</strong><em>реклама + ФОТ</em></div>
@@ -172,6 +173,55 @@
       </table></div>
     </div>
 
+    <!-- ========================= СЕНТЯБРЬ ========================= -->
+    <div class="s-month on" data-smonth="september">
+      <div class="s-warn" style="border-color:color-mix(in srgb,#c2871b 36%,var(--line));border-left-color:#c2871b;background:color-mix(in srgb,#c2871b 9%,var(--surface))">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex:0 0 auto;margin-top:1px;color:#a8720f"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+        <div><b>Данные неполные.</b> Зарплата продавца Дмитрия за сентябрь ещё не внесена — итоговый убыток будет больше указанного. Остальные статьи подтверждены.</div>
+      </div>
+
+      <div class="s-cards">
+        <div class="s-card"><span>Приход</span><strong>60 000 ₽</strong><em>1 подписанный клиент</em></div>
+        <div class="s-card"><span>Расходы (без продавца)</span><strong>248 471,7 ₽</strong><em>реклама + маркетолог + комдир</em></div>
+        <div class="s-card bad"><span>Убыток (предварительно)</span><strong>−188 471,7 ₽</strong><em>вырастет после внесения зарплаты продавца</em></div>
+        <div class="s-card bad"><span>Окупаемость рекламы</span><strong>×0,4</strong><em>июль ×5,7 · август ×2,2</em></div>
+      </div>
+
+      <div class="s-h4">Финансовая экономика — сентябрь 2026</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Статья</th><th class="n">Сумма</th><th class="n">Доля от прихода</th></tr></thead>
+        <tbody>
+          <tr><td><b>Приход</b> — сумма подписанных клиентов</td><td class="n pos"><b>60 000 ₽</b></td><td class="n">100%</td></tr>
+          <tr><td>Реклама Avito</td><td class="n neg">−138 471,7 ₽</td><td class="n">231%</td></tr>
+          <tr><td>Менеджер по маркетингу (Avito)<div class="s-note">30 000 ₽ — в августе было 50 000 ₽ с KPI</div></td><td class="n neg">−30 000 ₽</td><td class="n">50%</td></tr>
+          <tr><td>Продавец Дмитрий<div class="s-note">данные ожидаются</div></td><td class="n">—</td><td class="n">—</td></tr>
+          <tr><td>Коммерческий директор</td><td class="n neg">−80 000 ₽</td><td class="n">133,3%</td></tr>
+          <tr class="s-sum"><td>Расходы без продавца</td><td class="n neg">−248 471,7 ₽</td><td class="n">414,1%</td></tr>
+          <tr class="s-fin"><td>Убыток (предварительно)</td><td class="n neg">−188 471,7 ₽</td><td class="n neg">−314,1%</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="s-h4">Зарплаты — сентябрь 2026</div>
+      <div class="s-tablewrap"><table class="s-table">
+        <thead><tr><th>Сотрудник</th><th class="n">Оклад</th><th class="n">Премия / KPI</th><th class="n">Итого</th><th>Статус</th></tr></thead>
+        <tbody>
+          <tr><td>Продавец Дмитрий<div class="s-note">лист «Дима» ещё не заполнен за сентябрь</div></td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td><span class="s-chip s-wait">Ожидается</span></td></tr>
+          <tr><td>Менеджер по маркетингу (Avito)<div class="s-note">KPI не начислен</div></td><td class="n">30 000 ₽</td><td class="n">—</td><td class="n"><b>30 000 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr><td>Коммерческий директор<div class="s-note">фиксированно, без KPI</div></td><td class="n">80 000 ₽</td><td class="n">—</td><td class="n"><b>80 000 ₽</b></td><td><span class="s-chip s-paid">Выплачено</span></td></tr>
+          <tr class="s-sum"><td>ФОТ без продавца</td><td class="n">110 000 ₽</td><td class="n">—</td><td class="n">110 000 ₽</td><td></td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="s-method">
+        <b>Что произошло в сентябре.</b> Подписан один клиент на 60 000 ₽ при расходах на рекламу 138 471,7 ₽ — реклама не окупилась даже наполовину (×0,4 против ×2,2 в августе и ×5,7 в июле). При этом работа отдела по верхней части воронки улучшилась: встреч проведено 51 против 25, доля не вышедших на связь упала с 45,2% до 28,6%. Провалился этап закрытия — из 51 встречи сделка одна.
+        <ul>
+          <li>Доля рекламы в приходе — <b>231%</b>: на каждый рубль выручки потрачено 2,3 рубля только на Avito.</li>
+          <li>Чтобы выйти в ноль без продавца, нужно было подписать клиентов на 248 471,7 ₽ — это около 4 сделок со средним чеком августа (37 727 ₽).</li>
+          <li>На октябрь переходит крупный задел: 39 заявок в работе и 2 сделки в стадии «Договор счёт» на 60 000 ₽.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- ========================= СРАВНЕНИЕ ========================= -->
     <div class="s-month" data-smonth="compare">
       <div class="s-cards">
@@ -182,6 +232,7 @@
       </div>
 
       <div class="s-h4">Июль и август рядом</div>
+      <p class="s-note" style="margin:-4px 0 10px">Сентябрь появится в сравнении, когда будет внесена зарплата продавца за месяц.</p>
       <div class="s-tablewrap"><table class="s-table">
         <thead><tr><th>Показатель</th><th class="n">Июль</th><th class="n">Август</th><th class="n">Динамика</th></tr></thead>
         <tbody>
