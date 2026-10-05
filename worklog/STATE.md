@@ -4,7 +4,7 @@
 
 **Обновлено:** 2026-10-05
 **Последняя сессия:** `sessions/2026-10-01_01_сентябрь-avito.md`
-**Рабочая ветка сейчас:** `claude/start-work-c4jn43` (всё влито в `main`, PR #28–#38)
+**Рабочая ветка сейчас:** `claude/start-work-c4jn43` (всё влито в `main`, последний PR #46)
 **Ветка деплоя:** `main` → https://platformance-team.ru (кастомный домен,
 GitHub Pages; старый адрес https://alexblacklucky.github.io тоже работает)
 
