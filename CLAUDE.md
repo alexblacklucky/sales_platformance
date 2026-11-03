@@ -63,7 +63,9 @@ GitHub Pages; старый адрес https://alexblacklucky.github.io тоже 
 - `contracts-section.html` — контент раздела «Создание договора» (памятка по созданию
   договоров, 8 пунктов). Идёт в сайдбаре сразу после «Менеджера по продажам».
 - `contracts/` — ассеты раздела: `pamyatka-sozdanie-dogovora.docx` (кнопка «Скачать памятку»).
-- `analytics/<month>.html` — Avito Dashboard за месяц (`may.html`, `june.html`).
+- `analytics/<month>.html` — Avito Dashboard за месяц; с октября 2026 — сводная по авитологам.
+- `analytics/avito-roman-<month>.html`, `analytics/avito-vladislav-<month>.html` — Avito по авитологу.
+- `analytics/avitologists.html` — вкладка «Сравнение авитологов».
 - `analytics/yandex-<month>.html` — Яндекс.Директ Dashboard (канал запущен 11.09.2026).
 - `analytics/vk-<month>.html` — ВКонтакте Dashboard (канал запущен 16.10.2026).
 - `scripts/yandex_report.py` — сбор данных Директа и Метрики за месяц через API.
