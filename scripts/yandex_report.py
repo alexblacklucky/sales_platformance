@@ -11,7 +11,8 @@
     python3 scripts/yandex_report.py 2026-09 --counter 111834033
 
 Печатает: расход/показы/клики/CTR/цену клика за месяц, разбивку по неделям
-и по кампаниям, визиты и достижения целей по рекламному трафику.
+и по кампаниям, визиты и достижения целей по трафику Яндекс.Директа
+(VK Ads и прочая реклама в Метрике отсекаются — каналы считаются раздельно).
 Все цифры — ровно те, что идут в дашборд.
 """
 import argparse, calendar, collections, csv, io, json, os, sys, time, urllib.parse, urllib.request
@@ -19,6 +20,9 @@ import argparse, calendar, collections, csv, io, json, os, sys, time, urllib.par
 DIRECT = "https://api.direct.yandex.com/json/v5/reports"
 METRIKA = "https://api-metrika.yandex.net"
 DEFAULT_COUNTER = 111834033
+# Только трафик Яндекс.Директа. Фильтр «весь рекламный трафик» (lastsignTrafficSource=='ad')
+# с октября 2026 подмешивает VK Ads — это нарушает правило «каналы раздельно» (раздел 0 гайда).
+DIRECT_FILTER = "ym:s:lastsignAdvEngine=='ya_direct' OR ym:s:lastsignAdvEngine=='ya_undefined'"
 # Цели счётчика PLATFORMANCE: id -> человекочитаемое имя
 GOALS = {
     600454388: "Отправка заявки (URL /thank-you)",
@@ -129,14 +133,14 @@ def main():
         days = sorted(x["Date"][-2:] for x in camps[name])
         block(f"{name[:32]} ({days[0]}–{days[-1]})", *agg(camps[name]))
 
-    print(f"\n=== ЯНДЕКС.МЕТРИКА (счётчик {args.counter}, рекламный трафик) ===")
+    print(f"\n=== ЯНДЕКС.МЕТРИКА (счётчик {args.counter}, только трафик Директа) ===")
     goal_ids = list(GOALS)
     metrics = ["ym:s:visits", "ym:s:users", "ym:s:bounceRate",
                "ym:s:pageDepth", "ym:s:avgVisitDurationSeconds"]
     metrics += [f"ym:s:goal{g}reaches" for g in goal_ids]
     data = metrika("/stat/v1/data", {
         "ids": args.counter, "metrics": ",".join(metrics),
-        "filters": "ym:s:lastsignTrafficSource=='ad'",
+        "filters": DIRECT_FILTER,
         "date1": d1, "date2": d2, "accuracy": "full",
     })
     t = data["totals"]
