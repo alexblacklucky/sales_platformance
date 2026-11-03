@@ -65,7 +65,10 @@ GitHub Pages; старый адрес https://alexblacklucky.github.io тоже 
 - `contracts/` — ассеты раздела: `pamyatka-sozdanie-dogovora.docx` (кнопка «Скачать памятку»).
 - `analytics/<month>.html` — Avito Dashboard за месяц (`may.html`, `june.html`).
 - `analytics/yandex-<month>.html` — Яндекс.Директ Dashboard (канал запущен 11.09.2026).
+- `analytics/vk-<month>.html` — ВКонтакте Dashboard (канал запущен 16.10.2026).
 - `scripts/yandex_report.py` — сбор данных Директа и Метрики за месяц через API.
+- `scripts/bitrix_report.py` + `scripts/channels.json` — воронки из Битрикса через вебхук
+  (`BITRIX24_WEBHOOK_URL`), разбивка заявок по каналам и авитологам.
 - `analytics/bitrix-<month>.html` — Bitrix Dashboard (воронка) за месяц.
 - `analytics/overview.html` — «Общая аналитика» (сводка Avito + Bitrix).
 - `planner-section.html` — раздел «Планер» (проблемы и шаги решения, `localStorage`).
