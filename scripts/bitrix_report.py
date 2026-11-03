@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Воронки из Битрикс24 через входящий вебхук — вместо скриншотов канбана.
 
-Вебхук берётся из переменной окружения BITRIX_WEBHOOK_URL
-(вида https://<портал>.bitrix24.ru/rest/<id>/<код>/). В репозитории его нет
+Вебхук берётся из переменной окружения BITRIX24_WEBHOOK_URL (или BITRIX_WEBHOOK_URL)
+вида https://<портал>.bitrix24.ru/rest/<id>/<код>/. В репозитории его нет
 и быть не должно: это ключ доступа к CRM. Скрипт только читает данные.
 
 Запуск:
@@ -10,8 +10,10 @@
         какие источники сделок есть за месяц и сколько сделок по каждому
     python3 scripts/bitrix_report.py funnel 2026-10 --source "2|AVITO"
         раскладка по стадиям, категориям квалификации и MEET для источника
-    python3 scripts/bitrix_report.py funnel 2026-10 --source WEBFORM --csv /path/deals.csv
-        то же + выгрузка сделок в CSV для ручного разбора
+    python3 scripts/bitrix_report.py funnel 2026-10 --source "*|AVITO" --csv /path/deals.csv
+        группа источников по шаблону + выгрузка сделок в CSV для ручного разбора
+    python3 scripts/bitrix_report.py channels 2026-10
+        сводка по каналам и авитологам (привязка источников — scripts/channels.json)
 
 Период по умолчанию фильтруется по полю BEGINDATE («Дата начала») — так
 снимались все месяцы с мая 2026. Для сверки можно указать --date-field DATE_CREATE.
@@ -22,12 +24,17 @@
 WON отсюда не берётся: колонка «Сделка успешна» систематически занижает,
 источник WON — лист «по месяцам» таблицы «зп».
 """
-import argparse, calendar, collections, csv, json, os, sys, time, urllib.error, urllib.request
+import argparse, calendar, collections, csv, fnmatch, json, os, sys, time, urllib.error, urllib.request
 
 # (префикс нормализованного названия стадии, категория, входит ли в MEET).
 # Порядок важен: «договориться…» проверяется раньше «договор счёт».
 STAGE_RULES = [
     ("новые",            "В работе, пока непонятно", False),
+    ("новая",            "В работе, пока непонятно", False),   # воронки сайта
+    ("обсужден",         "В работе, пока непонятно", False),   # воронки сайта
+    ("презентация или",  "В работе, пока непонятно", True),    # «презентация или кэв» — встреча
+    ("кэв пройден",      "Квал-лиды", True),                   # аналог «Надо подумать»
+    ("на подписан",      "Квал-лиды", True),                   # аналог «Договор счёт»
     ("вопрос",           "В работе, пока непонятно", False),
     ("созвон",           "В работе, пока непонятно", False),
     ("раскачив",         "В работе, пока непонятно", False),
@@ -42,13 +49,15 @@ STAGE_RULES = [
     ("бомжик",           "Дорого", True),
     ("отвалил",          "Глухой — не вышел на связь", False),
     ("сотру",            "Спам", False),  # в Битриксе встречается «сотружничество»
+    ("неквал",           "Неквал — нецелевой", False),         # воронки сайта
     ("2025",             "Не учитывается", False),
 ]
 CATEGORY_ORDER = ["В работе, пока непонятно", "Квал-лиды", "Дорого",
-                  "Глухой — не вышел на связь", "Спам", "Не учитывается"]
+                  "Глухой — не вышел на связь", "Неквал — нецелевой", "Спам", "Не учитывается"]
 DEAL_FIELDS = ["ID", "TITLE", "STAGE_ID", "CATEGORY_ID", "SOURCE_ID", "SOURCE_DESCRIPTION",
                "BEGINDATE", "DATE_CREATE", "OPPORTUNITY", "ASSIGNED_BY_ID",
-               "ORIGINATOR_ID", "ORIGIN_ID", "UTM_SOURCE", "UTM_MEDIUM", "UTM_CAMPAIGN"]
+               "ORIGINATOR_ID", "ORIGIN_ID", "UTM_SOURCE", "UTM_MEDIUM", "UTM_CAMPAIGN",
+               "CONTACT_ID", "COMPANY_ID", "CLOSEDATE", "DATE_MODIFY"]
 # латинские буквы-двойники → кириллица (в названиях стадий бывают опечатки раскладки)
 LOOKALIKE = str.maketrans("aceopxykmthb", "асеорхукмтнв")
 
@@ -66,9 +75,9 @@ def classify(stage_name):
 
 
 def webhook():
-    url = os.environ.get("BITRIX_WEBHOOK_URL", "").strip()
+    url = (os.environ.get("BITRIX24_WEBHOOK_URL") or os.environ.get("BITRIX_WEBHOOK_URL") or "").strip()
     if not url:
-        sys.exit("Нет переменной окружения BITRIX_WEBHOOK_URL. Добавьте вебхук в настройки "
+        sys.exit("Нет переменной окружения BITRIX24_WEBHOOK_URL. Добавьте вебхук в настройки "
                  "окружения сессии (не в чат и не в репозиторий).")
     return url if url.endswith("/") else url + "/"
 
@@ -96,8 +105,11 @@ def call(method, params, _base=[None]):
             except ValueError:
                 msg = body[:200]
             sys.exit(f"Битрикс вернул {e.code} на {method} — {msg}")
-        except urllib.error.URLError as e:
-            sys.exit(f"Битрикс недоступен ({method}): {e.reason}")
+        except (urllib.error.URLError, ConnectionError, TimeoutError) as e:
+            if attempt < 3:  # обрыв соединения — повторить с паузой
+                time.sleep(2 ** attempt)
+                continue
+            sys.exit(f"Битрикс недоступен ({method}): {getattr(e, 'reason', e)}")
     if "error" in data:
         sys.exit(f"Битрикс: {data['error']} — {data.get('error_description')}")
     return data
@@ -145,6 +157,29 @@ def load_deals(d1, d2, date_field, source=None):
     return call_all("crm.deal.list", {"filter": flt, "select": DEAL_FIELDS, "order": {"ID": "ASC"}})
 
 
+def match(source_id, patterns):
+    """Шаблоны через запятую или списком: «WEBFORM», «*|AVITO», «96|AVITO,98|AVITO», «» — без источника."""
+    if isinstance(patterns, str):
+        patterns = [x.strip() for x in patterns.split(",")]
+    sid = source_id or ""
+    return any(sid == "" if p == "" else fnmatch.fnmatchcase(sid, p) for p in patterns)
+
+
+def summarize(deals, stages):
+    """Категории квалификации, MEET и колонка «Сделка успешна» для набора сделок."""
+    cats, unmapped, meet, won_col = collections.Counter(), collections.Counter(), 0, 0
+    for d in deals:
+        name = stages.get(d.get("STAGE_ID"), d.get("STAGE_ID"))
+        cat, is_meet = classify(name)
+        if cat:
+            cats[cat] += 1
+        else:
+            unmapped[name] += 1
+        meet += is_meet
+        won_col += norm(name).startswith("сделка успеш")
+    return {"total": len(deals), "cats": cats, "unmapped": unmapped, "meet": meet, "won_col": won_col}
+
+
 def pct(part, whole):
     return f"{part / whole * 100:.1f}%".replace(".", ",") if whole else "—"
 
@@ -177,8 +212,10 @@ def cmd_sources(args):
 def cmd_funnel(args):
     d1, d2 = month_range(args.month)
     sources, stages, stage_sort, pipelines = load_dictionaries()
-    deals = load_deals(d1, d2, args.date_field, args.source)
-    title = sources.get(args.source, "?") if args.source else "все источники"
+    deals = load_deals(d1, d2, args.date_field)
+    if args.source is not None:
+        deals = [d for d in deals if match(d.get("SOURCE_ID"), args.source)]
+    title = sources.get(args.source, "группа источников") if args.source else "все источники"
     print(f"Источник: {title} ({args.source or '*'}) · {d1} — {d2} · поле {args.date_field}\n")
     if not deals:
         print("Сделок нет.")
@@ -218,18 +255,62 @@ def cmd_funnel(args):
         print(f"\nСделки выгружены: {args.csv}")
 
 
+def cmd_channels(args):
+    d1, d2 = month_range(args.month)
+    cfg = json.load(open(args.map, encoding="utf-8"))
+    sources, stages, _, _ = load_dictionaries()
+    deals = load_deals(d1, d2, args.date_field)
+    groups = collections.OrderedDict((g["name"], []) for g in cfg["groups"])
+    other = []
+    for d in deals:
+        for g in cfg["groups"]:
+            if match(d.get("SOURCE_ID"), g["sources"]):
+                groups[g["name"]].append(d)
+                break
+        else:
+            other.append(d)
+    if other:
+        groups["Прочие источники"] = other
+    print(f"Сделки за {d1} — {d2} по полю {args.date_field}: всего {len(deals)}\n")
+    short = {"В работе, пока непонятно": "В работе", "Квал-лиды": "Квал", "Дорого": "Дорого",
+             "Глухой — не вышел на связь": "Глухой", "Неквал — нецелевой": "Неквал",
+             "Спам": "Спам", "Не учитывается": "2025"}
+    head = f"{'Группа':<34}{'TOTAL':>6}" + "".join(f"{short[c]:>9}" for c in CATEGORY_ORDER) + f"{'MEET':>7}{'усп.кол':>9}"
+    print(head)
+    unmapped = collections.Counter()
+    for name, ds in groups.items():
+        r = summarize(ds, stages)
+        unmapped.update(r["unmapped"])
+        print(f"{name[:33]:<34}{r['total']:>6}" + "".join(f"{r['cats'][c]:>9}" for c in CATEGORY_ORDER)
+              + f"{r['meet']:>7}{r['won_col']:>9}")
+    if unmapped:
+        print("\nНЕ РАЗНЕСЕНО (дописать в STAGE_RULES):", dict(unmapped))
+    if other:
+        print("\nПрочие источники:", dict(collections.Counter(d.get("SOURCE_ID") for d in other)))
+    if args.json:
+        out = {name: summarize(ds, stages) for name, ds in groups.items()}
+        for v in out.values():
+            v["cats"] = dict(v["cats"]); v["unmapped"] = dict(v["unmapped"])
+        json.dump(out, open(args.json, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        print(f"\nСводка сохранена: {args.json}")
+
+
 def main():
     ap = argparse.ArgumentParser(description="Воронки Битрикс24 через вебхук (только чтение)")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("sources", "funnel"):
+    for name in ("sources", "funnel", "channels"):
         p = sub.add_parser(name)
         p.add_argument("month", help="ГГГГ-ММ, например 2026-10")
         p.add_argument("--date-field", default="BEGINDATE", choices=["BEGINDATE", "DATE_CREATE"])
         if name == "funnel":
             p.add_argument("--source", help="SOURCE_ID из команды sources; без него — все сделки")
             p.add_argument("--csv", help="куда выгрузить сделки в CSV")
+        if name == "channels":
+            p.add_argument("--map", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "channels.json"),
+                           help="файл привязки источников к каналам и авитологам")
+            p.add_argument("--json", help="сохранить сводку в JSON")
     args = ap.parse_args()
-    {"sources": cmd_sources, "funnel": cmd_funnel}[args.cmd](args)
+    {"sources": cmd_sources, "funnel": cmd_funnel, "channels": cmd_channels}[args.cmd](args)
 
 
 if __name__ == "__main__":

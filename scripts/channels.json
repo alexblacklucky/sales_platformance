@@ -1,0 +1,15 @@
+{
+  "_описание": "Какие источники сделок Битрикса относятся к какому каналу и авитологу. Используется командой `python3 scripts/bitrix_report.py channels ГГГГ-ММ`. Шаблоны — как в shell: *|AVITO значит «любая открытая линия Avito». Источник проверяется по порядку, сделка уходит в первую подходящую группу. Новый профиль Avito у Владислава — дописать его SOURCE_ID в его группу, иначе он уйдёт Роману по общему шаблону. SOURCE_ID смотреть командой `sources`.",
+  "groups": [
+    {"name": "Avito · Владислав", "channel": "Avito",
+     "sources": ["96|AVITO", "98|AVITO", "100|AVITO", "102|AVITO"]},
+    {"name": "Avito · Роман", "channel": "Avito",
+     "sources": ["*|AVITO"]},
+    {"name": "Яндекс.Директ — сайт, CRM-форма", "channel": "Яндекс",
+     "sources": ["WEBFORM"]},
+    {"name": "VK Реклама — лид-форма", "channel": "VK",
+     "sources": ["ADVERTISING"]},
+    {"name": "Без источника", "channel": "—",
+     "sources": [""]}
+  ]
+}
